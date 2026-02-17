@@ -1,8 +1,43 @@
-finding beautiful number sequences.
-Are there sequences of numbers that appeal to me most?
-Using OEIS
-Very nice functions for mining https://oeis.org/
-https://resources.wolframcloud.com/FunctionRepository/resources/OEISLookup/
-lovely email service
-https://oeis.org/ol.html
-The idea here is to turn number sequences into different visual experiences... via ImageData or Plotting or NLP mining them or Embedding ML analysis... find any way 
+Beautiful Integers: Phase 1 exploration plan
+
+Goal
+- Use OEIS + built-in Wolfram number theory/algebra tools to study aesthetic structure in integer sequences.
+- Build a reproducible first research phase on 5 sequences, then scale the beauty hunt.
+
+Chosen phase-1 sequences
+- A000045 Fibonacci numbers
+- A000040 Prime numbers
+- A000041 Partition numbers
+- A005132 Recaman sequence
+- A000002 Kolakoski sequence
+
+Beauty lenses (exploratory)
+- Compressibility: how concise the terms are under compression.
+- Delta-sign entropy: local unpredictability of direction changes.
+- Growth drama: volatility of log-magnitude growth.
+- Residue structure: patterning in modular classes.
+- Novelty: repetition vs invention of new values.
+
+Generated artifacts (from run-beautiful-integers.wls)
+- outputs/*-line.png
+- outputs/*-difference.png
+- outputs/*-residue.png
+- outputs/*-digits.png
+- outputs/*-phase.png
+- outputs/*-recurrence.png
+- outputs/*-mod-circle.png
+- outputs/*-mod-spiral.png
+- outputs/*-digitgraph.png
+- outputs/A005132-arcs.png
+- outputs/A000002-runs.png
+- outputs/summary.json
+- outputs/summary.wl
+- outputs/beauty-report.md
+
+Run
+- WolframKernel=/Applications/Wolfram.app/Contents/MacOS/WolframKernel wolframscript run-beautiful-integers.wls
+
+Notebook
+- beautiful-integers.nb is set up for presentation mode with narrative + executable cells.
+- Load engine: Get["beautiful-integers.wl"]
+- Run study: RunBeautifulResearch["TermCount" -> 240]

@@ -3,105 +3,129 @@
 (*** Wolfram Notebook File ***)
 (* http://www.wolfram.com/nb *)
 
-(* CreatedBy='Wolfram 14.3' *)
-
-(*CacheID: 234*)
-(* Internal cache information:
-NotebookFileLineBreakTest
-NotebookFileLineBreakTest
-NotebookDataPosition[       154,          7]
-NotebookDataLength[      3268,         97]
-NotebookOptionsPosition[      2206,         72]
-NotebookOutlinePosition[      2600,         88]
-CellTagsIndexPosition[      2557,         85]
-WindowFrame->Normal*)
-
-(* Beginning of Notebook Content *)
 Notebook[{
 
 Cell[CellGroupData[{
-Cell["finding beautiful number sequences.", "Title",
- CellChangeTimes->{{3.980339395452435*^9, 
-  3.980339401720952*^9}},ExpressionUUID->"c77db762-0cc8-4c0d-8d4b-\
-d9c9ff9663ab"],
-
-Cell["Are there sequences of numbers that appeal to me most?", "Subtitle",
- CellChangeTimes->{{3.9803394090448427`*^9, 
-  3.98033942333884*^9}},ExpressionUUID->"7f14a2cd-0106-4f32-ba8f-\
-664c79179ecc"],
+Cell["Beautiful Integers: OEIS Beauty Hunt (Phase 1)", "Title"],
+Cell["A Wolfram Language exploration of drama, tension, and surprise in sequences.", "Subtitle"],
+Cell["Primary question: which integer sequences feel mathematically beautiful, and why?", "Text"]
+}, Open  ]],
 
 Cell[CellGroupData[{
+Cell["1. Historical Beauty Notes", "Section"],
+Cell["Beauty in number theory often mixes strict law and perceived chaos.", "Text"],
+Cell["Classical anchors for this project:", "Text"],
+Cell["Euclid's proof of infinitely many primes sets an early aesthetic benchmark.", "Item"],
+Cell["Fibonacci/Hemachandra growth links arithmetic recurrences to geometry and limiting structure.", "Item"],
+Cell["Hardy and Ramanujan's partition asymptotics blend exact arithmetic with surprising analytic behavior.", "Item"],
+Cell["Self-referential sequences (like Kolakoski) amplify mystery through short rules and hard global behavior.", "Item"],
+Cell["Recaman's sequence demonstrates dramatic visual structure from a tiny greedy rule.", "Item"]
+}, Open  ]],
 
-Cell["Using OEIS", "Section",
- CellChangeTimes->{{3.980339701765368*^9, 
-  3.9803397035284643`*^9}},ExpressionUUID->"6f519f31-d47f-441c-b243-\
-c91f322d1319"],
+Cell[CellGroupData[{
+Cell["2. Phase-1 Sequence Set (5 total)", "Section"],
+Cell["The initial research slate:", "Text"],
+Cell["A000045 Fibonacci numbers - https://oeis.org/A000045", "Item"],
+Cell["A000040 Prime numbers - https://oeis.org/A000040", "Item"],
+Cell["A000041 Partition numbers - https://oeis.org/A000041", "Item"],
+Cell["A005132 Recaman sequence - https://oeis.org/A005132", "Item"],
+Cell["A000002 Kolakoski sequence - https://oeis.org/A000002", "Item"],
+Cell["Each sequence is profiled by OEIS metadata, structural metrics, and multiple visual embeddings.", "Text"]
+}, Open  ]],
 
-Cell["Very nice functions for mining https://oeis.org/", "Text",
- CellChangeTimes->{{3.980339711309989*^9, 
-  3.980339732265696*^9}},ExpressionUUID->"80d93438-8834-4d7c-94e7-\
-971c36c1e349"],
+Cell[CellGroupData[{
+Cell["2b. Online OEIS Queries", "Section"],
+Cell["Direct OEIS API probe from Wolfram Language:", "Text"],
+Cell["Import[\"https://oeis.org/search?fmt=json&q=id:A000045\", \"RawJSON\"]", "Input"],
+Cell["Get only b-file terms for one sequence:", "Text"],
+Cell["Import[\"https://oeis.org/A005132/b005132.txt\", \"Lines\"] // Take[#, 20] &", "Input"],
+Cell["You can swap sequence IDs and compare commentary, formulas, and links from OEIS pages.", "Text"]
+}, Open  ]],
 
-Cell["\<\
-https://resources.wolframcloud.com/FunctionRepository/resources/OEISLookup/\
-\>", "Text",
- CellChangeTimes->{
-  3.980339707632749*^9},ExpressionUUID->"78bc9aa2-4c0a-49c1-91e8-\
-834ff2757a7e"],
+Cell[CellGroupData[{
+Cell["3. Load Engine and Run", "Section"],
+Cell["Run this once per session:", "Text"],
+Cell["SetDirectory[NotebookDirectory[]];\nGet[\"beautiful-integers.wl\"];", "Input"],
+Cell["Execute the full phase-1 research pass:", "Text"],
+Cell["result = RunBeautifulResearch[\n  \"TermCount\" -> 240,\n  \"Modulus\" -> 12,\n  \"GridWidth\" -> 24\n];", "Input"],
+Cell["result[\"RankedIDs\"]", "Input"],
+Cell["Output files are written to ./outputs.", "Text"]
+}, Open  ]],
 
-Cell["lovely email service", "Text",
- CellChangeTimes->{{3.980339740085747*^9, 
-  3.98033974436101*^9}},ExpressionUUID->"4d154809-bfe6-48f2-bd53-\
-517b9645be32"],
+Cell[CellGroupData[{
+Cell["4. Beauty Lenses", "Section"],
+Cell["Exploratory metrics used in this notebook:", "Text"],
+Cell["Compressibility: proxy for generative simplicity.", "Item"],
+Cell["DeltaSignEntropy: unpredictability of local directional changes.", "Item"],
+Cell["GrowthDrama: volatility in log-magnitude increments.", "Item"],
+Cell["ResidueStructure: degree of modular regularity.", "Item"],
+Cell["Novelty: ratio of distinct values across sampled terms.", "Item"],
+Cell["BeautyIndex is a weighted blend for ranking only; it is not a theorem.", "Text"]
+}, Open  ]],
 
-Cell["https://oeis.org/ol.html", "Text",
- CellChangeTimes->{
-  3.9803396879229727`*^9},ExpressionUUID->"55b0cbde-17e6-454f-bba1-\
-01a7ebdc1971"],
+Cell[CellGroupData[{
+Cell["5. Inspect Summaries", "Section"],
+Cell["Load machine-readable summary:", "Text"],
+Cell["summary = Import[FileNameJoin[{NotebookDirectory[], \"outputs\", \"summary.json\"}], \"RawJSON\"];", "Input"],
+Cell["Dataset[summary[[All, {\"id\", \"label\", \"beauty_profile\"}]]]", "Input"],
+Cell["Read textual report:", "Text"],
+Cell["Import[FileNameJoin[{NotebookDirectory[], \"outputs\", \"beauty-report.md\"}], \"Text\"]", "Input"]
+}, Open  ]],
 
-Cell["\<\
-The idea here is to turn number sequences into different visual \
-experiences... via ImageData or Plotting or NLP mining them or Embedding ML \
-analysis... find any way \
-\>", "Subsection",
- CellChangeTimes->{{3.980339747845817*^9, 
-  3.9803397855997753`*^9}},ExpressionUUID->"5baa8104-3638-46a5-a6ba-\
-6b3c07918c8d"]
+Cell[CellGroupData[{
+Cell["6. Visualization Gallery", "Section"],
+Cell["Graph inspiration note: the circle/spiral transition layouts are adapted into the reusable engine from ideas similar to your imported 507026425 notebook.", "Text"],
+Cell["Render exported figures sequence-by-sequence:", "Text"],
+Cell["outputDir = FileNameJoin[{NotebookDirectory[], \"outputs\"}];\nids = {\"A000045\", \"A000040\", \"A000041\", \"A005132\", \"A000002\"};\n\ngallery[id_] := Column[{\n  Style[id, 16, Bold],\n  Import[FileNameJoin[{outputDir, id <> \"-line.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-phase.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-recurrence.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-mod-circle.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-mod-spiral.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-digitgraph.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-residue.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-digits.png\"}]]\n}, Spacings -> 1.1];\n\nColumn[gallery /@ ids, Spacings -> 2]", "Input"],
+Cell["Optional special visuals:", "Text"],
+Cell["Import[FileNameJoin[{outputDir, \"A005132-arcs.png\"}]]\nImport[FileNameJoin[{outputDir, \"A000002-runs.png\"}]]", "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["6b. Direct Graph Lab", "Section"],
+Cell["Generate graph-lab visuals directly in notebook without exporting:", "Text"],
+Cell["rec = LoadTerms[\"A005132\", 260];\nModularTransitionGraphCircle[\"A005132\", rec, 97]\nModularTransitionGraphSpiral[\"A005132\", rec, 97]", "Input"],
+Cell["p = LoadTerms[\"A000040\", 260];\nReturnMapPhasePlot[\"A000040\", p]\nResidueRecurrencePlot[\"A000040\", p, 89]\nDigitTransitionGraph[\"A000040\", p]", "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["7. Sequence-Specific Deep Dives", "Section"],
+Cell["Fibonacci: convergence of term ratios toward the golden ratio.", "Text"],
+Cell["fibRatios = N[Table[Fibonacci[n + 1]/Fibonacci[n], {n, 2, 40}]];\nListLinePlot[fibRatios, PlotRange -> All, PlotLabel -> \"Fibonacci ratio convergence\"]", "Input"],
+Cell["Primes: compare p_n against n Log n.", "Text"],
+Cell["nmax = 280;\nprimes = Prime /@ Range[nmax];\napprox = Range[nmax] Log[Range[nmax]];\nListLinePlot[{primes, approx}, PlotLegends -> {\"p_n\", \"n log n\"}, PlotRange -> All]", "Input"],
+Cell["Partitions: generating function coefficients.", "Text"],
+Cell["partSeries = Normal @ Series[Product[1/(1 - x^k), {k, 1, 20}], {x, 0, 20}];\nCoefficientList[partSeries, x]", "Input"],
+Cell["Recaman: arc portrait from built-in geometry primitives.", "Text"],
+Cell["rec = RecamanTerms[220];\nRecamanArcPlot[rec, 180]", "Input"],
+Cell["Kolakoski: self-generating run-length check.", "Text"],
+Cell["k = KolakoskiTerms[260];\nruns = Length /@ Split[k];\n{Take[k, Length[runs]] === runs, Tally[k]}", "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["8. Next-Stage Beauty Hunt Protocol", "Section"],
+Cell["After validating phase 1, expand to larger candidate pools.", "Text"],
+Cell["Scale-up plan:", "Text"],
+Cell["1) Harvest candidates by OEIS keyword themes (self-referential, prime-adjacent, combinatorial growth, morphic words).", "Item"],
+Cell["2) Run the same metric pipeline to create comparable beauty signatures.", "Item"],
+Cell["3) Cluster signatures and manually inspect high-variance outliers.", "Item"],
+Cell["4) Keep only sequences that score high in at least two orthogonal lenses (structure + surprise).", "Item"],
+Cell["5) Build a final presentation notebook around the strongest discoveries.", "Item"],
+Cell["Seed IDs for stage 2 (editable):", "Text"],
+Cell["candidateIDs = {\"A005150\", \"A006720\", \"A001223\", \"A001065\", \"A051953\", \"A006577\"};\nDataset[candidateIDs]", "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["9. Command-Line Runner", "Section"],
+Cell["CLI execution (same directory):", "Text"],
+Cell["WolframKernel=/Applications/Wolfram.app/Contents/MacOS/WolframKernel wolframscript run-beautiful-integers.wls", "Code"],
+Cell["If activation blocks execution, activate Wolfram first and rerun the same command.", "Text"]
 }, Open  ]]
-}, Open  ]]
+
 },
-WindowSize->{808, 911},
-WindowMargins->{{802, Automatic}, {200, Automatic}},
-FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
-StyleDefinitions->"Default.nb",
-ExpressionUUID->"6910649a-ea6b-49cb-b011-b197baa8f598"
+WindowSize->{1200, 920},
+WindowMargins->{{120, Automatic}, {40, Automatic}},
+ScreenStyleEnvironment->"SlideShow",
+Magnification:>1.1 Inherited,
+StyleDefinitions->"Default.nb"
 ]
-(* End of Notebook Content *)
-
-(* Internal cache information *)
-(*CellTagsOutline
-CellTagsIndex->{}
-*)
-(*CellTagsIndex
-CellTagsIndex->{}
-*)
-(*NotebookFileOutline
-Notebook[{
-Cell[CellGroupData[{
-Cell[576, 22, 178, 3, 96, "Title",ExpressionUUID->"c77db762-0cc8-4c0d-8d4b-d9c9ff9663ab"],
-Cell[757, 27, 201, 3, 52, "Subtitle",ExpressionUUID->"7f14a2cd-0106-4f32-ba8f-664c79179ecc"],
-Cell[CellGroupData[{
-Cell[983, 34, 157, 3, 66, "Section",ExpressionUUID->"6f519f31-d47f-441c-b243-c91f322d1319"],
-Cell[1143, 39, 190, 3, 33, "Text",ExpressionUUID->"80d93438-8834-4d7c-94e7-971c36c1e349"],
-Cell[1336, 44, 201, 5, 33, "Text",ExpressionUUID->"78bc9aa2-4c0a-49c1-91e8-834ff2757a7e"],
-Cell[1540, 51, 161, 3, 33, "Text",ExpressionUUID->"4d154809-bfe6-48f2-bd53-517b9645be32"],
-Cell[1704, 56, 144, 3, 33, "Text",ExpressionUUID->"55b0cbde-17e6-454f-bba1-01a7ebdc1971"],
-Cell[1851, 61, 327, 7, 79, "Subsection",ExpressionUUID->"5baa8104-3638-46a5-a6ba-6b3c07918c8d"]
-}, Open  ]]
-}, Open  ]]
-}
-]
-*)
-
-(* End of internal cache information *)
-

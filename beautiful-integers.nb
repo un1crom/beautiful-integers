@@ -47,7 +47,7 @@ Cell["3. Load Engine and Run", "Section"],
 Cell["Run this once per session:", "Text"],
 Cell["SetDirectory[NotebookDirectory[]];\nGet[\"beautiful-integers.wl\"];", "Input"],
 Cell["Execute the full phase-1 research pass:", "Text"],
-Cell["result = RunBeautifulResearch[\n  \"TermCount\" -> 240,\n  \"Modulus\" -> 12,\n  \"GridWidth\" -> 24\n];", "Input"],
+Cell["result = RunBeautifulResearch[\n  \"TermCount\" -> 240,\n  \"Modulus\" -> 12,\n  \"GridWidth\" -> 24,\n  \"EnableAnimations\" -> True\n];", "Input"],
 Cell["result[\"RankedIDs\"]", "Input"],
 Cell["Output files are written to ./outputs.", "Text"]
 }, Open  ]],
@@ -68,24 +68,36 @@ Cell["5. Inspect Summaries", "Section"],
 Cell["Load machine-readable summary:", "Text"],
 Cell["summary = Import[FileNameJoin[{NotebookDirectory[], \"outputs\", \"summary.json\"}], \"RawJSON\"];", "Input"],
 Cell["Dataset[summary[[All, {\"id\", \"label\", \"beauty_profile\"}]]]", "Input"],
+Cell["Beauty atlas picks (auto-selected striking views):", "Text"],
+Cell["Dataset[summary[[All, {\"id\", \"atlas_view\", \"atlas_score\"}]]]", "Input"],
+Cell["Interactive atlas/coagulation viewer (one sequence at a time):", "Text"],
+Cell["outputDir = FileNameJoin[{NotebookDirectory[], \"outputs\"}];\nids = summary[[All, \"id\"]];\nDynamicModule[{id = First[ids], view = \"coagulation\"},\n Column[{\n   Row[{\"Sequence: \", PopupMenu[Dynamic[id], ids], Spacer[22], \"View: \", PopupMenu[Dynamic[view], {\"coagulation\", \"atlas\"}]}],\n   Dynamic@Module[{path = FileNameJoin[{outputDir, id <> \"-\" <> view <> \".png\"}]},\n     If[FileExistsQ[path], Import[path], Style[\"Missing image: \" <> FileNameTake[path], Red]]\n   ]\n }, Spacings -> 1.2]\n]", "Input"],
 Cell["Read textual report:", "Text"],
-Cell["Import[FileNameJoin[{NotebookDirectory[], \"outputs\", \"beauty-report.md\"}], \"Text\"]", "Input"]
+Cell["Pane[Import[FileNameJoin[{NotebookDirectory[], \"outputs\", \"beauty-report.md\"}], \"Text\"], {Automatic, 260}, Scrollbars -> True]", "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 Cell["6. Visualization Gallery", "Section"],
 Cell["Graph inspiration note: the circle/spiral transition layouts are adapted into the reusable engine from ideas similar to your imported 507026425 notebook.", "Text"],
-Cell["Render exported figures sequence-by-sequence:", "Text"],
-Cell["outputDir = FileNameJoin[{NotebookDirectory[], \"outputs\"}];\nids = {\"A000045\", \"A000040\", \"A000041\", \"A005132\", \"A000002\"};\n\ngallery[id_] := Column[{\n  Style[id, 16, Bold],\n  Import[FileNameJoin[{outputDir, id <> \"-line.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-phase.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-recurrence.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-mod-circle.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-mod-spiral.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-digitgraph.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-residue.png\"}]],\n  Import[FileNameJoin[{outputDir, id <> \"-digits.png\"}]]\n}, Spacings -> 1.1];\n\nColumn[gallery /@ ids, Spacings -> 2]", "Input"],
+Cell["Explore one rendered view at a time to keep presentation mode clean:", "Text"],
+Cell["outputDir = FileNameJoin[{NotebookDirectory[], \"outputs\"}];\nids = {\"A000045\", \"A000040\", \"A000041\", \"A005132\", \"A000002\"};\nviews = <|\n  \"coagulation\" -> \"coagulation\",\n  \"atlas\" -> \"atlas\",\n  \"line\" -> \"line\",\n  \"difference\" -> \"difference\",\n  \"phase portrait\" -> \"phase\",\n  \"recurrence texture\" -> \"recurrence\",\n  \"modular circle\" -> \"mod-circle\",\n  \"modular spiral\" -> \"mod-spiral\",\n  \"digit graph\" -> \"digitgraph\",\n  \"residues\" -> \"residue\",\n  \"digit texture\" -> \"digits\",\n  \"Recaman arcs\" -> \"arcs\",\n  \"Kolakoski runs\" -> \"runs\"\n|>;\nDynamicModule[{id = First[ids], view = \"coagulation\"},\n Column[{\n   Row[{\"Sequence: \", PopupMenu[Dynamic[id], ids], Spacer[22], \"View: \", PopupMenu[Dynamic[view], Keys[views]]}],\n   Dynamic@Module[{path = FileNameJoin[{outputDir, id <> \"-\" <> views[view] <> \".png\"}]},\n     If[FileExistsQ[path], Import[path], Style[\"View not available for this sequence: \" <> view, Orange]]\n   ]\n }, Spacings -> 1.2]\n]", "Input"],
 Cell["Optional special visuals:", "Text"],
-Cell["Import[FileNameJoin[{outputDir, \"A005132-arcs.png\"}]]\nImport[FileNameJoin[{outputDir, \"A000002-runs.png\"}]]", "Input"]
+Cell["Grid[{{Import[FileNameJoin[{outputDir, \"A005132-arcs.png\"}]], Import[FileNameJoin[{outputDir, \"A000002-runs.png\"}]]}}, Spacings -> {1.4, 1.2}]", "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 Cell["6b. Direct Graph Lab", "Section"],
 Cell["Generate graph-lab visuals directly in notebook without exporting:", "Text"],
-Cell["rec = LoadTerms[\"A005132\", 260];\nModularTransitionGraphCircle[\"A005132\", rec, 97]\nModularTransitionGraphSpiral[\"A005132\", rec, 97]", "Input"],
-Cell["p = LoadTerms[\"A000040\", 260];\nReturnMapPhasePlot[\"A000040\", p]\nResidueRecurrencePlot[\"A000040\", p, 89]\nDigitTransitionGraph[\"A000040\", p]", "Input"]
+Cell["rec = LoadTerms[\"A005132\", 260];\nGrid[{{ModularTransitionGraphCircle[\"A005132\", rec, 97], ModularTransitionGraphSpiral[\"A005132\", rec, 97]}}]", "Input"],
+Cell["p = LoadTerms[\"A000040\", 260];\nTabView[<|\n  \"Return-map\" -> ReturnMapPhasePlot[\"A000040\", p],\n  \"Recurrence\" -> ResidueRecurrencePlot[\"A000040\", p, 89],\n  \"Digit graph\" -> DigitTransitionGraph[\"A000040\", p]\n|>]", "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell["6c. Animation Studio", "Section"],
+Cell["Term-count sweep animations (graph drama):", "Text"],
+Cell["ids = {\"A000045\", \"A000040\", \"A000041\", \"A005132\", \"A000002\"};\noutputDir = FileNameJoin[{NotebookDirectory[], \"outputs\"}];\nloadDrama[id_, kind_] := Module[{mp4, gif},\n  mp4 = FileNameJoin[{outputDir, id <> \"-\" <> kind <> \".mp4\"}];\n  gif = FileNameJoin[{outputDir, id <> \"-\" <> kind <> \".gif\"}];\n  Which[\n    FileExistsQ[mp4], Import[mp4],\n    FileExistsQ[gif], Import[gif],\n    True, Style[\"Missing animation: \" <> id <> \" \" <> kind, Red]\n  ]\n];\nDynamicModule[{id = First[ids], kindLabel = \"circle drama\", kinds},\n  kinds = <|\"circle drama\" -> \"drama-circle\", \"spiral drama\" -> \"drama-spiral\"|>;\n  Column[{\n    Row[{\"Sequence: \", PopupMenu[Dynamic[id], ids], Spacer[22], \"Animation: \", PopupMenu[Dynamic[kindLabel], Keys[kinds]]}],\n    Dynamic[loadDrama[id, kinds[kindLabel]]]\n  }, Spacings -> 1.2]\n]", "Input"],
+Cell["Regenerate with denser animation frames:", "Text"],
+Cell["result = RunBeautifulResearch[\n  \"TermCount\" -> 260,\n  \"AnimationFrames\" -> 18,\n  \"AnimationMinTerms\" -> 20,\n  \"Modulus\" -> 12,\n  \"GridWidth\" -> 24,\n  \"EnableAnimations\" -> True\n];\nresult[\"RankedIDs\"]", "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{

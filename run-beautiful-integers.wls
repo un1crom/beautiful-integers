@@ -5,4 +5,5 @@ result = RunBeautifulResearch[
   "Modulus" -> 12,
   "GridWidth" -> 24
 ];
-Print[result];
+Print["Ranked IDs: ", StringRiffle[result["RankedIDs"], ", "]];
+Print["Report: ", result["ReportPath"]];

@@ -1,30 +1,45 @@
 # Beautiful Integers: Phase 1
 
-Generated: 2026-02-17 10:36
+Generated: 2026-02-17 12:05
 
 ## Ranking by BeautyIndex
 
 1. A005132 - Recaman sequence
-   BeautyIndex=0.721 | Compressibility=0.879 | DeltaSignEntropy=0.999 | GrowthDrama=0.615 | ResidueStructure=0.003 | Novelty=0.854
+   BeautyIndex=0.452 | CoagulationScore=0.327 | StructuralBeauty=0.775 | Compressibility=0.879 | DeltaSignEntropy=0.999 | GrowthDrama=0.615 | ResidueStructure=0.003 | Novelty=0.854
    OEIS: https://oeis.org/A005132
    History: Greedy self-avoiding rule creates dramatic jumps; OEIS highlights open behavior about missing values.
+   Atlas: difference (score=0.729)
+   AtlasImage: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A005132-atlas.png
+   Animations: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A005132-drama-circle.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A005132-drama-spiral.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A005132-drama-circle.mp4 | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A005132-drama-spiral.mp4
 
 2. A000002 - Kolakoski sequence
-   BeautyIndex=0.551 | Compressibility=0.975 | DeltaSignEntropy=1.000 | GrowthDrama=0.282 | ResidueStructure=0.000 | Novelty=0.008
+   BeautyIndex=0.392 | CoagulationScore=0.287 | StructuralBeauty=0.663 | Compressibility=0.975 | DeltaSignEntropy=1.000 | GrowthDrama=0.282 | ResidueStructure=0.000 | Novelty=0.008
    OEIS: https://oeis.org/A000002
    History: Self-describing run-length sequence with unresolved density questions, as noted on OEIS.
+   Atlas: recurrence (score=0.818)
+   AtlasImage: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000002-atlas.png
+   Animations: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000002-drama-circle.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000002-drama-spiral.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000002-drama-circle.mp4 | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000002-drama-spiral.mp4
 
 3. A000040 - Prime numbers
-   BeautyIndex=0.414 | Compressibility=0.890 | DeltaSignEntropy=0.000 | GrowthDrama=0.053 | ResidueStructure=0.203 | Novelty=1.000
+   BeautyIndex=0.350 | CoagulationScore=0.318 | StructuralBeauty=0.432 | Compressibility=0.890 | DeltaSignEntropy=0.000 | GrowthDrama=0.053 | ResidueStructure=0.203 | Novelty=1.000
    OEIS: https://oeis.org/A000040
    History: Central object of arithmetic since Euclid; OEIS notes include prime-number-theorem asymptotics.
+   Atlas: coagulation (score=0.707)
+   AtlasImage: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000040-atlas.png
+   Animations: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000040-drama-circle.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000040-drama-spiral.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000040-drama-circle.mp4 | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000040-drama-spiral.mp4
 
 4. A000041 - Partition numbers
-   BeautyIndex=0.330 | Compressibility=0.626 | DeltaSignEntropy=0.039 | GrowthDrama=0.062 | ResidueStructure=0.014 | Novelty=0.996
+   BeautyIndex=0.312 | CoagulationScore=0.303 | StructuralBeauty=0.336 | Compressibility=0.626 | DeltaSignEntropy=0.039 | GrowthDrama=0.062 | ResidueStructure=0.014 | Novelty=0.996
    OEIS: https://oeis.org/A000041
    History: The Hardy-Ramanujan circle method famously explains partition growth.
+   Atlas: coagulation (score=0.676)
+   AtlasImage: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000041-atlas.png
+   Animations: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000041-drama-circle.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000041-drama-spiral.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000041-drama-circle.mp4 | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000041-drama-spiral.mp4
 
 5. A000045 - Fibonacci numbers
-   BeautyIndex=0.322 | Compressibility=0.579 | DeltaSignEntropy=0.039 | GrowthDrama=0.037 | ResidueStructure=0.075 | Novelty=0.996
+   BeautyIndex=0.301 | CoagulationScore=0.293 | StructuralBeauty=0.321 | Compressibility=0.579 | DeltaSignEntropy=0.039 | GrowthDrama=0.037 | ResidueStructure=0.075 | Novelty=0.996
    OEIS: https://oeis.org/A000045
    History: Known in Indian prosody before Fibonacci's Liber Abaci; OEIS comments cite Gopala and Hemachandra traditions.
+   Atlas: coagulation (score=0.657)
+   AtlasImage: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000045-atlas.png
+   Animations: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000045-drama-circle.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000045-drama-spiral.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000045-drama-circle.mp4 | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000045-drama-spiral.mp4

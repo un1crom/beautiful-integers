@@ -28,6 +28,12 @@ Generated artifacts (from run-beautiful-integers.wls)
 - outputs/*-mod-circle.png
 - outputs/*-mod-spiral.png
 - outputs/*-digitgraph.png
+- outputs/*-coagulation.png
+- outputs/*-atlas.png
+- outputs/*-drama-circle.mp4
+- outputs/*-drama-spiral.mp4
+- outputs/*-drama-circle.gif
+- outputs/*-drama-spiral.gif
 - outputs/A005132-arcs.png
 - outputs/A000002-runs.png
 - outputs/summary.json
@@ -39,5 +45,7 @@ Run
 
 Notebook
 - beautiful-integers.nb is set up for presentation mode with narrative + executable cells.
+- It now uses one-sequence-at-a-time selectors to avoid overwhelming inline output.
 - Load engine: Get["beautiful-integers.wl"]
 - Run study: RunBeautifulResearch["TermCount" -> 240]
+- Optional denser drama animations: RunBeautifulResearch["AnimationFrames" -> 18]

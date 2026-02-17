@@ -2,3 +2,4 @@ Beautiful Integers Phase 1 complete.
 Output directory: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs
 Report: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/beauty-report.md
 Ranked IDs: A005132, A000002, A000040, A000041, A000045
+Atlas + drama animations generated for all successful sequences.

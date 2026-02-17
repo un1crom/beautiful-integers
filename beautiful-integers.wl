@@ -9,6 +9,10 @@ ClearAll[
   SignedLog, CircleLayoutCoords, SpiralLayoutCoords, EdgeWeightStyles,
   ModularTransitionGraphCircle, ModularTransitionGraphSpiral,
   ReturnMapPhasePlot, ResidueRecurrencePlot, DigitTransitionGraph,
+  RasterizeGraphicImage, CoagulationCompositeImage, VisualHarmonyScore,
+  CoagulationScore, IntegrateCoagulationIntoProfile,
+  ImageStrikingnessScore, AtlasSelection, AnimationTermCounts,
+  RenderAnimationFrame, CreateGraphDramaAnimations,
   RecamanArcPlot, KolakoskiRunLengthPlot, MakeVisuals, FormatMetric,
   CreateMarkdownReport, RunBeautifulResearch, SequenceCatalogData
 ];
@@ -186,16 +190,16 @@ NoveltyScore[data_List] := If[Length[data] == 0, 0.0, N[Length[DeleteDuplicates[
 BeautyProfile[data_List, modulus : (_Integer?Positive) : 12] := Module[
   {
     compressibility, deltaEntropy, growthDrama, residueStructure, novelty,
-    beautyIndex
+    structuralBeauty
   },
   compressibility = CompressibilityScore[data];
   deltaEntropy = DeltaSignEntropyScore[data];
   growthDrama = GrowthDramaScore[data];
   residueStructure = ResidueStructureScore[data, modulus];
   novelty = NoveltyScore[data];
-  beautyIndex = Clamp01[
-    0.25*compressibility + 0.25*deltaEntropy + 0.20*growthDrama +
-    0.15*residueStructure + 0.15*novelty
+  structuralBeauty = Clamp01[
+    0.34*compressibility + 0.28*deltaEntropy + 0.18*growthDrama +
+    0.10*residueStructure + 0.10*novelty
   ];
   <|
     "Compressibility" -> compressibility,
@@ -203,7 +207,9 @@ BeautyProfile[data_List, modulus : (_Integer?Positive) : 12] := Module[
     "GrowthDrama" -> growthDrama,
     "ResidueStructure" -> residueStructure,
     "Novelty" -> novelty,
-    "BeautyIndex" -> beautyIndex
+    "StructuralBeauty" -> structuralBeauty,
+    "CoagulationScore" -> 0.0,
+    "BeautyIndex" -> structuralBeauty
   |>
 ];
 
@@ -424,6 +430,254 @@ DigitTransitionGraph[id_String, data_List] := Module[
   ]
 ];
 
+RasterizeGraphicImage[graphic_, size : (_Integer?Positive) : 640] := Module[{img},
+  img = Quiet @ Check[Rasterize[graphic, "Image", RasterSize -> size], $Failed];
+  If[Head[img] === Image, img, $Failed]
+];
+
+CoagulationCompositeImage[id_String, visuals_Association] := Module[
+  {priority, selectedKeys, imgs, blank, tiles},
+  priority = {
+    "line", "difference", "phase", "residue", "recurrence",
+    "mod-circle", "mod-spiral", "digitgraph", "digits", "arcs", "runs"
+  };
+  selectedKeys = Take[Select[priority, KeyExistsQ[visuals, #] &], UpTo[9]];
+  imgs = DeleteCases[RasterizeGraphicImage[visuals[#], 560] & /@ selectedKeys, $Failed];
+  blank = Image[
+    ConstantArray[{0.07, 0.07, 0.08}, {360, 360}],
+    "Real",
+    ColorSpace -> "RGB"
+  ];
+  tiles = PadRight[
+    (ImageResize[ColorConvert[#, "RGB"], {360, 360}] &) /@ imgs,
+    9,
+    blank
+  ];
+  ImageAssemble[Partition[tiles, 3], Background -> RGBColor[0.06, 0.06, 0.07]]
+];
+
+VisualHarmonyScore[visuals_Association] := Module[
+  {priority, keys, imgs, n, pairwise},
+  priority = {"line", "difference", "phase", "recurrence", "mod-circle", "mod-spiral", "digitgraph"};
+  keys = Take[Select[priority, KeyExistsQ[visuals, #] &], UpTo[6]];
+  imgs = DeleteCases[RasterizeGraphicImage[visuals[#], 340] & /@ keys, $Failed];
+  imgs = ImageResize[ColorConvert[#, "Grayscale"], {240, 240}] & /@ imgs;
+  n = Length[imgs];
+  If[n < 2, Return[0.5]];
+  pairwise = Flatten @ Table[
+    Clip[
+      1.0 - Quiet @ Check[
+        N @ ImageDistance[
+          imgs[[i]],
+          imgs[[j]],
+          Method -> "NormalizedSquaredEuclideanDistance"
+        ],
+        1.0
+      ],
+      {0.0, 1.0}
+    ],
+    {i, 1, n - 1},
+    {j, i + 1, n}
+  ];
+  Clamp01[Mean[pairwise]]
+];
+
+CoagulationScore[coagImage_Image, visuals_Association] := Module[
+  {striking, harmony, symmetry},
+  striking = ImageStrikingnessScore[coagImage];
+  harmony = VisualHarmonyScore[visuals];
+  symmetry = Clip[
+    1.0 - Quiet @ Check[
+      N @ ImageDistance[
+        ColorConvert[coagImage, "Grayscale"],
+        ColorConvert[ImageReflect[coagImage, Left -> Right], "Grayscale"],
+        Method -> "NormalizedSquaredEuclideanDistance"
+      ],
+      1.0
+    ],
+    {0.0, 1.0}
+  ];
+  Clamp01[0.50*striking + 0.35*harmony + 0.15*symmetry]
+];
+
+IntegrateCoagulationIntoProfile[profile_Association, coagScore_] := Module[
+  {structural, beauty},
+  structural = Lookup[profile, "StructuralBeauty", 0.0];
+  beauty = Clamp01[0.72*coagScore + 0.28*structural];
+  Join[profile, <|"CoagulationScore" -> coagScore, "BeautyIndex" -> beauty|>]
+];
+
+ImageStrikingnessScore[graphic_] := Module[
+  {image, gray, rgbData, entropy, contrast, edgeDensity, colorSpread},
+  image = Quiet @ Check[Rasterize[graphic, "Image", RasterSize -> 640], $Failed];
+  If[Head[image] =!= Image, Return[0.0]];
+  gray = ColorConvert[image, "Grayscale"];
+  entropy = Quiet @ Check[N @ ImageMeasurements[gray, "Entropy"], 0.0];
+  contrast = Quiet @ Check[StandardDeviation[Flatten @ ImageData[gray]], 0.0];
+  edgeDensity = Quiet @ Check[
+    Mean @ Flatten @ ImageData @ Binarize[EdgeDetect[gray, 2], 0.23],
+    0.0
+  ];
+  rgbData = Quiet @ Check[Flatten[ImageData[ColorConvert[image, "RGB"]], 1], {}];
+  colorSpread = If[Length[rgbData] == 0, 0.0, Mean[StandardDeviation /@ Transpose[rgbData]]];
+  Clamp01[
+    0.30*(1.0 - Exp[-entropy/6.5]) +
+    0.25*Clip[contrast*4.2, {0.0, 1.0}] +
+    0.25*Clip[edgeDensity*6.0, {0.0, 1.0}] +
+    0.20*Clip[colorSpread*6.0, {0.0, 1.0}]
+  ]
+];
+
+AtlasSelection[visuals_Association] := Module[
+  {baseScores, boostedScores, bestName},
+  baseScores = Association @ KeyValueMap[
+    Function[{name, graphic}, name -> ImageStrikingnessScore[graphic]],
+    visuals
+  ];
+  boostedScores = Association @ KeyValueMap[
+    Function[{name, score},
+      name -> (score + If[
+        MemberQ[{"coagulation", "mod-spiral", "mod-circle", "recurrence", "digitgraph", "arcs"}, name],
+        0.07,
+        0.0
+      ])
+    ],
+    baseScores
+  ];
+  bestName = First @ First @ ReverseSortBy[Normal[boostedScores], Last];
+  <|
+    "BestView" -> bestName,
+    "BestScore" -> Lookup[boostedScores, bestName, 0.0],
+    "Scores" -> boostedScores
+  |>
+];
+
+AnimationTermCounts[
+  termCount : (_Integer?Positive),
+  frameCount : (_Integer?Positive) : 12,
+  minTerms : (_Integer?Positive) : 24
+] := Module[{counts},
+  counts = Round @ Subdivide[minTerms, termCount, Max[2, frameCount] - 1];
+  counts = DeleteDuplicates @ Select[counts, 2 <= # <= termCount &];
+  If[Length[counts] == 0, counts = {termCount}];
+  If[Last[counts] =!= termCount, counts = Append[counts, termCount]];
+  counts
+];
+
+RenderAnimationFrame[graphic_] := Module[{image},
+  image = Quiet @ Check[Rasterize[graphic, "Image", RasterSize -> 1000], $Failed];
+  If[
+    Head[image] === Image,
+    image,
+    Rasterize[
+      Graphics[
+        Inset[Style["frame render failed", 16, Red]],
+        PlotRange -> {{0, 1}, {0, 1}},
+        Background -> GrayLevel[0.1],
+        ImageSize -> 720
+      ],
+      "Image",
+      RasterSize -> 1000
+    ]
+  ]
+];
+
+CreateGraphDramaAnimations[
+  id_String,
+  terms_List,
+  outputDir_String,
+  frameCount : (_Integer?Positive) : 12,
+  minTerms : (_Integer?Positive) : 24
+] := Module[
+  {
+    counts, circleFrames, spiralFrames, circleImages, spiralImages,
+    circleGifFile, spiralGifFile, circleMP4File, spiralMP4File,
+    graphModulus, animationFiles, videoReadyQ
+  },
+  videoReadyQ[file_] := FileExistsQ[file] && Quiet @ Check[FileByteCount[file] > 0, False];
+  counts = AnimationTermCounts[Length[terms], frameCount, minTerms];
+  circleFrames = Table[
+    graphModulus = Max[24, Min[97, Round[k/2.5]]];
+    ModularTransitionGraphCircle[id, Take[terms, k], graphModulus],
+    {k, counts}
+  ];
+  spiralFrames = Table[
+    graphModulus = Max[24, Min[97, Round[k/2.5]]];
+    ModularTransitionGraphSpiral[id, Take[terms, k], graphModulus],
+    {k, counts}
+  ];
+  circleImages = RenderAnimationFrame /@ circleFrames;
+  spiralImages = RenderAnimationFrame /@ spiralFrames;
+  circleImages = ImageResize[#, {1000, 1000}] & /@ circleImages;
+  spiralImages = ImageResize[#, {1000, 1000}] & /@ spiralImages;
+  circleGifFile = FileNameJoin[{outputDir, id <> "-drama-circle.gif"}];
+  spiralGifFile = FileNameJoin[{outputDir, id <> "-drama-spiral.gif"}];
+  circleMP4File = FileNameJoin[{outputDir, id <> "-drama-circle.mp4"}];
+  spiralMP4File = FileNameJoin[{outputDir, id <> "-drama-spiral.mp4"}];
+
+  Export[
+    circleGifFile,
+    circleImages,
+    "GIF",
+    "DisplayDurations" -> ConstantArray[0.40, Length[circleFrames]],
+    "AnimationRepetitions" -> Infinity
+  ];
+  Export[
+    spiralGifFile,
+    spiralImages,
+    "GIF",
+    "DisplayDurations" -> ConstantArray[0.40, Length[spiralFrames]],
+    "AnimationRepetitions" -> Infinity
+  ];
+
+  Quiet @ Check[
+    Export[
+      circleMP4File,
+      circleImages,
+      "MP4",
+      "FrameRate" -> 8
+    ],
+    $Failed
+  ];
+  If[!videoReadyQ[circleMP4File],
+    Quiet @ Check[
+      Export[
+        circleMP4File,
+        Video[circleImages, "FrameRate" -> 8],
+        "MP4"
+      ],
+      $Failed
+    ];
+  ];
+  Quiet @ Check[
+    Export[
+      spiralMP4File,
+      spiralImages,
+      "MP4",
+      "FrameRate" -> 8
+    ],
+    $Failed
+  ];
+  If[!videoReadyQ[spiralMP4File],
+    Quiet @ Check[
+      Export[
+        spiralMP4File,
+        Video[spiralImages, "FrameRate" -> 8],
+        "MP4"
+      ],
+      $Failed
+    ];
+  ];
+
+  animationFiles = <|
+    "drama-circle-gif" -> circleGifFile,
+    "drama-spiral-gif" -> spiralGifFile
+  |>;
+  If[videoReadyQ[circleMP4File], AssociateTo[animationFiles, "drama-circle-mp4" -> circleMP4File]];
+  If[videoReadyQ[spiralMP4File], AssociateTo[animationFiles, "drama-spiral-mp4" -> spiralMP4File]];
+  animationFiles
+];
+
 RecamanArcPlot[data_List, maxSteps : (_Integer?Positive) : 140] := Module[
   {pairs, arcs},
   pairs = Take[Partition[data, 2, 1], UpTo[maxSteps]];
@@ -514,6 +768,8 @@ CreateMarkdownReport[records_List, outputDir_String] := Module[
         {
           ToString[idx[[1]]] <> ". " <> record["ID"] <> " - " <> record["Label"],
           "   BeautyIndex=" <> FormatMetric[record["Profile"]["BeautyIndex"]] <>
+            " | CoagulationScore=" <> FormatMetric[record["Profile"]["CoagulationScore"]] <>
+            " | StructuralBeauty=" <> FormatMetric[record["Profile"]["StructuralBeauty"]] <>
             " | Compressibility=" <> FormatMetric[record["Profile"]["Compressibility"]] <>
             " | DeltaSignEntropy=" <> FormatMetric[record["Profile"]["DeltaSignEntropy"]] <>
             " | GrowthDrama=" <> FormatMetric[record["Profile"]["GrowthDrama"]] <>
@@ -521,6 +777,15 @@ CreateMarkdownReport[records_List, outputDir_String] := Module[
             " | Novelty=" <> FormatMetric[record["Profile"]["Novelty"]],
           "   OEIS: https://oeis.org/" <> record["ID"],
           "   History: " <> record["HistoryNote"],
+          "   Atlas: " <>
+            Lookup[Lookup[record, "Atlas", <||>], "BestView", "n/a"] <>
+            " (score=" <> FormatMetric[Lookup[Lookup[record, "Atlas", <||>], "BestScore", 0.0]] <> ")",
+          "   AtlasImage: " <> Lookup[Lookup[record, "ImageFiles", <||>], "atlas", "n/a"],
+          If[
+            Length[Lookup[record, "AnimationFiles", <||>]] > 0,
+            "   Animations: " <> StringRiffle[Values[record["AnimationFiles"]], " | "],
+            "   Animations: none"
+          ],
           ""
         }
       ],
@@ -536,17 +801,24 @@ Options[RunBeautifulResearch] = {
   "TermCount" -> 220,
   "Modulus" -> 12,
   "GridWidth" -> 24,
+  "AnimationFrames" -> 12,
+  "AnimationMinTerms" -> 24,
+  "EnableAnimations" -> True,
   "OutputDirectory" -> Automatic
 };
 
 RunBeautifulResearch[OptionsPattern[]] := Module[
   {
-    termCount, modulus, gridWidth, outputDir, records, summaryJSON,
+    termCount, modulus, gridWidth, outputDir, animationFrames, animationMinTerms,
+    enableAnimations, records, summaryJSON,
     summaryWL, summaryTXT, rankedIDs, reportPath
   },
   termCount = OptionValue["TermCount"];
   modulus = OptionValue["Modulus"];
   gridWidth = OptionValue["GridWidth"];
+  animationFrames = OptionValue["AnimationFrames"];
+  animationMinTerms = OptionValue["AnimationMinTerms"];
+  enableAnimations = TrueQ[OptionValue["EnableAnimations"]];
   outputDir = OptionValue["OutputDirectory"];
   If[outputDir === Automatic, outputDir = FileNameJoin[{Directory[], "outputs"}]];
   If[!DirectoryQ[outputDir], CreateDirectory[outputDir, CreateIntermediateDirectories -> True]];
@@ -554,7 +826,10 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
   records = Reap[
     Do[
       Module[
-        {id, label, historyNote, terms, record, profile, visuals, imageFiles, oeis},
+        {
+          id, label, historyNote, terms, record, profile, visuals, imageFiles,
+          oeis, atlas, atlasFile, animationFiles, coagulationImage, coagulationScore
+        },
         id = config["ID"];
         label = config["Label"];
         historyNote = config["HistoryNote"];
@@ -568,6 +843,25 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
 
         profile = BeautyProfile[terms, modulus];
         visuals = MakeVisuals[id, label, terms, modulus, gridWidth];
+        coagulationImage = CoagulationCompositeImage[id, visuals];
+        AssociateTo[visuals, "coagulation" -> coagulationImage];
+        coagulationScore = CoagulationScore[coagulationImage, visuals];
+        profile = IntegrateCoagulationIntoProfile[profile, coagulationScore];
+
+        atlas = AtlasSelection[visuals];
+        atlasFile = Export[
+          FileNameJoin[{outputDir, id <> "-atlas.png"}],
+          visuals[atlas["BestView"]],
+          "PNG",
+          ImageResolution -> 180
+        ];
+
+        animationFiles = If[
+          enableAnimations,
+          CreateGraphDramaAnimations[id, terms, outputDir, animationFrames, animationMinTerms],
+          <||>
+        ];
+
         imageFiles = Association @ KeyValueMap[
           Function[{name, graphic},
             name -> Export[
@@ -579,6 +873,7 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
           ],
           visuals
         ];
+        AssociateTo[imageFiles, "atlas" -> atlasFile];
 
         oeis = OEISRecord[id];
         record = <|
@@ -590,7 +885,9 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
           "OEISComment" -> If[AssociationQ[oeis], NormalizeText[Lookup[oeis, "comment", ""]], ""],
           "Terms" -> terms,
           "Profile" -> profile,
-          "ImageFiles" -> imageFiles
+          "ImageFiles" -> imageFiles,
+          "Atlas" -> atlas,
+          "AnimationFiles" -> animationFiles
         |>;
         Sow[record];
       ],
@@ -617,11 +914,15 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
         "oeis_name" -> Lookup[record, "OEISName", ""],
         "history_note" -> Lookup[record, "HistoryNote", ""],
         "beauty_profile" -> Normal @ Lookup[record, "Profile", <||>],
+        "atlas_view" -> Lookup[Lookup[record, "Atlas", <||>], "BestView", ""],
+        "atlas_score" -> Lookup[Lookup[record, "Atlas", <||>], "BestScore", 0.0],
+        "atlas_scores" -> Normal @ Lookup[Lookup[record, "Atlas", <||>], "Scores", <||>],
         "first_terms" -> If[ListQ[Lookup[record, "Terms", Missing["NotAvailable"]]],
           Take[record["Terms"], UpTo[30]],
           {}
         ],
-        "image_files" -> Normal @ Lookup[record, "ImageFiles", <||>]
+        "image_files" -> Normal @ Lookup[record, "ImageFiles", <||>],
+        "animation_files" -> Normal @ Lookup[record, "AnimationFiles", <||>]
       |>
     ],
     records
@@ -632,7 +933,10 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
     "Parameters" -> <|
       "TermCount" -> termCount,
       "Modulus" -> modulus,
-      "GridWidth" -> gridWidth
+      "GridWidth" -> gridWidth,
+      "AnimationFrames" -> animationFrames,
+      "AnimationMinTerms" -> animationMinTerms,
+      "EnableAnimations" -> enableAnimations
     |>,
     "RankedIDs" -> rankedIDs,
     "ReportPath" -> reportPath,
@@ -644,7 +948,8 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
       "Beautiful Integers Phase 1 complete.",
       "Output directory: " <> outputDir,
       "Report: " <> reportPath,
-      "Ranked IDs: " <> StringRiffle[rankedIDs, ", "]
+      "Ranked IDs: " <> StringRiffle[rankedIDs, ", "],
+      "Atlas + drama animations generated for all successful sequences."
     },
     "\n"
   ];

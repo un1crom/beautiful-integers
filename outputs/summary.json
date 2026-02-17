@@ -11,7 +11,23 @@
 			"GrowthDrama":3.662393333368552e-2,
 			"ResidueStructure":7.475384763381343e-2,
 			"Novelty":0.9958333333333333,
-			"BeautyIndex":0.32235084699382205
+			"StructuralBeauty":0.32134177792554364,
+			"CoagulationScore":0.29326037467493626,
+			"BeautyIndex":0.3011231675851063
+		},
+		"atlas_view":"coagulation",
+		"atlas_score":0.6565207493498726,
+		"atlas_scores":{
+			"line":0.24601262292233894,
+			"difference":0.19949317870243527,
+			"residue":0.2409404749027312,
+			"digits":0.17148121397942773,
+			"phase":0.3131161886289413,
+			"recurrence":0.5475140071412805,
+			"mod-circle":0.2559189445028517,
+			"mod-spiral":0.29250426533990137,
+			"digitgraph":0.5012770329606491,
+			"coagulation":0.6565207493498726
 		},
 		"first_terms":[
 			0,
@@ -54,7 +70,15 @@
 			"recurrence":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000045-recurrence.png",
 			"mod-circle":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000045-mod-circle.png",
 			"mod-spiral":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000045-mod-spiral.png",
-			"digitgraph":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000045-digitgraph.png"
+			"digitgraph":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000045-digitgraph.png",
+			"coagulation":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000045-coagulation.png",
+			"atlas":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000045-atlas.png"
+		},
+		"animation_files":{
+			"drama-circle-gif":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000045-drama-circle.gif",
+			"drama-spiral-gif":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000045-drama-spiral.gif",
+			"drama-circle-mp4":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000045-drama-circle.mp4",
+			"drama-spiral-mp4":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000045-drama-spiral.mp4"
 		}
 	},
 	{
@@ -69,7 +93,23 @@
 			"GrowthDrama":5.275842321030344e-2,
 			"ResidueStructure":0.2034383295942529,
 			"Novelty":1.0,
-			"BeautyIndex":0.41359490660867115
+			"StructuralBeauty":0.43247771177464256,
+			"CoagulationScore":0.3183585127247987,
+			"BeautyIndex":0.350311888458755
+		},
+		"atlas_view":"coagulation",
+		"atlas_score":0.7067170254495974,
+		"atlas_scores":{
+			"line":0.23702172785947173,
+			"difference":0.44665064590676984,
+			"residue":0.2230804119892788,
+			"digits":0.22156830391619758,
+			"phase":0.2803207199209916,
+			"recurrence":0.6362808725908162,
+			"mod-circle":0.24273622758429672,
+			"mod-spiral":0.41578115603809984,
+			"digitgraph":0.5012971368971333,
+			"coagulation":0.7067170254495974
 		},
 		"first_terms":[
 			2,
@@ -112,7 +152,15 @@
 			"recurrence":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000040-recurrence.png",
 			"mod-circle":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000040-mod-circle.png",
 			"mod-spiral":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000040-mod-spiral.png",
-			"digitgraph":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000040-digitgraph.png"
+			"digitgraph":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000040-digitgraph.png",
+			"coagulation":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000040-coagulation.png",
+			"atlas":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000040-atlas.png"
+		},
+		"animation_files":{
+			"drama-circle-gif":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000040-drama-circle.gif",
+			"drama-spiral-gif":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000040-drama-spiral.gif",
+			"drama-circle-mp4":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000040-drama-circle.mp4",
+			"drama-spiral-mp4":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000040-drama-spiral.mp4"
 		}
 	},
 	{
@@ -127,7 +175,23 @@
 			"GrowthDrama":6.179651182788437e-2,
 			"ResidueStructure":1.429035498386888e-2,
 			"Novelty":0.9958333333333333,
-			"BeautyIndex":0.330241700951447
+			"StructuralBeauty":0.33604566532204155,
+			"CoagulationScore":0.3029610314499725,
+			"BeautyIndex":0.3122247289341519
+		},
+		"atlas_view":"coagulation",
+		"atlas_score":0.6759220628999449,
+		"atlas_scores":{
+			"line":0.24634271353580128,
+			"difference":0.20695089420295387,
+			"residue":0.24942349435008543,
+			"digits":0.19000350529962606,
+			"phase":0.30803828589185017,
+			"recurrence":0.5936606683320103,
+			"mod-circle":0.3205814300600472,
+			"mod-spiral":0.5410160074225383,
+			"digitgraph":0.5012167892860389,
+			"coagulation":0.6759220628999449
 		},
 		"first_terms":[
 			1,
@@ -170,7 +234,15 @@
 			"recurrence":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000041-recurrence.png",
 			"mod-circle":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000041-mod-circle.png",
 			"mod-spiral":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000041-mod-spiral.png",
-			"digitgraph":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000041-digitgraph.png"
+			"digitgraph":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000041-digitgraph.png",
+			"coagulation":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000041-coagulation.png",
+			"atlas":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000041-atlas.png"
+		},
+		"animation_files":{
+			"drama-circle-gif":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000041-drama-circle.gif",
+			"drama-spiral-gif":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000041-drama-spiral.gif",
+			"drama-circle-mp4":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000041-drama-circle.mp4",
+			"drama-spiral-mp4":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000041-drama-spiral.mp4"
 		}
 	},
 	{
@@ -185,7 +257,24 @@
 			"GrowthDrama":0.6151013563763307,
 			"ResidueStructure":2.8474844734230897e-3,
 			"Novelty":0.8541666666666666,
-			"BeautyIndex":0.7210968279114609
+			"StructuralBeauty":0.7750342780500044,
+			"CoagulationScore":0.32705651668788904,
+			"BeautyIndex":0.4524902898692813
+		},
+		"atlas_view":"difference",
+		"atlas_score":0.7287148415476148,
+		"atlas_scores":{
+			"line":0.4114219382065783,
+			"difference":0.7287148415476148,
+			"residue":0.250839430147281,
+			"digits":0.22920669703815957,
+			"phase":0.2955685474541577,
+			"recurrence":0.6320908038933639,
+			"mod-circle":0.30521761528014846,
+			"mod-spiral":0.5482148102988662,
+			"digitgraph":0.6150969393525669,
+			"arcs":0.6593535704612257,
+			"coagulation":0.7241130333757781
 		},
 		"first_terms":[
 			0,
@@ -229,7 +318,15 @@
 			"mod-circle":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A005132-mod-circle.png",
 			"mod-spiral":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A005132-mod-spiral.png",
 			"digitgraph":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A005132-digitgraph.png",
-			"arcs":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A005132-arcs.png"
+			"arcs":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A005132-arcs.png",
+			"coagulation":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A005132-coagulation.png",
+			"atlas":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A005132-atlas.png"
+		},
+		"animation_files":{
+			"drama-circle-gif":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A005132-drama-circle.gif",
+			"drama-spiral-gif":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A005132-drama-spiral.gif",
+			"drama-circle-mp4":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A005132-drama-circle.mp4",
+			"drama-spiral-mp4":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A005132-drama-spiral.mp4"
 		}
 	},
 	{
@@ -244,7 +341,24 @@
 			"GrowthDrama":0.28208498788806824,
 			"ResidueStructure":0.0,
 			"Novelty":8.333333333333333e-3,
-			"BeautyIndex":0.5514816894846136
+			"StructuralBeauty":0.6631975696055091,
+			"CoagulationScore":0.286882434451844,
+			"BeautyIndex":0.39225067229487026
+		},
+		"atlas_view":"recurrence",
+		"atlas_score":0.8184317782100932,
+		"atlas_scores":{
+			"line":0.63329395882442,
+			"difference":0.7963371237414059,
+			"residue":0.20728337960640525,
+			"digits":0.23861605559500332,
+			"phase":0.22628755863586156,
+			"recurrence":0.8184317782100932,
+			"mod-circle":0.2003574488750421,
+			"mod-spiral":0.19004207680828572,
+			"digitgraph":0.5401813261933639,
+			"runs":0.5602941832576493,
+			"coagulation":0.6437648689036881
 		},
 		"first_terms":[
 			1,
@@ -288,7 +402,15 @@
 			"mod-circle":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000002-mod-circle.png",
 			"mod-spiral":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000002-mod-spiral.png",
 			"digitgraph":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000002-digitgraph.png",
-			"runs":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000002-runs.png"
+			"runs":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000002-runs.png",
+			"coagulation":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000002-coagulation.png",
+			"atlas":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000002-atlas.png"
+		},
+		"animation_files":{
+			"drama-circle-gif":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000002-drama-circle.gif",
+			"drama-spiral-gif":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000002-drama-spiral.gif",
+			"drama-circle-mp4":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000002-drama-circle.mp4",
+			"drama-spiral-mp4":"\/Users\/eventhorizon\/Code\/un1crom\/beautiful-integers\/outputs\/A000002-drama-spiral.mp4"
 		}
 	}
 ]

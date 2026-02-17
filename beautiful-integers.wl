@@ -9,7 +9,7 @@ ClearAll[
   SignedLog, CircleLayoutCoords, SpiralLayoutCoords, EdgeWeightStyles,
   ModularTransitionGraphCircle, ModularTransitionGraphSpiral,
   ReturnMapPhasePlot, ResidueRecurrencePlot, DigitTransitionGraph,
-  RasterizeGraphicImage, CoagulationCompositeImage, VisualHarmonyScore,
+  RasterizeGraphicImage, CoagulationCompositeImage, CoagulationBlendImage, VisualHarmonyScore,
   CoagulationScore, IntegrateCoagulationIntoProfile,
   ImageStrikingnessScore, AtlasSelection, AnimationTermCounts,
   RenderAnimationFrame, CreateGraphDramaAnimations,
@@ -209,6 +209,8 @@ BeautyProfile[data_List, modulus : (_Integer?Positive) : 12] := Module[
     "Novelty" -> novelty,
     "StructuralBeauty" -> structuralBeauty,
     "CoagulationScore" -> 0.0,
+    "CoagulationMode" -> "none",
+    "CoagulationScores" -> <||>,
     "BeautyIndex" -> structuralBeauty
   |>
 ];
@@ -456,6 +458,45 @@ CoagulationCompositeImage[id_String, visuals_Association] := Module[
   ImageAssemble[Partition[tiles, 3], Background -> RGBColor[0.06, 0.06, 0.07]]
 ];
 
+CoagulationBlendImage[id_String, visuals_Association] := Module[
+  {priority, selectedKeys, imgs, n, palette, alphas, canvas},
+  priority = {
+    "difference", "phase", "recurrence", "mod-spiral",
+    "digitgraph", "residue", "line", "digits", "mod-circle", "arcs", "runs"
+  };
+  selectedKeys = Take[Select[priority, KeyExistsQ[visuals, #] &], UpTo[7]];
+  imgs = DeleteCases[RasterizeGraphicImage[visuals[#], 820] & /@ selectedKeys, $Failed];
+  n = Length[imgs];
+  If[n == 0, Return[CoagulationCompositeImage[id, visuals]]];
+  imgs = ImageResize[ColorConvert[#, "RGB"], {820, 820}] & /@ imgs;
+  palette = ColorData["DarkRainbow"] /@ Subdivide[0.08, 0.92, Max[1, n - 1]];
+  alphas = If[n == 1, {0.42}, Subdivide[0.16, 0.36, n - 1]];
+  canvas = Image[
+    ConstantArray[{0.035, 0.035, 0.040}, {820, 820}],
+    "Real",
+    ColorSpace -> "RGB"
+  ];
+  Do[
+    Module[{gray, detail, edges, mix, feature, layer},
+      gray = ColorConvert[imgs[[i]], "Grayscale"];
+      detail = ImageDifference[gray, GaussianFilter[gray, 2.8]];
+      edges = EdgeDetect[gray, 1.8];
+      mix = ImageAdd[
+        ImageMultiply[detail, 0.62],
+        ImageMultiply[edges, 0.88]
+      ];
+      feature = Image[Rescale[ImageData[mix]], "Real"];
+      layer = Colorize[
+        feature,
+        ColorFunction -> (Blend[{RGBColor[0.03, 0.03, 0.04], palette[[i]]}, #] &)
+      ];
+      canvas = ImageCompose[canvas, SetAlphaChannel[layer, alphas[[i]]]];
+    ],
+    {i, 1, n}
+  ];
+  ImageAdjust[canvas]
+];
+
 VisualHarmonyScore[visuals_Association] := Module[
   {priority, keys, imgs, n, pairwise},
   priority = {"line", "difference", "phase", "recurrence", "mod-circle", "mod-spiral", "digitgraph"};
@@ -500,11 +541,24 @@ CoagulationScore[coagImage_Image, visuals_Association] := Module[
   Clamp01[0.50*striking + 0.35*harmony + 0.15*symmetry]
 ];
 
-IntegrateCoagulationIntoProfile[profile_Association, coagScore_] := Module[
+IntegrateCoagulationIntoProfile[
+  profile_Association,
+  coagScore_,
+  coagMode_String : "single",
+  coagScores_Association : <||>
+] := Module[
   {structural, beauty},
   structural = Lookup[profile, "StructuralBeauty", 0.0];
   beauty = Clamp01[0.72*coagScore + 0.28*structural];
-  Join[profile, <|"CoagulationScore" -> coagScore, "BeautyIndex" -> beauty|>]
+  Join[
+    profile,
+    <|
+      "CoagulationScore" -> coagScore,
+      "CoagulationMode" -> coagMode,
+      "CoagulationScores" -> coagScores,
+      "BeautyIndex" -> beauty
+    |>
+  ]
 ];
 
 ImageStrikingnessScore[graphic_] := Module[
@@ -537,7 +591,10 @@ AtlasSelection[visuals_Association] := Module[
   boostedScores = Association @ KeyValueMap[
     Function[{name, score},
       name -> (score + If[
-        MemberQ[{"coagulation", "mod-spiral", "mod-circle", "recurrence", "digitgraph", "arcs"}, name],
+        MemberQ[
+          {"coagulation", "coagulation-tile", "coagulation-blend", "mod-spiral", "mod-circle", "recurrence", "digitgraph", "arcs"},
+          name
+        ],
         0.07,
         0.0
       ])
@@ -769,6 +826,7 @@ CreateMarkdownReport[records_List, outputDir_String] := Module[
           ToString[idx[[1]]] <> ". " <> record["ID"] <> " - " <> record["Label"],
           "   BeautyIndex=" <> FormatMetric[record["Profile"]["BeautyIndex"]] <>
             " | CoagulationScore=" <> FormatMetric[record["Profile"]["CoagulationScore"]] <>
+            " | CoagulationMode=" <> ToString[Lookup[record["Profile"], "CoagulationMode", "n/a"]] <>
             " | StructuralBeauty=" <> FormatMetric[record["Profile"]["StructuralBeauty"]] <>
             " | Compressibility=" <> FormatMetric[record["Profile"]["Compressibility"]] <>
             " | DeltaSignEntropy=" <> FormatMetric[record["Profile"]["DeltaSignEntropy"]] <>
@@ -828,7 +886,9 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
       Module[
         {
           id, label, historyNote, terms, record, profile, visuals, imageFiles,
-          oeis, atlas, atlasFile, animationFiles, coagulationImage, coagulationScore
+          oeis, atlas, atlasFile, animationFiles,
+          coagulationTileImage, coagulationBlendImage,
+          coagulationScores, coagulationMode, coagulationScore
         },
         id = config["ID"];
         label = config["Label"];
@@ -843,10 +903,23 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
 
         profile = BeautyProfile[terms, modulus];
         visuals = MakeVisuals[id, label, terms, modulus, gridWidth];
-        coagulationImage = CoagulationCompositeImage[id, visuals];
-        AssociateTo[visuals, "coagulation" -> coagulationImage];
-        coagulationScore = CoagulationScore[coagulationImage, visuals];
-        profile = IntegrateCoagulationIntoProfile[profile, coagulationScore];
+        coagulationTileImage = CoagulationCompositeImage[id, visuals];
+        coagulationBlendImage = CoagulationBlendImage[id, visuals];
+        AssociateTo[
+          visuals,
+          <|
+            "coagulation-tile" -> coagulationTileImage,
+            "coagulation-blend" -> coagulationBlendImage
+          |>
+        ];
+        coagulationScores = <|
+          "tile" -> CoagulationScore[coagulationTileImage, visuals],
+          "blend" -> CoagulationScore[coagulationBlendImage, visuals]
+        |>;
+        coagulationMode = First @ First @ ReverseSortBy[Normal[coagulationScores], Last];
+        coagulationScore = Lookup[coagulationScores, coagulationMode, 0.0];
+        AssociateTo[visuals, "coagulation" -> visuals["coagulation-" <> coagulationMode]];
+        profile = IntegrateCoagulationIntoProfile[profile, coagulationScore, coagulationMode, coagulationScores];
 
         atlas = AtlasSelection[visuals];
         atlasFile = Export[

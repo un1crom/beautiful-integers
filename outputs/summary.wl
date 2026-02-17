@@ -1,5 +1,5 @@
 (* Created with the Wolfram Language : www.wolfram.com *)
-<|"GeneratedAt" -> "2026-02-17 12:05:55", 
+<|"GeneratedAt" -> "2026-02-17 12:30:59", 
  "Parameters" -> <|"TermCount" -> 240, "Modulus" -> 12, "GridWidth" -> 24, 
    "AnimationFrames" -> 12, "AnimationMinTerms" -> 24, 
    "EnableAnimations" -> True|>, "RankedIDs" -> 
@@ -141,6 +141,8 @@ OEIS comments cite Gopala and Hemachandra traditions.", "Status" -> "OK",
        0.03662393333368552, "ResidueStructure" -> 0.07475384763381343, 
       "Novelty" -> 0.9958333333333333, "StructuralBeauty" -> 
        0.32134177792554364, "CoagulationScore" -> 0.29326037467493626, 
+      "CoagulationMode" -> "tile", "CoagulationScores" -> 
+       <|"tile" -> 0.29326037467493626, "blend" -> 0.20151566523116968|>, 
       "BeautyIndex" -> 0.3011231675851063|>, "ImageFiles" -> 
      <|"line" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
 /A000045-line.png", "difference" -> "/Users/eventhorizon/Code/un1crom/beautif\
@@ -154,27 +156,31 @@ de/un1crom/beautiful-integers/outputs/A000045-recurrence.png",
 tputs/A000045-mod-circle.png", "mod-spiral" -> "/Users/eventhorizon/Code/un1c\
 rom/beautiful-integers/outputs/A000045-mod-spiral.png", 
       "digitgraph" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/ou\
-tputs/A000045-digitgraph.png", "coagulation" -> "/Users/eventhorizon/Code/un1\
-crom/beautiful-integers/outputs/A000045-coagulation.png", 
+tputs/A000045-digitgraph.png", "coagulation-tile" -> "/Users/eventhorizon/Cod\
+e/un1crom/beautiful-integers/outputs/A000045-coagulation-tile.png", 
+      "coagulation-blend" -> "/Users/eventhorizon/Code/un1crom/beautiful-inte\
+gers/outputs/A000045-coagulation-blend.png", "coagulation" -> "/Users/eventho\
+rizon/Code/un1crom/beautiful-integers/outputs/A000045-coagulation.png", 
       "atlas" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
-/A000045-atlas.png"|>, "Atlas" -> <|"BestView" -> "coagulation", 
+/A000045-atlas.png"|>, "Atlas" -> <|"BestView" -> "coagulation-tile", 
       "BestScore" -> 0.6565207493498726, "Scores" -> 
        <|"line" -> 0.24601262292233894, "difference" -> 0.19949317870243527, 
         "residue" -> 0.2409404749027312, "digits" -> 0.17148121397942773, 
         "phase" -> 0.3131161886289413, "recurrence" -> 0.5475140071412805, 
         "mod-circle" -> 0.2559189445028517, "mod-spiral" -> 
          0.29250426533990137, "digitgraph" -> 0.5012770329606491, 
-        "coagulation" -> 0.6565207493498726|>|>, "AnimationFiles" -> 
-     <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-inte\
-gers/outputs/A000045-drama-circle.gif", "drama-spiral-gif" -> "/Users/eventho\
-rizon/Code/un1crom/beautiful-integers/outputs/A000045-drama-spiral.gif", 
-      "drama-circle-mp4" -> "/Users/eventhorizon/Code/un1crom/beautiful-integ\
-ers/outputs/A000045-drama-circle.mp4", "drama-spiral-mp4" -> "/Users/eventhor\
-izon/Code/un1crom/beautiful-integers/outputs/A000045-drama-spiral.mp4"|>|>, 
-   <|"ID" -> "A000040", "Label" -> "Prime numbers", 
-    "HistoryNote" -> "Central object of arithmetic since Euclid; OEIS notes \
-include prime-number-theorem asymptotics.", "Status" -> "OK", 
-    "OEISName" -> "", "OEISComment" -> "", 
+        "coagulation-tile" -> 0.6565207493498726, "coagulation-blend" -> 
+         0.47303133046233936, "coagulation" -> 0.6565207493498726|>|>, 
+    "AnimationFiles" -> <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1\
+crom/beautiful-integers/outputs/A000045-drama-circle.gif", 
+      "drama-spiral-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-integ\
+ers/outputs/A000045-drama-spiral.gif", "drama-circle-mp4" -> "/Users/eventhor\
+izon/Code/un1crom/beautiful-integers/outputs/A000045-drama-circle.mp4", 
+      "drama-spiral-mp4" -> "/Users/eventhorizon/Code/un1crom/beautiful-integ\
+ers/outputs/A000045-drama-spiral.mp4"|>|>, <|"ID" -> "A000040", 
+    "Label" -> "Prime numbers", "HistoryNote" -> "Central object of \
+arithmetic since Euclid; OEIS notes include prime-number-theorem \
+asymptotics.", "Status" -> "OK", "OEISName" -> "", "OEISComment" -> "", 
     "Terms" -> {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 
       59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 
       137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 
@@ -197,39 +203,45 @@ include prime-number-theorem asymptotics.", "Status" -> "OK",
       "DeltaSignEntropy" -> 0., "GrowthDrama" -> 0.05275842321030344, 
       "ResidueStructure" -> 0.2034383295942529, "Novelty" -> 1., 
       "StructuralBeauty" -> 0.43247771177464256, "CoagulationScore" -> 
-       0.3183585127247987, "BeautyIndex" -> 0.350311888458755|>, 
-    "ImageFiles" -> <|"line" -> "/Users/eventhorizon/Code/un1crom/beautiful-i\
-ntegers/outputs/A000040-line.png", "difference" -> "/Users/eventhorizon/Code/\
-un1crom/beautiful-integers/outputs/A000040-difference.png", 
-      "residue" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outpu\
-ts/A000040-residue.png", "digits" -> "/Users/eventhorizon/Code/un1crom/beauti\
-ful-integers/outputs/A000040-digits.png", "phase" -> "/Users/eventhorizon/Cod\
-e/un1crom/beautiful-integers/outputs/A000040-phase.png", 
-      "recurrence" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/ou\
-tputs/A000040-recurrence.png", "mod-circle" -> "/Users/eventhorizon/Code/un1c\
-rom/beautiful-integers/outputs/A000040-mod-circle.png", 
-      "mod-spiral" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/ou\
-tputs/A000040-mod-spiral.png", "digitgraph" -> "/Users/eventhorizon/Code/un1c\
-rom/beautiful-integers/outputs/A000040-digitgraph.png", 
-      "coagulation" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/o\
-utputs/A000040-coagulation.png", "atlas" -> "/Users/eventhorizon/Code/un1crom\
-/beautiful-integers/outputs/A000040-atlas.png"|>, 
-    "Atlas" -> <|"BestView" -> "coagulation", "BestScore" -> 
-       0.7067170254495974, "Scores" -> <|"line" -> 0.23702172785947173, 
-        "difference" -> 0.44665064590676984, "residue" -> 0.2230804119892788, 
-        "digits" -> 0.22156830391619758, "phase" -> 0.2803207199209916, 
-        "recurrence" -> 0.6362808725908162, "mod-circle" -> 
-         0.24273622758429672, "mod-spiral" -> 0.41578115603809984, 
-        "digitgraph" -> 0.5012971368971333, "coagulation" -> 
-         0.7067170254495974|>|>, "AnimationFiles" -> 
-     <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-inte\
-gers/outputs/A000040-drama-circle.gif", "drama-spiral-gif" -> "/Users/eventho\
-rizon/Code/un1crom/beautiful-integers/outputs/A000040-drama-spiral.gif", 
-      "drama-circle-mp4" -> "/Users/eventhorizon/Code/un1crom/beautiful-integ\
-ers/outputs/A000040-drama-circle.mp4", "drama-spiral-mp4" -> "/Users/eventhor\
-izon/Code/un1crom/beautiful-integers/outputs/A000040-drama-spiral.mp4"|>|>, 
-   <|"ID" -> "A000041", "Label" -> "Partition numbers", 
-    "HistoryNote" -> 
+       0.3183585127247987, "CoagulationMode" -> "tile", 
+      "CoagulationScores" -> <|"tile" -> 0.3183585127247987, 
+        "blend" -> 0.23678979990557583|>, "BeautyIndex" -> 
+       0.350311888458755|>, "ImageFiles" -> 
+     <|"line" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
+/A000040-line.png", "difference" -> "/Users/eventhorizon/Code/un1crom/beautif\
+ul-integers/outputs/A000040-difference.png", "residue" -> "/Users/eventhorizo\
+n/Code/un1crom/beautiful-integers/outputs/A000040-residue.png", 
+      "digits" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/output\
+s/A000040-digits.png", "phase" -> "/Users/eventhorizon/Code/un1crom/beautiful\
+-integers/outputs/A000040-phase.png", "recurrence" -> "/Users/eventhorizon/Co\
+de/un1crom/beautiful-integers/outputs/A000040-recurrence.png", 
+      "mod-circle" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/ou\
+tputs/A000040-mod-circle.png", "mod-spiral" -> "/Users/eventhorizon/Code/un1c\
+rom/beautiful-integers/outputs/A000040-mod-spiral.png", 
+      "digitgraph" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/ou\
+tputs/A000040-digitgraph.png", "coagulation-tile" -> "/Users/eventhorizon/Cod\
+e/un1crom/beautiful-integers/outputs/A000040-coagulation-tile.png", 
+      "coagulation-blend" -> "/Users/eventhorizon/Code/un1crom/beautiful-inte\
+gers/outputs/A000040-coagulation-blend.png", "coagulation" -> "/Users/eventho\
+rizon/Code/un1crom/beautiful-integers/outputs/A000040-coagulation.png", 
+      "atlas" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
+/A000040-atlas.png"|>, "Atlas" -> <|"BestView" -> "coagulation-tile", 
+      "BestScore" -> 0.7067170254495974, "Scores" -> 
+       <|"line" -> 0.23702172785947173, "difference" -> 0.44665064590676984, 
+        "residue" -> 0.2230804119892788, "digits" -> 0.22156830391619758, 
+        "phase" -> 0.2803207199209916, "recurrence" -> 0.6362808725908162, 
+        "mod-circle" -> 0.24273622758429672, "mod-spiral" -> 
+         0.41578115603809984, "digitgraph" -> 0.5012971368971333, 
+        "coagulation-tile" -> 0.7067170254495974, "coagulation-blend" -> 
+         0.5435795998111517, "coagulation" -> 0.7067170254495974|>|>, 
+    "AnimationFiles" -> <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1\
+crom/beautiful-integers/outputs/A000040-drama-circle.gif", 
+      "drama-spiral-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-integ\
+ers/outputs/A000040-drama-spiral.gif", "drama-circle-mp4" -> "/Users/eventhor\
+izon/Code/un1crom/beautiful-integers/outputs/A000040-drama-circle.mp4", 
+      "drama-spiral-mp4" -> "/Users/eventhorizon/Code/un1crom/beautiful-integ\
+ers/outputs/A000040-drama-spiral.mp4"|>|>, <|"ID" -> "A000041", 
+    "Label" -> "Partition numbers", "HistoryNote" -> 
      "The Hardy-Ramanujan circle method famously explains partition growth.", 
     "Status" -> "OK", "OEISName" -> "", "OEISComment" -> "", 
     "Terms" -> {1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77, 101, 135, 176, 
@@ -278,6 +290,8 @@ izon/Code/un1crom/beautiful-integers/outputs/A000040-drama-spiral.mp4"|>|>,
       "ResidueStructure" -> 0.01429035498386888, 
       "Novelty" -> 0.9958333333333333, "StructuralBeauty" -> 
        0.33604566532204155, "CoagulationScore" -> 0.3029610314499725, 
+      "CoagulationMode" -> "tile", "CoagulationScores" -> 
+       <|"tile" -> 0.3029610314499725, "blend" -> 0.24358350341301507|>, 
       "BeautyIndex" -> 0.3122247289341519|>, "ImageFiles" -> 
      <|"line" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
 /A000041-line.png", "difference" -> "/Users/eventhorizon/Code/un1crom/beautif\
@@ -291,27 +305,31 @@ de/un1crom/beautiful-integers/outputs/A000041-recurrence.png",
 tputs/A000041-mod-circle.png", "mod-spiral" -> "/Users/eventhorizon/Code/un1c\
 rom/beautiful-integers/outputs/A000041-mod-spiral.png", 
       "digitgraph" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/ou\
-tputs/A000041-digitgraph.png", "coagulation" -> "/Users/eventhorizon/Code/un1\
-crom/beautiful-integers/outputs/A000041-coagulation.png", 
+tputs/A000041-digitgraph.png", "coagulation-tile" -> "/Users/eventhorizon/Cod\
+e/un1crom/beautiful-integers/outputs/A000041-coagulation-tile.png", 
+      "coagulation-blend" -> "/Users/eventhorizon/Code/un1crom/beautiful-inte\
+gers/outputs/A000041-coagulation-blend.png", "coagulation" -> "/Users/eventho\
+rizon/Code/un1crom/beautiful-integers/outputs/A000041-coagulation.png", 
       "atlas" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
-/A000041-atlas.png"|>, "Atlas" -> <|"BestView" -> "coagulation", 
+/A000041-atlas.png"|>, "Atlas" -> <|"BestView" -> "coagulation-tile", 
       "BestScore" -> 0.6759220628999449, "Scores" -> 
        <|"line" -> 0.24634271353580128, "difference" -> 0.20695089420295387, 
         "residue" -> 0.24942349435008543, "digits" -> 0.19000350529962606, 
         "phase" -> 0.30803828589185017, "recurrence" -> 0.5936606683320103, 
         "mod-circle" -> 0.3205814300600472, "mod-spiral" -> 
          0.5410160074225383, "digitgraph" -> 0.5012167892860389, 
-        "coagulation" -> 0.6759220628999449|>|>, "AnimationFiles" -> 
-     <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-inte\
-gers/outputs/A000041-drama-circle.gif", "drama-spiral-gif" -> "/Users/eventho\
-rizon/Code/un1crom/beautiful-integers/outputs/A000041-drama-spiral.gif", 
-      "drama-circle-mp4" -> "/Users/eventhorizon/Code/un1crom/beautiful-integ\
-ers/outputs/A000041-drama-circle.mp4", "drama-spiral-mp4" -> "/Users/eventhor\
-izon/Code/un1crom/beautiful-integers/outputs/A000041-drama-spiral.mp4"|>|>, 
-   <|"ID" -> "A005132", "Label" -> "Recaman sequence", 
-    "HistoryNote" -> "Greedy self-avoiding rule creates dramatic jumps; OEIS \
-highlights open behavior about missing values.", "Status" -> "OK", 
-    "OEISName" -> "", "OEISComment" -> "", 
+        "coagulation-tile" -> 0.6759220628999449, "coagulation-blend" -> 
+         0.5571670068260302, "coagulation" -> 0.6759220628999449|>|>, 
+    "AnimationFiles" -> <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1\
+crom/beautiful-integers/outputs/A000041-drama-circle.gif", 
+      "drama-spiral-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-integ\
+ers/outputs/A000041-drama-spiral.gif", "drama-circle-mp4" -> "/Users/eventhor\
+izon/Code/un1crom/beautiful-integers/outputs/A000041-drama-circle.mp4", 
+      "drama-spiral-mp4" -> "/Users/eventhorizon/Code/un1crom/beautiful-integ\
+ers/outputs/A000041-drama-spiral.mp4"|>|>, <|"ID" -> "A005132", 
+    "Label" -> "Recaman sequence", "HistoryNote" -> "Greedy self-avoiding \
+rule creates dramatic jumps; OEIS highlights open behavior about missing \
+values.", "Status" -> "OK", "OEISName" -> "", "OEISComment" -> "", 
     "Terms" -> {0, 1, 3, 6, 2, 7, 13, 20, 12, 21, 11, 22, 10, 23, 9, 24, 8, 
       25, 43, 62, 42, 63, 41, 18, 42, 17, 43, 16, 44, 15, 45, 14, 46, 79, 
       113, 78, 114, 77, 39, 78, 38, 79, 37, 80, 36, 81, 35, 82, 34, 83, 33, 
@@ -333,6 +351,8 @@ highlights open behavior about missing values.", "Status" -> "OK",
        0.6151013563763307, "ResidueStructure" -> 0.0028474844734230897, 
       "Novelty" -> 0.8541666666666666, "StructuralBeauty" -> 
        0.7750342780500044, "CoagulationScore" -> 0.32705651668788904, 
+      "CoagulationMode" -> "tile", "CoagulationScores" -> 
+       <|"tile" -> 0.32705651668788904, "blend" -> 0.2716193967814366|>, 
       "BeautyIndex" -> 0.4524902898692813|>, "ImageFiles" -> 
      <|"line" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
 /A005132-line.png", "difference" -> "/Users/eventhorizon/Code/un1crom/beautif\
@@ -347,8 +367,11 @@ tputs/A005132-mod-circle.png", "mod-spiral" -> "/Users/eventhorizon/Code/un1c\
 rom/beautiful-integers/outputs/A005132-mod-spiral.png", 
       "digitgraph" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/ou\
 tputs/A005132-digitgraph.png", "arcs" -> "/Users/eventhorizon/Code/un1crom/be\
-autiful-integers/outputs/A005132-arcs.png", "coagulation" -> "/Users/eventhor\
-izon/Code/un1crom/beautiful-integers/outputs/A005132-coagulation.png", 
+autiful-integers/outputs/A005132-arcs.png", "coagulation-tile" -> "/Users/eve\
+nthorizon/Code/un1crom/beautiful-integers/outputs/A005132-coagulation-tile.pn\
+g", "coagulation-blend" -> "/Users/eventhorizon/Code/un1crom/beautiful-intege\
+rs/outputs/A005132-coagulation-blend.png", "coagulation" -> "/Users/eventhori\
+zon/Code/un1crom/beautiful-integers/outputs/A005132-coagulation.png", 
       "atlas" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
 /A005132-atlas.png"|>, "Atlas" -> <|"BestView" -> "difference", 
       "BestScore" -> 0.7287148415476148, "Scores" -> 
@@ -357,8 +380,9 @@ izon/Code/un1crom/beautiful-integers/outputs/A005132-coagulation.png",
         "phase" -> 0.2955685474541577, "recurrence" -> 0.6320908038933639, 
         "mod-circle" -> 0.30521761528014846, "mod-spiral" -> 
          0.5482148102988662, "digitgraph" -> 0.6150969393525669, 
-        "arcs" -> 0.6593535704612257, "coagulation" -> 
-         0.7241130333757781|>|>, "AnimationFiles" -> 
+        "arcs" -> 0.6593535704612257, "coagulation-tile" -> 
+         0.7241130333757781, "coagulation-blend" -> 0.6132387935628731, 
+        "coagulation" -> 0.7241130333757781|>|>, "AnimationFiles" -> 
      <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-inte\
 gers/outputs/A005132-drama-circle.gif", "drama-spiral-gif" -> "/Users/eventho\
 rizon/Code/un1crom/beautiful-integers/outputs/A005132-drama-spiral.gif", 
@@ -383,31 +407,38 @@ density questions, as noted on OEIS.", "Status" -> "OK", "OEISName" -> "",
        0.9999840423532746, "GrowthDrama" -> 0.28208498788806824, 
       "ResidueStructure" -> 0., "Novelty" -> 0.008333333333333333, 
       "StructuralBeauty" -> 0.6631975696055091, "CoagulationScore" -> 
-       0.286882434451844, "BeautyIndex" -> 0.39225067229487026|>, 
-    "ImageFiles" -> <|"line" -> "/Users/eventhorizon/Code/un1crom/beautiful-i\
-ntegers/outputs/A000002-line.png", "difference" -> "/Users/eventhorizon/Code/\
-un1crom/beautiful-integers/outputs/A000002-difference.png", 
-      "residue" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outpu\
-ts/A000002-residue.png", "digits" -> "/Users/eventhorizon/Code/un1crom/beauti\
-ful-integers/outputs/A000002-digits.png", "phase" -> "/Users/eventhorizon/Cod\
-e/un1crom/beautiful-integers/outputs/A000002-phase.png", 
-      "recurrence" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/ou\
-tputs/A000002-recurrence.png", "mod-circle" -> "/Users/eventhorizon/Code/un1c\
-rom/beautiful-integers/outputs/A000002-mod-circle.png", 
-      "mod-spiral" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/ou\
-tputs/A000002-mod-spiral.png", "digitgraph" -> "/Users/eventhorizon/Code/un1c\
-rom/beautiful-integers/outputs/A000002-digitgraph.png", 
-      "runs" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/\
-A000002-runs.png", "coagulation" -> "/Users/eventhorizon/Code/un1crom/beautif\
-ul-integers/outputs/A000002-coagulation.png", "atlas" -> "/Users/eventhorizon\
-/Code/un1crom/beautiful-integers/outputs/A000002-atlas.png"|>, 
-    "Atlas" -> <|"BestView" -> "recurrence", "BestScore" -> 
-       0.8184317782100932, "Scores" -> <|"line" -> 0.63329395882442, 
-        "difference" -> 0.7963371237414059, "residue" -> 0.20728337960640525, 
-        "digits" -> 0.23861605559500332, "phase" -> 0.22628755863586156, 
-        "recurrence" -> 0.8184317782100932, "mod-circle" -> 
-         0.2003574488750421, "mod-spiral" -> 0.19004207680828572, 
-        "digitgraph" -> 0.5401813261933639, "runs" -> 0.5602941832576493, 
+       0.286882434451844, "CoagulationMode" -> "tile", 
+      "CoagulationScores" -> <|"tile" -> 0.286882434451844, 
+        "blend" -> 0.2847493112664534|>, "BeautyIndex" -> 
+       0.39225067229487026|>, "ImageFiles" -> 
+     <|"line" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
+/A000002-line.png", "difference" -> "/Users/eventhorizon/Code/un1crom/beautif\
+ul-integers/outputs/A000002-difference.png", "residue" -> "/Users/eventhorizo\
+n/Code/un1crom/beautiful-integers/outputs/A000002-residue.png", 
+      "digits" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/output\
+s/A000002-digits.png", "phase" -> "/Users/eventhorizon/Code/un1crom/beautiful\
+-integers/outputs/A000002-phase.png", "recurrence" -> "/Users/eventhorizon/Co\
+de/un1crom/beautiful-integers/outputs/A000002-recurrence.png", 
+      "mod-circle" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/ou\
+tputs/A000002-mod-circle.png", "mod-spiral" -> "/Users/eventhorizon/Code/un1c\
+rom/beautiful-integers/outputs/A000002-mod-spiral.png", 
+      "digitgraph" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/ou\
+tputs/A000002-digitgraph.png", "runs" -> "/Users/eventhorizon/Code/un1crom/be\
+autiful-integers/outputs/A000002-runs.png", "coagulation-tile" -> "/Users/eve\
+nthorizon/Code/un1crom/beautiful-integers/outputs/A000002-coagulation-tile.pn\
+g", "coagulation-blend" -> "/Users/eventhorizon/Code/un1crom/beautiful-intege\
+rs/outputs/A000002-coagulation-blend.png", "coagulation" -> "/Users/eventhori\
+zon/Code/un1crom/beautiful-integers/outputs/A000002-coagulation.png", 
+      "atlas" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
+/A000002-atlas.png"|>, "Atlas" -> <|"BestView" -> "recurrence", 
+      "BestScore" -> 0.8184317782100932, "Scores" -> 
+       <|"line" -> 0.63329395882442, "difference" -> 0.7963371237414059, 
+        "residue" -> 0.20728337960640525, "digits" -> 0.23861605559500332, 
+        "phase" -> 0.22628755863586156, "recurrence" -> 0.8184317782100932, 
+        "mod-circle" -> 0.2003574488750421, "mod-spiral" -> 
+         0.19004207680828572, "digitgraph" -> 0.5401813261933639, 
+        "runs" -> 0.5602941832576493, "coagulation-tile" -> 
+         0.6437648689036881, "coagulation-blend" -> 0.6394986225329069, 
         "coagulation" -> 0.6437648689036881|>|>, "AnimationFiles" -> 
      <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-inte\
 gers/outputs/A000002-drama-circle.gif", "drama-spiral-gif" -> "/Users/eventho\

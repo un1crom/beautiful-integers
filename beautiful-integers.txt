@@ -29,6 +29,8 @@ Generated artifacts (from run-beautiful-integers.wls)
 - outputs/*-mod-spiral.png
 - outputs/*-digitgraph.png
 - outputs/*-coagulation.png
+- outputs/*-coagulation-tile.png
+- outputs/*-coagulation-blend.png
 - outputs/*-atlas.png
 - outputs/*-drama-circle.mp4
 - outputs/*-drama-spiral.mp4

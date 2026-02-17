@@ -1,0 +1,8 @@
+finding beautiful number sequences.
+Are there sequences of numbers that appeal to me most?
+Using OEIS
+Very nice functions for mining https://oeis.org/
+https://resources.wolframcloud.com/FunctionRepository/resources/OEISLookup/
+lovely email service
+https://oeis.org/ol.html
+The idea here is to turn number sequences into different visual experiences... via ImageData or Plotting or NLP mining them or Embedding ML analysis... find any way 

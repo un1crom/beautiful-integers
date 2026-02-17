@@ -1,0 +1,107 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[      3268,         97]
+NotebookOptionsPosition[      2206,         72]
+NotebookOutlinePosition[      2600,         88]
+CellTagsIndexPosition[      2557,         85]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["finding beautiful number sequences.", "Title",
+ CellChangeTimes->{{3.980339395452435*^9, 
+  3.980339401720952*^9}},ExpressionUUID->"c77db762-0cc8-4c0d-8d4b-\
+d9c9ff9663ab"],
+
+Cell["Are there sequences of numbers that appeal to me most?", "Subtitle",
+ CellChangeTimes->{{3.9803394090448427`*^9, 
+  3.98033942333884*^9}},ExpressionUUID->"7f14a2cd-0106-4f32-ba8f-\
+664c79179ecc"],
+
+Cell[CellGroupData[{
+
+Cell["Using OEIS", "Section",
+ CellChangeTimes->{{3.980339701765368*^9, 
+  3.9803397035284643`*^9}},ExpressionUUID->"6f519f31-d47f-441c-b243-\
+c91f322d1319"],
+
+Cell["Very nice functions for mining https://oeis.org/", "Text",
+ CellChangeTimes->{{3.980339711309989*^9, 
+  3.980339732265696*^9}},ExpressionUUID->"80d93438-8834-4d7c-94e7-\
+971c36c1e349"],
+
+Cell["\<\
+https://resources.wolframcloud.com/FunctionRepository/resources/OEISLookup/\
+\>", "Text",
+ CellChangeTimes->{
+  3.980339707632749*^9},ExpressionUUID->"78bc9aa2-4c0a-49c1-91e8-\
+834ff2757a7e"],
+
+Cell["lovely email service", "Text",
+ CellChangeTimes->{{3.980339740085747*^9, 
+  3.98033974436101*^9}},ExpressionUUID->"4d154809-bfe6-48f2-bd53-\
+517b9645be32"],
+
+Cell["https://oeis.org/ol.html", "Text",
+ CellChangeTimes->{
+  3.9803396879229727`*^9},ExpressionUUID->"55b0cbde-17e6-454f-bba1-\
+01a7ebdc1971"],
+
+Cell["\<\
+The idea here is to turn number sequences into different visual \
+experiences... via ImageData or Plotting or NLP mining them or Embedding ML \
+analysis... find any way \
+\>", "Subsection",
+ CellChangeTimes->{{3.980339747845817*^9, 
+  3.9803397855997753`*^9}},ExpressionUUID->"5baa8104-3638-46a5-a6ba-\
+6b3c07918c8d"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{808, 911},
+WindowMargins->{{802, Automatic}, {200, Automatic}},
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"6910649a-ea6b-49cb-b011-b197baa8f598"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[576, 22, 178, 3, 96, "Title",ExpressionUUID->"c77db762-0cc8-4c0d-8d4b-d9c9ff9663ab"],
+Cell[757, 27, 201, 3, 52, "Subtitle",ExpressionUUID->"7f14a2cd-0106-4f32-ba8f-664c79179ecc"],
+Cell[CellGroupData[{
+Cell[983, 34, 157, 3, 66, "Section",ExpressionUUID->"6f519f31-d47f-441c-b243-c91f322d1319"],
+Cell[1143, 39, 190, 3, 33, "Text",ExpressionUUID->"80d93438-8834-4d7c-94e7-971c36c1e349"],
+Cell[1336, 44, 201, 5, 33, "Text",ExpressionUUID->"78bc9aa2-4c0a-49c1-91e8-834ff2757a7e"],
+Cell[1540, 51, 161, 3, 33, "Text",ExpressionUUID->"4d154809-bfe6-48f2-bd53-517b9645be32"],
+Cell[1704, 56, 144, 3, 33, "Text",ExpressionUUID->"55b0cbde-17e6-454f-bba1-01a7ebdc1971"],
+Cell[1851, 61, 327, 7, 79, "Subsection",ExpressionUUID->"5baa8104-3638-46a5-a6ba-6b3c07918c8d"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+

@@ -63,6 +63,9 @@ class BeautyHandler(http.server.SimpleHTTPRequestHandler):
             return
         try:
             parsed = json.loads(data)
+            # OEIS returns literal null for no-result searches; normalize it
+            if parsed is None:
+                parsed = {'results': [], 'count': 0}
             self.send_json(parsed)
         except json.JSONDecodeError:
             self.send_json({'error': 'Invalid JSON from OEIS', 'raw': data[:500]}, 502)
@@ -79,6 +82,8 @@ class BeautyHandler(http.server.SimpleHTTPRequestHandler):
             return
         try:
             parsed = json.loads(data)
+            if parsed is None:
+                parsed = {'results': [], 'count': 0}
             self.send_json(parsed)
         except json.JSONDecodeError:
             self.send_json({'error': 'Invalid JSON from OEIS'}, 502)

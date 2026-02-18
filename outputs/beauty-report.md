@@ -1,6 +1,6 @@
 # Beautiful Integers: Phase 1
 
-Generated: 2026-02-17 19:53
+Generated: 2026-02-17 20:45
 
 ## Ranking by BeautyIndex
 
@@ -10,6 +10,7 @@ Generated: 2026-02-17 19:53
    History: Greedy self-avoiding rule creates dramatic jumps; OEIS highlights open behavior about missing values.
    Atlas: difference (score=0.729)
    AtlasImage: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A005132-atlas.png
+   Poster: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A005132-poster.png
    Animations: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A005132-drama-circle.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A005132-drama-spiral.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A005132-drama-circle.mp4 | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A005132-drama-spiral.mp4
 
 2. A000002 - Kolakoski sequence
@@ -18,6 +19,7 @@ Generated: 2026-02-17 19:53
    History: Self-describing run-length sequence with unresolved density questions, as noted on OEIS.
    Atlas: recurrence (score=0.818)
    AtlasImage: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000002-atlas.png
+   Poster: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000002-poster.png
    Animations: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000002-drama-circle.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000002-drama-spiral.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000002-drama-circle.mp4 | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000002-drama-spiral.mp4
 
 3. A000040 - Prime numbers
@@ -26,6 +28,7 @@ Generated: 2026-02-17 19:53
    History: Central object of arithmetic since Euclid; OEIS notes include prime-number-theorem asymptotics.
    Atlas: coagulation-tile (score=0.707)
    AtlasImage: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000040-atlas.png
+   Poster: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000040-poster.png
    Animations: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000040-drama-circle.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000040-drama-spiral.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000040-drama-circle.mp4 | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000040-drama-spiral.mp4
 
 4. A000041 - Partition numbers
@@ -34,6 +37,7 @@ Generated: 2026-02-17 19:53
    History: The Hardy-Ramanujan circle method famously explains partition growth.
    Atlas: coagulation-tile (score=0.678)
    AtlasImage: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000041-atlas.png
+   Poster: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000041-poster.png
    Animations: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000041-drama-circle.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000041-drama-spiral.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000041-drama-circle.mp4 | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000041-drama-spiral.mp4
 
 5. A000045 - Fibonacci numbers
@@ -42,4 +46,5 @@ Generated: 2026-02-17 19:53
    History: Known in Indian prosody before Fibonacci's Liber Abaci; OEIS comments cite Gopala and Hemachandra traditions.
    Atlas: coagulation-tile (score=0.657)
    AtlasImage: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000045-atlas.png
+   Poster: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000045-poster.png
    Animations: /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000045-drama-circle.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000045-drama-spiral.gif | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000045-drama-circle.mp4 | /Users/eventhorizon/Code/un1crom/beautiful-integers/outputs/A000045-drama-spiral.mp4

@@ -15,6 +15,7 @@ ClearAll[
   CoagulationScore, IntegrateCoagulationIntoProfile,
   ImageStrikingnessScore, AtlasSelection, AnimationTermCounts,
   RenderAnimationFrame, CreateGraphDramaAnimations,
+  SequenceColorPalette, PainterlyPosterImage,
   RecamanArcPlot, KolakoskiRunLengthPlot, MakeVisuals, FormatMetric,
   CreateMarkdownReport, RunBeautifulResearch, SequenceCatalogData
 ];
@@ -1187,6 +1188,237 @@ MakeVisuals[
   visuals
 ];
 
+SequenceColorPalette[data_List, modulus : (_Integer?Positive) : 12] := Module[
+  {counts, topResidues, base, extras, palette},
+  counts = Counts[Mod[data, modulus]];
+  topResidues = Keys @ TakeLargest[counts, UpTo[5]];
+  base = ColorData["SolarColors"] /@ If[
+    Length[topResidues] == 0,
+    {},
+    N[topResidues/Max[1.0, modulus - 1.0]]
+  ];
+  extras = ColorData["DarkRainbow"] /@ Subdivide[0.12, 0.88, 4];
+  palette = DeleteDuplicates[Join[base, extras]];
+  If[
+    Length[palette] < 5,
+    palette = Join[palette, ConstantArray[RGBColor[0.85, 0.73, 0.42], 5 - Length[palette]]]
+  ];
+  Take[palette, 5]
+];
+
+PainterlyPosterImage[
+  id_String,
+  label_String,
+  historyNote_String,
+  terms_List,
+  profile_Association,
+  visuals_Association
+] := Module[
+  {
+    size = {2200, 3000}, width, height, palette, fmt, fallback, rasterVisual,
+    lineImg, phaseImg, recurrenceImg, modImg, coagImg, residueImg,
+    paintLayer, residueLayer, lineLayer, diffuseLayer, structureSource, structureLayer, edgeLayer,
+    canvas, paperNoise, paperTone, xCoords, yCoords, points,
+    step, sampled, strokes, strokeGraphic, strokeImage, guides, topGuides,
+    guideText, title, subtitle, metricText, metrics, ringGraphic, ringImage,
+    textGraphic, textImage, historyShort, baseColor
+  },
+  SeedRandom[
+    Hash[
+      {id, Length[terms], Round[1000*Lookup[profile, "BeautyIndex", 0.0]]},
+      "CRC32"
+    ]
+  ];
+  width = size[[1]];
+  height = size[[2]];
+  palette = SequenceColorPalette[terms, 12];
+  fmt[value_] := ToString @ NumberForm[N[value], {Infinity, 3}, NumberPadding -> {"", "0"}];
+  fallback[color_] := Image[
+    ConstantArray[List @@ ColorConvert[color, "RGB"], {height, width}],
+    "Real",
+    ColorSpace -> "RGB"
+  ];
+  rasterVisual[name_String, defaultColor_] := Module[{obj, img},
+    obj = Lookup[visuals, name, Missing["NotAvailable"]];
+    img = Which[
+      Head[obj] === Image,
+      obj,
+      obj === Missing["NotAvailable"],
+      $Failed,
+      True,
+      Quiet @ Check[RasterizeGraphicImage[obj, 1200], $Failed]
+    ];
+    If[Head[img] === Image, ImageResize[ColorConvert[img, "RGB"], size], fallback[defaultColor]]
+  ];
+
+  lineImg = rasterVisual["line", palette[[1]]];
+  phaseImg = rasterVisual["phase", palette[[2]]];
+  recurrenceImg = rasterVisual["recurrence", palette[[3]]];
+  modImg = rasterVisual["mod-spiral", palette[[4]]];
+  coagImg = rasterVisual["coagulation-blend", palette[[5]]];
+  residueImg = rasterVisual["residue", palette[[1]]];
+
+  paintLayer = ImageAdjust[GaussianFilter[coagImg, 1.6], {0.20, 0.45, 1.35}];
+  residueLayer = ImageAdjust[GaussianFilter[residueImg, 3.8], {0.18, 0.65, 1.25}];
+
+  lineLayer = Colorize[
+    ImageAdjust[EdgeDetect[ColorConvert[lineImg, "Grayscale"], 1.4], {0.0, 0.0, 1.0}],
+    ColorFunction -> (Blend[
+      {RGBColor[0.02, 0.02, 0.03], Lighter[palette[[2]], 0.30], Lighter[palette[[5]], 0.20]},
+      #
+    ] &)
+  ];
+  diffuseLayer = Colorize[
+    ImageAdjust[
+      GaussianFilter[ColorNegate[ColorConvert[recurrenceImg, "Grayscale"]], 3.4],
+      {0.20, 0.55, 1.00}
+    ],
+    ColorFunction -> (Blend[
+      {Darker[palette[[1]], 0.25], palette[[2]], Lighter[palette[[3]], 0.40]},
+      #
+    ] &)
+  ];
+  structureSource = ImageAdd[
+    ImageMultiply[ColorConvert[coagImg, "Grayscale"], 0.58],
+    ImageMultiply[ColorConvert[modImg, "Grayscale"], 0.42]
+  ];
+  structureLayer = Colorize[
+    ImageAdjust[GaussianFilter[structureSource, 4.8], {0.10, 0.50, 1.00}],
+    ColorFunction -> (Blend[{Darker[palette[[4]], 0.20], palette[[5]], Lighter[palette[[2]], 0.25]}, #] &)
+  ];
+  edgeLayer = Colorize[
+    ImageAdjust[EdgeDetect[ColorConvert[phaseImg, "Grayscale"], 1.6], {0.0, 0.0, 1.0}],
+    ColorFunction -> (Blend[{RGBColor[0.02, 0.02, 0.03], Lighter[palette[[3]], 0.30]}, #] &)
+  ];
+
+  baseColor = Blend[
+    {RGBColor[0.10, 0.10, 0.11], Darker[palette[[1]], 0.15], RGBColor[0.20, 0.17, 0.12]},
+    0.45
+  ];
+  canvas = fallback[baseColor];
+  canvas = Blend[{canvas, paintLayer}, 0.84];
+  canvas = Blend[{canvas, residueLayer}, 0.32];
+  canvas = Blend[{canvas, diffuseLayer}, 0.55];
+  canvas = Blend[{canvas, structureLayer}, 0.50];
+  canvas = Blend[{canvas, edgeLayer}, 0.32];
+  canvas = Blend[{canvas, lineLayer}, 0.30];
+  canvas = ImageAdjust[canvas, {0.18, 0.34, 1.10}];
+
+  paperNoise = RandomImage[NormalDistribution[0.52, 0.10], size];
+  paperTone = Colorize[
+    GaussianFilter[paperNoise, 0.9],
+    ColorFunction -> (Blend[
+      {RGBColor[0.02, 0.02, 0.02], RGBColor[0.18, 0.16, 0.12], RGBColor[0.28, 0.24, 0.18]},
+      #
+    ] &)
+  ];
+  canvas = Blend[{canvas, paperTone}, 0.08];
+
+  xCoords = Rescale[SafeRescale01[Range[Length[terms]]], {0.0, 1.0}, {120, width - 120}];
+  yCoords = Rescale[SafeRescale01[SignedLog /@ terms], {0.0, 1.0}, {height - 300, 260}];
+  points = Transpose[{xCoords, yCoords}];
+  step = Max[1, Floor[Length[points]/300]];
+  sampled = points[[1 ;; ;; step]];
+  strokes = Table[
+    {
+      Directive[
+        palette[[Mod[i, Length[palette], 1]]],
+        Opacity[0.055 + 0.010*Mod[i, 3]],
+        AbsoluteThickness[2.2 + 0.45*Mod[i, 5]]
+      ],
+      BSplineCurve[
+        sampled + RandomReal[{-26, 26}, {Length[sampled], 2}] +
+        ConstantArray[{0, -12 + 3.5*i}, Length[sampled]]
+      ]
+    },
+    {i, 1, 17}
+  ];
+  strokeGraphic = Graphics[
+    strokes,
+    PlotRange -> {{0, width}, {0, height}},
+    Background -> None,
+    ImageSize -> width,
+    AspectRatio -> N[height/width]
+  ];
+  strokeImage = Quiet @ Check[Rasterize[strokeGraphic, "Image", RasterSize -> size], fallback[palette[[2]]]];
+  canvas = ImageCompose[canvas, SetAlphaChannel[strokeImage, 0.78]];
+
+  metrics = {
+    Lookup[profile, "BeautyIndex", 0.0],
+    Lookup[profile, "CompositionPower", 0.0],
+    Lookup[profile, "GrowthDrama", 0.0],
+    Lookup[profile, "CoagulationScore", 0.0]
+  };
+  ringGraphic = Graphics[
+    Table[
+      {
+        Directive[palette[[i]], Opacity[0.66], AbsoluteThickness[10 - i]],
+        Circle[{width - 300, 340}, 58 + 48*i, {Pi/2, Pi/2 + 2 Pi*Clip[N[metrics[[i]]], {0.0, 1.0}]}]
+      },
+      {i, 1, Min[4, Length[metrics]]}
+    ],
+    PlotRange -> {{0, width}, {0, height}},
+    Background -> None,
+    ImageSize -> width,
+    AspectRatio -> N[height/width]
+  ];
+  ringImage = Quiet @ Check[Rasterize[ringGraphic, "Image", RasterSize -> size], fallback[palette[[4]]]];
+  canvas = ImageCompose[canvas, SetAlphaChannel[ringImage, 0.92]];
+
+  guides = Lookup[profile, "CompositionGuides", <||>];
+  topGuides = TakeLargest[guides, UpTo[3]];
+  guideText = If[
+    Length[topGuides] == 0,
+    "",
+    StringRiffle[(#[[1]] <> " " <> fmt[#[[2]]]) & /@ Normal[topGuides], "   ·   "]
+  ];
+  historyShort = StringTake[historyNote, UpTo[160]];
+  title = id <> "  " <> label;
+  subtitle = "Mathematical Beauty Poster";
+  metricText =
+    "Beauty " <> fmt[Lookup[profile, "BeautyIndex", 0.0]] <>
+    "   Composition " <> fmt[Lookup[profile, "CompositionPower", 0.0]] <>
+    "   Drama " <> fmt[Lookup[profile, "GrowthDrama", 0.0]];
+
+  textGraphic = Graphics[
+    {
+      {Directive[Black, Opacity[0.32]], Rectangle[{95, 95}, {width - 95, 580}]},
+      Inset[
+        Style[title, 62, White, FontFamily -> "Baskerville", Bold, LineSpacing -> {1.0, 0}],
+        Scaled[{0.08, 0.17}],
+        {Left, Bottom}
+      ],
+      Inset[
+        Style[subtitle, 25, Lighter[palette[[5]], 0.25], FontFamily -> "Baskerville", Italic],
+        Scaled[{0.08, 0.14}],
+        {Left, Bottom}
+      ],
+      Inset[
+        Style[metricText, 24, Lighter[palette[[2]], 0.15], FontFamily -> "Courier", Bold],
+        Scaled[{0.08, 0.105}],
+        {Left, Bottom}
+      ],
+      Inset[
+        Style[guideText, 21, Lighter[palette[[4]], 0.25], FontFamily -> "Avenir Next Condensed", Bold],
+        Scaled[{0.08, 0.078}],
+        {Left, Bottom}
+      ],
+      Inset[
+        Style[historyShort, 20, GrayLevel[0.88], FontFamily -> "Baskerville", LineSpacing -> {0.95, 0}],
+        Scaled[{0.08, 0.053}],
+        {Left, Bottom}
+      ]
+    },
+    PlotRange -> {{0, width}, {0, height}},
+    Background -> None,
+    ImageSize -> width,
+    AspectRatio -> N[height/width]
+  ];
+  textImage = Quiet @ Check[Rasterize[textGraphic, "Image", RasterSize -> size], fallback[palette[[5]]]];
+  canvas = ImageCompose[canvas, textImage];
+  SetAlphaChannel[canvas, 1.0]
+];
+
 FormatMetric[x_] := ToString @ NumberForm[N[x], {Infinity, 3}, NumberPadding -> {"", "0"}];
 
 CreateMarkdownReport[records_List, outputDir_String] := Module[
@@ -1226,6 +1458,7 @@ CreateMarkdownReport[records_List, outputDir_String] := Module[
             Lookup[Lookup[record, "Atlas", <||>], "BestView", "n/a"] <>
             " (score=" <> FormatMetric[Lookup[Lookup[record, "Atlas", <||>], "BestScore", 0.0]] <> ")",
           "   AtlasImage: " <> Lookup[Lookup[record, "ImageFiles", <||>], "atlas", "n/a"],
+          "   Poster: " <> Lookup[Lookup[record, "ImageFiles", <||>], "poster", "n/a"],
           If[
             Length[Lookup[record, "AnimationFiles", <||>]] > 0,
             "   Animations: " <> StringRiffle[Values[record["AnimationFiles"]], " | "],
@@ -1273,7 +1506,7 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
       Module[
         {
           id, label, historyNote, terms, record, profile, visuals, imageFiles,
-          oeis, atlas, atlasFile, animationFiles,
+          oeis, atlas, atlasFile, posterImage, posterFile, animationFiles,
           coagulationTileImage, coagulationBlendImage,
           coagulationScores, coagulationMode, coagulationScore
         },
@@ -1307,6 +1540,13 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
         coagulationScore = Lookup[coagulationScores, coagulationMode, 0.0];
         AssociateTo[visuals, "coagulation" -> visuals["coagulation-" <> coagulationMode]];
         profile = IntegrateCoagulationIntoProfile[profile, coagulationScore, coagulationMode, coagulationScores];
+        posterImage = PainterlyPosterImage[id, label, historyNote, terms, profile, visuals];
+        posterFile = Export[
+          FileNameJoin[{outputDir, id <> "-poster.png"}],
+          posterImage,
+          "PNG",
+          ImageResolution -> 220
+        ];
 
         atlas = AtlasSelection[visuals];
         atlasFile = Export[
@@ -1334,6 +1574,7 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
           visuals
         ];
         AssociateTo[imageFiles, "atlas" -> atlasFile];
+        AssociateTo[imageFiles, "poster" -> posterFile];
 
         oeis = OEISRecord[id];
         record = <|
@@ -1409,7 +1650,7 @@ RunBeautifulResearch[OptionsPattern[]] := Module[
       "Output directory: " <> outputDir,
       "Report: " <> reportPath,
       "Ranked IDs: " <> StringRiffle[rankedIDs, ", "],
-      "Atlas + drama animations generated for all successful sequences."
+      "Atlas + painterly posters + drama animations generated for all successful sequences."
     },
     "\n"
   ];

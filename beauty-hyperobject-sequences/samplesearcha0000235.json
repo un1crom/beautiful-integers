@@ -1,0 +1,413 @@
+[
+	{
+		"number": 235,
+		"id": "M2732 N1097",
+		"data": "0,0,0,1,3,8,18,38,76,147,277,509,924,1648,2912,5088,8823,15170,25935,44042,74427,125112,209411,348960,579326,958077,1579098,2593903,4247768,6935070,11290627,18330973,29684082,47946852,77258764,124198083",
+		"name": "Number of n-node rooted trees of height 3.",
+		"comment": [
+			"(1, 1, 2, 3, 5, 8, ...) convolved with (0, 0, 1, 2, 4, 7, ...) = (0, 0, 1, 3, 8, ...). - _Gary W. Adamson_, Aug 14 2010"
+		],
+		"reference": [
+			"N. J. A. Sloane, A Handbook of Integer Sequences, Academic Press, 1973 (includes this sequence).",
+			"N. J. A. Sloane and Simon Plouffe, The Encyclopedia of Integer Sequences, Academic Press, 1995 (includes this sequence)."
+		],
+		"link": [
+			"N. J. A. Sloane, \u003ca href=\"/A000235/b000235.txt\"\u003eTable of n, a(n) for n=1..200\u003c/a\u003e",
+			"J. Riordan, \u003ca href=\"http://dx.doi.org/10.1147/rd.45.0473\"\u003eEnumeration of trees by height and diameter\u003c/a\u003e, IBM J. Res. Dev. 4 (1960), 473-478.",
+			"J. Riordan, \u003ca href=\"/A007401/a007401_8.pdf\"\u003eThe enumeration of trees by height and diameter\u003c/a\u003e, IBM Journal 4 (1960), 473-478. (Annotated scanned copy)",
+			"N. J. A. Sloane, \u003ca href=\"/A000235/a000235.txt\"\u003eMaple programs for counting rooted trees by height (after Riordan)\u003c/a\u003e",
+			"\u003ca href=\"/index/Ro#rooted\"\u003eIndex entries for sequences related to rooted trees\u003c/a\u003e",
+			"\u003ca href=\"/index/Tra#trees\"\u003eIndex entries for sequences related to trees\u003c/a\u003e"
+		],
+		"formula": [
+			"a(n) = A001383(n) - A000041(n-1). - _Christian G. Bower_"
+		],
+		"maple": [
+			"# For Maple program see link.",
+			"with(combstruct):",
+			"ZL:= proc(m) local i; [T0, {seq(T||i=Prod(Z, Set(T||(i+1))), i=0..m-1), T||m=Z}, unlabeled] end: A000235:= n-\u003e count(ZL(3), size=n)-count(ZL(2), size=n): seq(A000235(n), n=1..36); # _Zerinvary Lajos_, Sep 23 2007"
+		],
+		"mathematica": [
+			"m = 36; Rest @ CoefficientList[ Series[x*Product[(1-x^k)^(-PartitionsP[k-1]), {k, 1, m}], {x, 0, m}], x] - PartitionsP[Range[0, m-1]] (* _Jean-François Alcover_, Jul 05 2011, after _Christian G. Bower_ *)"
+		],
+		"xref": [
+			"Column h=3 of A034781."
+		],
+		"keyword": "nonn",
+		"offset": "1,5",
+		"author": "_N. J. A. Sloane_",
+		"references": 16,
+		"revision": 41,
+		"time": "2018-02-09T21:43:13-05:00",
+		"created": "1991-04-30T03:00:00-04:00"
+	},
+	{
+		"number": 34781,
+		"data": "1,1,1,1,2,1,1,4,3,1,1,6,8,4,1,1,10,18,13,5,1,1,14,38,36,19,6,1,1,21,76,93,61,26,7,1,1,29,147,225,180,94,34,8,1,1,41,277,528,498,308,136,43,9,1,1,55,509,1198,1323,941,487,188,53,10,1",
+		"name": "Triangle of number of rooted trees with n \u003e= 2 nodes and height h \u003e= 1.",
+		"link": [
+			"Alois P. Heinz, \u003ca href=\"/A034781/b034781.txt\"\u003eRows n = 2..142, flattened\u003c/a\u003e",
+			"Marko Riedel, \u003ca href=\"http://math.stackexchange.com/questions/1801039/\"\u003eCounting the number of rooted trees of a certain height\u003c/a\u003e",
+			"Marko Riedel, \u003ca href=\"/A034781/a034781_1.maple.txt\"\u003eMaple code for sequence (OGF)\u003c/a\u003e",
+			"J. Riordan, \u003ca href=\"http://dx.doi.org/10.1147/rd.45.0473\"\u003eEnumeration of trees by height and diameter\u003c/a\u003e, IBM J. Res. Dev. 4 (1960), 473-478.",
+			"J. Riordan, \u003ca href=\"/A007401/a007401_8.pdf\"\u003eThe enumeration of trees by height and diameter\u003c/a\u003e, IBM Journal 4 (1960), 473-478. (Annotated scanned copy)",
+			"Peter Steinbach, \u003ca href=\"/A000055/a000055_10.pdf\"\u003eField Guide to Simple Graphs, Volume 3\u003c/a\u003e, Part 10 (For Volumes 1, 2, 3, 4 of this book see A000088, A008406, A000055, A000664, respectively.)",
+			"\u003ca href=\"/index/Ro#rooted\"\u003eIndex entries for sequences related to rooted trees\u003c/a\u003e",
+			"\u003ca href=\"/index/Tra#trees\"\u003eIndex entries for sequences related to trees\u003c/a\u003e"
+		],
+		"formula": [
+			"Reference gives recurrence.",
+			"T(n, k) = A375467(n, k) - A375467(n, k - 1). - _Peter Luschny_, Aug 30 2024"
+		],
+		"example": [
+			"Triangle begins:",
+			"  1;",
+			"  1  1;",
+			"  1  2  1;",
+			"  1  4  3  1;",
+			"  1  6  8  4  1;",
+			"  1 10 18 13  5  1;",
+			"  1 14 38 36 19  6 1;",
+			"thus there are 10 trees with 7 nodes and height 2."
+		],
+		"maple": [
+			"b:= proc(n, i, k) option remember; `if`(n=0, 1, `if`(i\u003c1 or k\u003c1, 0,",
+			"     add(binomial(b((i-1)$2, k-1)+j-1, j)*b(n-i*j, i-1, k), j=0..n/i)))",
+			"    end:",
+			"T:= (n, k)-\u003e b((n-1)$2, k) -b((n-1)$2, k-1):",
+			"seq(seq(T(n, k), k=1..n-1), n=2..16);  # _Alois P. Heinz_, Jul 31 2013"
+		],
+		"mathematica": [
+			"Drop[Map[Select[#, # \u003e 0 \u0026] \u0026,",
+			"   Transpose[",
+			"    Prepend[Table[",
+			"      f[n_] :=",
+			"       Nest[CoefficientList[",
+			"          Series[Product[1/(1 - x^i)^#[[i]], {i, 1, Length[#]}], {x,",
+			"            0, 10}], x] \u0026, {1}, n]; f[m] - f[m - 1], {m, 2, 10}],",
+			"Prepend[Table[1, {10}], 0]]]], 1] // Grid (* _Geoffrey Critzer_, Aug 01 2013 *)",
+			"b[n_, i_, k_] := b[n, i, k] = If[n == 0, 1, If[i\u003c1 || k\u003c1, 0, Sum[Binomial[b[i-1, i-1, k-1]+j-1, j]*b[n-i*j, i-1, k], {j, 0, n/i}]]]; T[n_, k_] := b[n-1, n-1, k]-b[n-1, n-1, k-1]; Table[T[n, k], {n, 2, 16}, {k, 1, n-1}] // Flatten (* _Jean-François Alcover_, Feb 11 2014, after _Alois P. Heinz_ *)"
+		],
+		"program": [
+			"(Python)",
+			"def A034781(n, k): return A375467(n, k) - A375467(n, k - 1)",
+			"for n in range(2, 10): print([A034781(n, k) for k in range(2, n + 1)])",
+			"# _Peter Luschny_, Aug 30 2024"
+		],
+		"xref": [
+			"Columns h=2-10 give: A000065, A000235, A000299, A000342, A000393, A000418, A000429, A126085, A245068.",
+			"T(2n,n) = A245102(n), T(2n+1,n) = A245103(n).",
+			"Row sums give A000081.",
+			"Cf. A001853, A227819, A375467."
+		],
+		"keyword": "tabl,nonn,easy,nice",
+		"offset": "2,5",
+		"author": "_N. J. A. Sloane_",
+		"ext": [
+			"More terms from Victoria A Sapko (vsapko(AT)canes.gsw.edu), Sep 19 2003"
+		],
+		"references": 49,
+		"revision": 58,
+		"time": "2024-08-30T04:38:39-04:00",
+		"created": "1999-12-11T03:00:00-05:00"
+	},
+	{
+		"number": 1383,
+		"id": "M1107 N0422",
+		"data": "1,1,1,2,4,8,15,29,53,98,177,319,565,1001,1749,3047,5264,9054,15467,26320,44532,75054,125904,210413,350215,580901,960035,1581534,2596913,4251486,6939635,11296231,18337815,29692431,47956995,77271074,124212966",
+		"name": "Number of n-node rooted trees of height at most 3.",
+		"comment": [
+			"a(n+1) is also the number of n-vertex graphs that do not contain a P_4, C_4, or K_4 as induced subgraph (K_4-free trivially perfect graphs, cf. A123467). - _Falk Hüffner_, Jan 10 2016"
+		],
+		"reference": [
+			"N. J. A. Sloane, A Handbook of Integer Sequences, Academic Press, 1973 (includes this sequence).",
+			"N. J. A. Sloane and Simon Plouffe, The Encyclopedia of Integer Sequences, Academic Press, 1995 (includes this sequence)."
+		],
+		"link": [
+			"N. J. A. Sloane, \u003ca href=\"/A001383/b001383.txt\"\u003eTable of n, a(n) for n=0..200\u003c/a\u003e",
+			"INRIA Algorithms Project, \u003ca href=\"http://ecs.inria.fr/services/structure?nbr=62\"\u003eEncyclopedia of Combinatorial Structures 62\u003c/a\u003e",
+			"J. Riordan, \u003ca href=\"http://dx.doi.org/10.1147/rd.45.0473\"\u003eEnumeration of trees by height and diameter\u003c/a\u003e, IBM J. Res. Dev. 4 (1960), 473-478.",
+			"\u003ca href=\"/index/Ro#rooted\"\u003eIndex entries for sequences related to rooted trees\u003c/a\u003e",
+			"\u003ca href=\"/index/Tra#trees\"\u003eIndex entries for sequences related to trees\u003c/a\u003e"
+		],
+		"formula": [
+			"G.f.: S[ 3 ] := x*Product (1 - x^k)^(-p(k-1)), where p(k) = number of partitions of k.",
+			"a(n+1) is the Euler transform of p(n-1), where p() = A000041 is the partition function. - _Franklin T. Adams-Watters_, Mar 01 2006",
+			"G.f.: 1 + x*exp( Sum_{n\u003e=1} x^n/n * Product_{k\u003e=1} 1/(1 - x^(n*k)) ). - _Paul D. Hanna_, Nov 01 2012"
+		],
+		"maple": [
+			"s[ 2 ] := x/product('1-x^i','i'=1..30); # G.f. for trees of ht \u003c=2, A000041",
+			"for k from 3 to 12 do # gets g.f. for trees of ht \u003c= 3,4,5,...",
+			"s[ k ] := series(x/product('(1-x^i)^coeff(s[ k-1 ],x,i)','i'=1..30),x,31); od:",
+			"# For Maple program see link in A000235.",
+			"with(numtheory): etr:= proc(p) local b; b:=proc(n) option remember; local d,j; if n=0 then 1 else add(add(d*p(d), d=divisors(j)) *b(n-j), j=1..n)/n fi end end: A000041:= etr(n-\u003e 1): a:= n-\u003e`if`(n=0,1, etr(k-\u003e A000041(k-1))(n-1)): seq(a(n), n=0..40);  # _Alois P. Heinz_, Sep 08 2008"
+		],
+		"mathematica": [
+			"m = 36; CoefficientList[ Series[x*Product[(1 - x^k)^(-PartitionsP[k - 1]), {k, 1, m}], {x, 0, m}], x] // Rest // Prepend[#, 1] \u0026 (* _Jean-François Alcover_, Jul 05 2011, after g.f. *)"
+		],
+		"program": [
+			"(PARI) {a(n)=polcoeff(1+x*exp(sum(m=1,n,x^m/m/prod(k=1,n\\m+1,1-x^(m*k)+x*O(x^n)))),n)} \\\\ _Paul D. Hanna_, Nov 01 2012"
+		],
+		"xref": [
+			"Cf. A000041, A001383-A001385, A034823-A034826."
+		],
+		"keyword": "nonn,easy,nice",
+		"offset": "0,4",
+		"author": "_N. J. A. Sloane_",
+		"references": 19,
+		"revision": 51,
+		"time": "2021-12-19T09:57:48-05:00",
+		"created": "1991-04-30T03:00:00-04:00"
+	},
+	{
+		"number": 1385,
+		"id": "M1177 N0453",
+		"data": "1,1,1,2,4,9,20,47,108,252,582,1345,3086,7072,16121,36667,83099,187885,423610,953033,2139158,4792126,10714105,23911794,53273599,118497834,263164833,583582570,1292276355,2857691087,6311058671,13919982308,30664998056,67473574130",
+		"name": "Number of n-node trees of height at most 5.",
+		"comment": [
+			"a(n+1) is also the number of n-vertex graphs that do not contain a P_4, C_4, or K_6 as induced subgraph (K_6-free trivially perfect graphs, cf. A123467). - _Falk Hüffner_, Jan 10 2016"
+		],
+		"reference": [
+			"N. J. A. Sloane, A Handbook of Integer Sequences, Academic Press, 1973 (includes this sequence).",
+			"N. J. A. Sloane and Simon Plouffe, The Encyclopedia of Integer Sequences, Academic Press, 1995 (includes this sequence)."
+		],
+		"link": [
+			"N. J. A. Sloane, \u003ca href=\"/A001385/b001385.txt\"\u003eTable of n, a(n) for n=0..200\u003c/a\u003e",
+			"J. Riordan, \u003ca href=\"http://dx.doi.org/10.1147/rd.45.0473\"\u003eEnumeration of trees by height and diameter\u003c/a\u003e, IBM J. Res. Dev. 4 (1960), 473-478.",
+			"N. J. A. Sloane, \u003ca href=\"/transforms.txt\"\u003eTransforms\u003c/a\u003e",
+			"\u003ca href=\"/index/Ro#rooted\"\u003eIndex entries for sequences related to rooted trees\u003c/a\u003e",
+			"\u003ca href=\"/index/Tra#trees\"\u003eIndex entries for sequences related to trees\u003c/a\u003e"
+		],
+		"formula": [
+			"Take Euler transform of A001384 and shift right. (_Christian G. Bower_)"
+		],
+		"maple": [
+			"For Maple program see link in A000235.",
+			"with(numtheory): etr:= proc(p) local b; b:=proc(n) option remember; local d,j; if n=0 then 1 else add(add(d*p(d), d=divisors(j)) *b(n-j), j=1..n)/n fi end end: shr:= proc(p) n-\u003e`if`(n=0, 1,p(n-1)) end: b[0]:= etr(n-\u003e1): for j from 1 to 3 do b[j]:= etr(shr(b[j-1])) od: a:= shr(b[3]): seq(a(n), n=0..35); # _Alois P. Heinz_, Sep 08 2008"
+		],
+		"mathematica": [
+			"Prepend[Nest[CoefficientList[Series[Product[1/(1-x^i)^#[[i]],{i,1,Length[#]}],{x,0,40}],x]\u0026,{1},5],1] (* _Geoffrey Critzer_, Aug 01 2013 *)"
+		],
+		"xref": [
+			"See A001383 for details."
+		],
+		"keyword": "nonn",
+		"offset": "0,4",
+		"author": "_N. J. A. Sloane_",
+		"references": 5,
+		"revision": 34,
+		"time": "2021-12-19T09:58:17-05:00",
+		"created": "1991-04-30T03:00:00-04:00"
+	},
+	{
+		"number": 34823,
+		"data": "1,1,1,2,4,9,20,48,114,278,676,1653,4027,9816,23843,57833,139908,337856,814127,1958524,4703322,11278027,27003707,64571463,154207616,367841733,876450881,2086098057,4960230005,11782852600,27963874395,66307010599",
+		"name": "Number of n-node rooted trees of height at most 6.",
+		"link": [
+			"N. J. A. Sloane, \u003ca href=\"/A034823/b034823.txt\"\u003eTable of n, a(n) for n=0..200\u003c/a\u003e",
+			"N. J. A. Sloane, \u003ca href=\"/transforms.txt\"\u003eTransforms\u003c/a\u003e",
+			"\u003ca href=\"/index/Ro#rooted\"\u003eIndex entries for sequences related to rooted trees\u003c/a\u003e"
+		],
+		"formula": [
+			"Take Euler transform of A001385 and shift right. (Christian G. Bower)."
+		],
+		"maple": [
+			"For Maple program see link in A000235.",
+			"with(numtheory): etr:= proc(p) local b; b:=proc(n) option remember; local d,j; if n=0 then 1 else add(add(d*p(d), d=divisors(j)) *b(n-j), j=1..n)/n fi end end: shr:= proc(p) n-\u003e`if`(n=0, 1,p(n-1)) end: b[0]:= etr(n-\u003e1): for j from 1 to 4 do b[j]:= etr(shr(b[j-1])) od: a:= shr(b[4]): seq(a(n), n=0..31); # _Alois P. Heinz_, Sep 08 2008"
+		],
+		"mathematica": [
+			"Prepend[Nest[CoefficientList[Series[Product[1/(1-x^i)^#[[i]],{i,1,Length[#]}],{x,0,40}],x]\u0026,{1},6],1] (* _Geoffrey Critzer_, Aug 01 2013 *)"
+		],
+		"xref": [
+			"See A001383 for details."
+		],
+		"keyword": "nonn",
+		"offset": "0,4",
+		"author": "_N. J. A. Sloane_",
+		"references": 5,
+		"revision": 22,
+		"time": "2025-07-08T21:27:33-04:00",
+		"created": "1999-12-11T03:00:00-05:00"
+	},
+	{
+		"number": 1384,
+		"id": "M1172 N0449",
+		"data": "1,1,1,2,4,9,19,42,89,191,402,847,1763,3667,7564,15564,31851,64987,132031,267471,539949,1087004,2181796,4367927,8721533,17372967,34524291,68456755,135446896,267444085,527027186,1036591718,2035083599",
+		"name": "Number of n-node trees of height at most 4.",
+		"comment": [
+			"a(n+1) is also the number of n-vertex graphs that do not contain a P_4, C_4, or K_5 as induced subgraph (K_5-free trivially perfect graphs, cf. A123467). - _Falk Hüffner_, Jan 10 2016"
+		],
+		"reference": [
+			"N. J. A. Sloane, A Handbook of Integer Sequences, Academic Press, 1973 (includes this sequence).",
+			"N. J. A. Sloane and Simon Plouffe, The Encyclopedia of Integer Sequences, Academic Press, 1995 (includes this sequence)."
+		],
+		"link": [
+			"N. J. A. Sloane, \u003ca href=\"/A001384/b001384.txt\"\u003eTable of n, a(n) for n=0..200\u003c/a\u003e",
+			"INRIA Algorithms Project, \u003ca href=\"http://ecs.inria.fr/services/structure?nbr=63\"\u003eEncyclopedia of Combinatorial Structures 63\u003c/a\u003e",
+			"J. Riordan, \u003ca href=\"http://dx.doi.org/10.1147/rd.45.0473\"\u003eEnumeration of trees by height and diameter\u003c/a\u003e, IBM J. Res. Dev. 4 (1960), 473-478.",
+			"N. J. A. Sloane, \u003ca href=\"/transforms.txt\"\u003eTransforms\u003c/a\u003e",
+			"\u003ca href=\"/index/Ro#rooted\"\u003eIndex entries for sequences related to rooted trees\u003c/a\u003e",
+			"\u003ca href=\"/index/Tra#trees\"\u003eIndex entries for sequences related to trees\u003c/a\u003e"
+		],
+		"formula": [
+			"Take Euler transform of A001383 and shift right. (_Christian G. Bower_)"
+		],
+		"maple": [
+			"For Maple program see link in A000235.",
+			"with(numtheory): etr:= proc(p) local b; b:=proc(n) option remember; local d,j; if n=0 then 1 else add(add(d*p(d), d=divisors(j)) *b(n-j), j=1..n)/n fi end end: A000041:= etr(n-\u003e1): b1:= etr(k-\u003e A000041(k-1)): A001383:= n-\u003e`if`(n=0,1,b1(n-1)): b2:= etr(A001383): a:= n-\u003e`if`(n=0,1,b2(n-1)): seq(a(n), n=0..40); # _Alois P. Heinz_, Sep 08 2008"
+		],
+		"mathematica": [
+			"Prepend[Nest[CoefficientList[Series[Product[1/(1-x^i)^#[[i]],{i,1,Length[#]}],{x,0,40}],x]\u0026,{1},4],1] (* _Geoffrey Critzer_, Aug 01 2013 *)"
+		],
+		"xref": [
+			"See A001383 for details."
+		],
+		"keyword": "nonn",
+		"offset": "0,4",
+		"author": "_N. J. A. Sloane_",
+		"references": 4,
+		"revision": 41,
+		"time": "2021-12-19T09:58:04-05:00",
+		"created": "1991-04-30T03:00:00-04:00"
+	},
+	{
+		"number": 34824,
+		"data": "1,1,1,2,4,9,20,48,115,285,710,1789,4514,11431,28922,73182,184917,466755,1176393,2961205,7443770,18689435,46869152,117412440,293832126,734645046,1835147741,4580420719,11423511895,28469058647,70899220083,176449174539,438854372942",
+		"name": "Number of n-node rooted trees of height at most 7.",
+		"link": [
+			"N. J. A. Sloane, \u003ca href=\"/A034824/b034824.txt\"\u003eTable of n, a(n) for n=0..200\u003c/a\u003e",
+			"N. J. A. Sloane, \u003ca href=\"/transforms.txt\"\u003eTransforms\u003c/a\u003e",
+			"\u003ca href=\"/index/Ro#rooted\"\u003eIndex entries for sequences related to rooted trees\u003c/a\u003e"
+		],
+		"formula": [
+			"Take Euler transform of A034823 and shift right. (_Christian G. Bower_)."
+		],
+		"maple": [
+			"For Maple program see link in A000235.",
+			"with(numtheory): etr:= proc(p) local b; b:=proc(n) option remember; local d,j; if n=0 then 1 else add(add(d*p(d), d=divisors(j)) *b(n-j), j=1..n)/n fi end end: shr:= proc(p) n-\u003e`if`(n=0, 1,p(n-1)) end: b[0]:= etr(n-\u003e1): for j from 1 to 5 do b[j]:= etr(shr(b[j-1])) od: a:= shr(b[5]): seq(a(n), n=0..35); # _Alois P. Heinz_, Sep 08 2008"
+		],
+		"mathematica": [
+			"Prepend[Nest[CoefficientList[Series[Product[1/(1-x^i)^#[[i]], {i, 1, Length[#]}], {x, 0, 40}], x]\u0026, {1}, 7], 1] (* _Geoffrey Critzer_, Aug 01 2013 *)"
+		],
+		"xref": [
+			"See A001383 for details."
+		],
+		"keyword": "nonn",
+		"offset": "0,4",
+		"author": "_N. J. A. Sloane_",
+		"references": 4,
+		"revision": 21,
+		"time": "2025-07-08T21:27:41-04:00",
+		"created": "1999-12-11T03:00:00-05:00"
+	},
+	{
+		"number": 550,
+		"id": "M2969 N1201",
+		"data": "1,3,14,42,128,334,850,2010,4625,10201,21990,46108,94912,191562,380933,746338,1444676,2763931,5235309,9822686,18275648,33734658,61826344,112550305,203627610,366267931,655261559,1166312530,2066048261,3643352362,6397485909,11188129665,19491131627,33831897511,58519577756,100885389220,173368983090,297021470421,507378371670,864277569606,1468245046383,2487774321958,4204663810414,7089200255686,11924621337321,20012746962064,33513139512868,56001473574091,93387290773141,155419866337746",
+		"name": "Number of trees of diameter 7.",
+		"reference": [
+			"N. J. A. Sloane, A Handbook of Integer Sequences, Academic Press, 1973 (includes this sequence).",
+			"N. J. A. Sloane and Simon Plouffe, The Encyclopedia of Integer Sequences, Academic Press, 1995 (includes this sequence)."
+		],
+		"link": [
+			"Alois P. Heinz, \u003ca href=\"/A000550/b000550.txt\"\u003eTable of n, a(n) for n = 8..2500\u003c/a\u003e",
+			"J. Riordan, \u003ca href=\"http://dx.doi.org/10.1147/rd.45.0473\"\u003eEnumeration of trees by height and diameter\u003c/a\u003e, IBM J. Res. Dev. 4 (1960), 473-478.",
+			"\u003ca href=\"/index/Tra#trees\"\u003eIndex entries for sequences related to trees\u003c/a\u003e"
+		],
+		"formula": [
+			"G.f.: a(x)=(r(x)^2+r(x^2))/2, where r(x) is the generating function of A000235. - _Sean A. Irvine_, Nov 21 2010"
+		],
+		"maple": [
+			"b:= proc(n, i, k) option remember; `if`(n=0, 1, `if`(i\u003c1 or k\u003c1, 0,",
+			"     add(binomial(b((i-1)$2, k-1)+j-1, j)*b(n-i*j, i-1, k), j=0..n/i)))",
+			"    end:",
+			"g:= n-\u003e b((n-1)$2, 3) -b((n-1)$2, 2):",
+			"a:= n-\u003e (add(g(i)*g(n-i), i=0..n)+`if`(n::even, g(n/2), 0))/2:",
+			"seq(a(n), n=8..40);  # _Alois P. Heinz_, Feb 09 2016"
+		],
+		"mathematica": [
+			"m = 50; r[x_] = (Rest @ CoefficientList[ Series[ x*Product[ (1 - x^k)^(- PartitionsP[k-1]), {k, 1, m+3}], {x, 0, m+3}], x] - PartitionsP[ Range[0, m+2]]).(x^Range[m+3]); A000550 = CoefficientList[(r[x]^2 + r[x^2])/2, x][[9 ;; m+8]] (* _Jean-François Alcover_, Feb 09 2016 *)"
+		],
+		"xref": [
+			"Cf. A034853, A000306 (diameter 8)"
+		],
+		"keyword": "nonn",
+		"offset": "8,2",
+		"author": "_N. J. A. Sloane_",
+		"ext": [
+			"More terms from _Sean A. Irvine_, Nov 21 2010"
+		],
+		"references": 3,
+		"revision": 34,
+		"time": "2017-04-03T03:36:54-04:00",
+		"created": "1991-04-30T03:00:00-04:00"
+	},
+	{
+		"number": 34825,
+		"data": "1,1,1,2,4,9,20,48,115,286,718,1832,4702,12159,31515,81888,212878,553557,1438741,3737331,9700188,25156049,65181067,168746672,436505846,1128256918,2914103577,7521450053,19400577711,50010551503,128841990772,331754004302",
+		"name": "Number of n-node rooted trees of height at most 8.",
+		"link": [
+			"N. J. A. Sloane, \u003ca href=\"/A034825/b034825.txt\"\u003eTable of n, a(n) for n=0..200\u003c/a\u003e",
+			"N. J. A. Sloane, \u003ca href=\"/transforms.txt\"\u003eTransforms\u003c/a\u003e",
+			"\u003ca href=\"/index/Ro#rooted\"\u003eIndex entries for sequences related to rooted trees\u003c/a\u003e"
+		],
+		"formula": [
+			"Take Euler transform of A034824 and shift right. (_Christian G. Bower_)."
+		],
+		"maple": [
+			"For Maple program see link in A000235.",
+			"with(numtheory): etr:= proc(p) local b; b:=proc(n) option remember; local d,j; if n=0 then 1 else add(add(d*p(d), d=divisors(j)) *b(n-j), j=1..n)/n fi end end: shr:= proc(p) n-\u003e`if`(n=0, 1,p(n-1)) end: b[0]:= etr(n-\u003e1): for j from 1 to 6 do b[j]:= etr(shr(b[j-1])) od: a:= shr(b[6]): seq(a(n), n=0..31); # _Alois P. Heinz_, Sep 08 2008"
+		],
+		"mathematica": [
+			"Prepend[Nest[CoefficientList[Series[Product[1/(1-x^i)^#[[i]], {i, 1, Length[#]}], {x, 0, 40}], x]\u0026, {1}, 8], 1] (* _Geoffrey Critzer_, Aug 01 2013 *)"
+		],
+		"xref": [
+			"See A001383 for details."
+		],
+		"keyword": "nonn",
+		"offset": "0,4",
+		"author": "_N. J. A. Sloane_",
+		"references": 3,
+		"revision": 19,
+		"time": "2025-07-08T21:27:48-04:00",
+		"created": "1999-12-11T03:00:00-05:00"
+	},
+	{
+		"number": 299,
+		"id": "M3461 N1408",
+		"data": "0,0,0,0,1,4,13,36,93,225,528,1198,2666,5815,12517,26587,55933,116564,241151,495417,1011950,2055892,4157514,8371318,16792066,33564256,66875221,132849983,263192599,520087551,1025295487,2016745784,3958608430,7754810743",
+		"name": "Number of n-node rooted trees of height 4.",
+		"reference": [
+			"N. J. A. Sloane, A Handbook of Integer Sequences, Academic Press, 1973 (includes this sequence).",
+			"N. J. A. Sloane and Simon Plouffe, The Encyclopedia of Integer Sequences, Academic Press, 1995 (includes this sequence)."
+		],
+		"link": [
+			"Alois P. Heinz, \u003ca href=\"/A000299/b000299.txt\"\u003eTable of n, a(n) for n = 1..1000\u003c/a\u003e (first 200 terms from N. J. A. Sloane)",
+			"F. Harary \u0026 R. W. Robinson, \u003ca href=\"/A000108/a000108_18.pdf\"\u003eThe number of achiral trees\u003c/a\u003e, Jnl. Reine Angewandte Mathematik 278 (1975), 322-335. (Annotated scanned copy)",
+			"J. Riordan, \u003ca href=\"https://doi.org/10.1147/rd.45.0473\"\u003eThe enumeration of trees by height and diameter\u003c/a\u003e, IBM J. Res. Dev. 4 (1960), 473-478.",
+			"J. Riordan, \u003ca href=\"/A007401/a007401_8.pdf\"\u003eThe enumeration of trees by height and diameter\u003c/a\u003e, IBM Journal 4 (1960), 473-478. (Annotated scanned copy)",
+			"\u003ca href=\"/index/Ro#rooted\"\u003eIndex entries for sequences related to rooted trees\u003c/a\u003e",
+			"\u003ca href=\"/index/Tra#trees\"\u003eIndex entries for sequences related to trees\u003c/a\u003e"
+		],
+		"formula": [
+			"a(n) = A001384(n) - A001383(n). - _Christian G. Bower_"
+		],
+		"maple": [
+			"For Maple program see link in A000235."
+		],
+		"mathematica": [
+			"f[n_] := Nest[CoefficientList[Series[Product[1/(1 - x^i)^#[[i]], {i, 1, Length[#]}], {x, 0, 40}], x] \u0026, {1}, n];f[4]-f[3] (* _Geoffrey Critzer_, Aug 01 2013 *)"
+		],
+		"xref": [
+			"Column h=4 of A034781.",
+			"Cf. A001383, A001384."
+		],
+		"keyword": "nonn",
+		"offset": "1,6",
+		"author": "_N. J. A. Sloane_",
+		"references": 2,
+		"revision": 48,
+		"time": "2026-01-01T15:49:35-05:00",
+		"created": "1991-04-30T03:00:00-04:00"
+	}
+]

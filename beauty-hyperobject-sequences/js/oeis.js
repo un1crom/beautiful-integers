@@ -35,7 +35,9 @@ export class OEISClient {
     const url = `${this.baseUrl}/api/search?q=${encodeURIComponent(query)}`;
     try {
       const resp = await fetch(url);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const data = await resp.json();
+      if (!data) return []; // OEIS returns null for no-result searches
       if (data.results && Array.isArray(data.results)) {
         return data.results.map(r => this.parseResult(r)).filter(Boolean);
       }
@@ -66,7 +68,9 @@ export class OEISClient {
     const url = `${this.baseUrl}/api/sequence/${id}`;
     try {
       const resp = await fetch(url);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const data = await resp.json();
+      if (!data) return null; // OEIS returns null for unknown sequences
       if (data.results && data.results.length > 0) {
         const seq = this.parseResult(data.results[0]);
         if (seq) this.cache.set(id, seq);
@@ -98,6 +102,7 @@ export class OEISClient {
     const url = `${this.baseUrl}/api/bfile/${id}?n=${n}`;
     try {
       const resp = await fetch(url);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const data = await resp.json();
       return data.terms || [];
     } catch (err) {

@@ -1,5 +1,5 @@
 (* Created with the Wolfram Language : www.wolfram.com *)
-<|"GeneratedAt" -> "2026-02-17 12:30:59", 
+<|"GeneratedAt" -> "2026-02-17 19:53:51", 
  "Parameters" -> <|"TermCount" -> 240, "Modulus" -> 12, "GridWidth" -> 24, 
    "AnimationFrames" -> 12, "AnimationMinTerms" -> 24, 
    "EnableAnimations" -> True|>, "RankedIDs" -> 
@@ -140,10 +140,48 @@ OEIS comments cite Gopala and Hemachandra traditions.", "Status" -> "OK",
       "DeltaSignEntropy" -> 0.03908175497953278, "GrowthDrama" -> 
        0.03662393333368552, "ResidueStructure" -> 0.07475384763381343, 
       "Novelty" -> 0.9958333333333333, "StructuralBeauty" -> 
-       0.32134177792554364, "CoagulationScore" -> 0.29326037467493626, 
-      "CoagulationMode" -> "tile", "CoagulationScores" -> 
-       <|"tile" -> 0.29326037467493626, "blend" -> 0.20151566523116968|>, 
-      "BeautyIndex" -> 0.3011231675851063|>, "ImageFiles" -> 
+       0.32134177792554364, "CompositionPower" -> 0.4625533476742076, 
+      "CompositionGuideMean" -> 0.48168694190391226, 
+      "CompositionAvoidPenalty" -> 0.6139810292446112, 
+      "CompositionGuides" -> <|"Steelyard" -> 0.33, "BalancedScales" -> 
+         0.9999161031837124, "OCircular" -> 0.24841083204507736, 
+        "SCompoundCurve" -> 0.4188248857509828, "PyramidTriangle" -> 
+         0.3390155026990241, "Cross" -> 0.45145833333333335, 
+        "RadiatingLines" -> 0.6130498350518747, "LRectangular" -> 
+         0.41466666666666663, "SuspendedSteelyard" -> 0.36110000000000003, 
+        "TreeSpots" -> 0.39426054939894273, "GroupMass" -> 
+         0.30914814814814817, "DiagonalLine" -> 0.9999960551397633, 
+        "Tunnel" -> 0.38208333333333333|>, "CompositionAvoid" -> 
+       <|"CanvasHalved" -> 0.6666666666666667, "EqualSpacingOfMasses" -> 1., 
+        "TooManyParallelLines" -> 1., "LinesTooNearEdge" -> 
+         0.23333333333333334, "TreesOnALine" -> 0.9562061584582017, 
+        "CenteredObjects" -> 0.32916666666666666, "CenteredHorizon" -> 
+         0.32916666666666666, "ScatteredObjectsCenteredHorizon" -> 
+         0.0540991512345679, "ThreeEqualDivisions" -> 1., 
+        "EqualMasses" -> 1., "CrowdedDesign" -> 0.18515267866461996|>, 
+      "CompositionGeometry" -> <|"LeftRightBalance" -> 1., 
+        "TopBottomBalance" -> 0.9916666666666667, "LeftRightImbalance" -> 0., 
+        "MinorSideFraction" -> 0.4458333333333333, "CenterMassFraction" -> 
+         0.32916666666666666, "CenterRowMassFraction" -> 0.32916666666666666, 
+        "CenterColumnMassFraction" -> 0.3333333333333333, 
+        "EdgeMassFraction" -> 0.23333333333333334, "LEdgeMassFraction" -> 
+         0.22916666666666666, "TopMassFraction" -> 0.44166666666666665, 
+        "DominantCellFraction" -> 0.1125, "OccupiedFraction" -> 
+         0.18518518518518517, "RowEntropy" -> 0.9997203439457081, 
+        "ColumnEntropy" -> 0.9999285856321876, "VerticalEntropy" -> 
+         0.9997203439457081, "SlopeEntropy" -> 0., "InflectionCount" -> 23, 
+        "CurvatureVolatility" -> 0.0004669687470786784, "PeakGapCV" -> 0., 
+        "PeakYSpread" -> 0.007882891477523706, "ThirdBalance" -> 1., 
+        "ApexX" -> 0.9999999999999999, "LeftRisingRatio" -> 1., 
+        "RightFallingRatio" -> 0., "DiagonalAlignment" -> 0.9999960551397633, 
+        "CrossMassFraction" -> 0.3333333333333333, "PhaseAngleEntropy" -> 
+         0.48711972149364635, "PhaseIsotropy" -> 3.0772501068751824*^-7, 
+        "PhaseRingTightness" -> 0.42210254398470326, "PhaseRadiusSpan" -> 1., 
+        "CenterAnchor" -> 0.40677261047750635|>, "CoagulationScore" -> 
+       0.293321849232667, "CoagulationMode" -> "tile", 
+      "CoagulationScores" -> <|"tile" -> 0.293321849232667, 
+        "blend" -> 0.2051899687802266|>, "BeautyIndex" -> 
+       0.33218949756000726|>, "ImageFiles" -> 
      <|"line" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
 /A000045-line.png", "difference" -> "/Users/eventhorizon/Code/un1crom/beautif\
 ul-integers/outputs/A000045-difference.png", "residue" -> "/Users/eventhorizo\
@@ -163,14 +201,14 @@ gers/outputs/A000045-coagulation-blend.png", "coagulation" -> "/Users/eventho\
 rizon/Code/un1crom/beautiful-integers/outputs/A000045-coagulation.png", 
       "atlas" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
 /A000045-atlas.png"|>, "Atlas" -> <|"BestView" -> "coagulation-tile", 
-      "BestScore" -> 0.6565207493498726, "Scores" -> 
+      "BestScore" -> 0.6566436984653341, "Scores" -> 
        <|"line" -> 0.24601262292233894, "difference" -> 0.19949317870243527, 
         "residue" -> 0.2409404749027312, "digits" -> 0.17148121397942773, 
         "phase" -> 0.3131161886289413, "recurrence" -> 0.5475140071412805, 
-        "mod-circle" -> 0.2559189445028517, "mod-spiral" -> 
-         0.29250426533990137, "digitgraph" -> 0.5012770329606491, 
-        "coagulation-tile" -> 0.6565207493498726, "coagulation-blend" -> 
-         0.47303133046233936, "coagulation" -> 0.6565207493498726|>|>, 
+        "mod-circle" -> 0.25593159653575126, "mod-spiral" -> 
+         0.29250426533990137, "digitgraph" -> 0.5011463313915199, 
+        "coagulation-tile" -> 0.6566436984653341, "coagulation-blend" -> 
+         0.4803799375604532, "coagulation" -> 0.6566436984653341|>|>, 
     "AnimationFiles" -> <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1\
 crom/beautiful-integers/outputs/A000045-drama-circle.gif", 
       "drama-spiral-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-integ\
@@ -201,12 +239,49 @@ asymptotics.", "Status" -> "OK", "OEISName" -> "", "OEISComment" -> "",
       1459, 1471, 1481, 1483, 1487, 1489, 1493, 1499, 1511}, 
     "Profile" -> <|"Compressibility" -> 0.8901098901098901, 
       "DeltaSignEntropy" -> 0., "GrowthDrama" -> 0.05275842321030344, 
-      "ResidueStructure" -> 0.2034383295942529, "Novelty" -> 1., 
-      "StructuralBeauty" -> 0.43247771177464256, "CoagulationScore" -> 
-       0.3183585127247987, "CoagulationMode" -> "tile", 
-      "CoagulationScores" -> <|"tile" -> 0.3183585127247987, 
-        "blend" -> 0.23678979990557583|>, "BeautyIndex" -> 
-       0.350311888458755|>, "ImageFiles" -> 
+      "ResidueStructure" -> 0.20343832959425312, "Novelty" -> 1., 
+      "StructuralBeauty" -> 0.43247771177464256, "CompositionPower" -> 
+       0.4895994826983703, "CompositionGuideMean" -> 0.5061352685666993, 
+      "CompositionAvoidPenalty" -> 0.5765436607749461, 
+      "CompositionGuides" -> <|"Steelyard" -> 0.33, "BalancedScales" -> 
+         0.9103571572146384, "OCircular" -> 0.23492657181156193, 
+        "SCompoundCurve" -> 0.40690251327038957, "PyramidTriangle" -> 
+         0.3390155026990241, "Cross" -> 0.65875, "RadiatingLines" -> 
+         0.40926409952851084, "LRectangular" -> 0.5505, 
+        "SuspendedSteelyard" -> 0.4519333333333334, "TreeSpots" -> 
+         0.39426054939894273, "GroupMass" -> 0.3056913580246914, 
+        "DiagonalLine" -> 0.8796574060859994, "Tunnel" -> 
+         0.7085000000000001|>, "CompositionAvoid" -> 
+       <|"CanvasHalved" -> 0.6666666666666667, "EqualSpacingOfMasses" -> 1., 
+        "TooManyParallelLines" -> 0.7884805918816334, "LinesTooNearEdge" -> 
+         0.5583333333333333, "TreesOnALine" -> 0.9939858551104959, 
+        "CenteredObjects" -> 0., "CenteredHorizon" -> 0.14166666666666666, 
+        "ScatteredObjectsCenteredHorizon" -> 0.024835390946502056, 
+        "ThreeEqualDivisions" -> 1., "EqualMasses" -> 1., 
+        "CrowdedDesign" -> 0.16801176391910935|>, "CompositionGeometry" -> 
+       <|"LeftRightBalance" -> 1., "TopBottomBalance" -> 0.15833333333333333, 
+        "LeftRightImbalance" -> 0., "MinorSideFraction" -> 
+         0.4458333333333333, "CenterMassFraction" -> 0., 
+        "CenterRowMassFraction" -> 0.14166666666666666, 
+        "CenterColumnMassFraction" -> 0.3333333333333333, 
+        "EdgeMassFraction" -> 0.5583333333333333, "LEdgeMassFraction" -> 
+         0.225, "TopMassFraction" -> 0.9, "DominantCellFraction" -> 0.1125, 
+        "OccupiedFraction" -> 0.19753086419753085, "RowEntropy" -> 
+         0.7011905240487949, "ColumnEntropy" -> 0.9999285856321876, 
+        "VerticalEntropy" -> 0.7011905240487949, "SlopeEntropy" -> 
+         0.21151940811836653, "InflectionCount" -> 160, 
+        "CurvatureVolatility" -> 0.0052801799432872385, "PeakGapCV" -> 0., 
+        "PeakYSpread" -> 0.0010825460801107468, "ThirdBalance" -> 1., 
+        "ApexX" -> 0.9999999999999999, "LeftRisingRatio" -> 1., 
+        "RightFallingRatio" -> 0., "DiagonalAlignment" -> 0.8796574060859994, 
+        "CrossMassFraction" -> 0.475, "PhaseAngleEntropy" -> 
+         0.21557037776026342, "PhaseIsotropy" -> 0.00019514004479136049, 
+        "PhaseRingTightness" -> 0.6031538811711332, "PhaseRadiusSpan" -> 
+         0.9141479492426131, "CenterAnchor" -> 0.20689765845657915|>, 
+      "CoagulationScore" -> 0.31835770036055994, "CoagulationMode" -> "tile", 
+      "CoagulationScores" -> <|"tile" -> 0.31835770036055994, 
+        "blend" -> 0.235992980251729|>, "BeautyIndex" -> 
+       0.38341722460559063|>, "ImageFiles" -> 
      <|"line" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
 /A000040-line.png", "difference" -> "/Users/eventhorizon/Code/un1crom/beautif\
 ul-integers/outputs/A000040-difference.png", "residue" -> "/Users/eventhorizo\
@@ -226,14 +301,14 @@ gers/outputs/A000040-coagulation-blend.png", "coagulation" -> "/Users/eventho\
 rizon/Code/un1crom/beautiful-integers/outputs/A000040-coagulation.png", 
       "atlas" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
 /A000040-atlas.png"|>, "Atlas" -> <|"BestView" -> "coagulation-tile", 
-      "BestScore" -> 0.7067170254495974, "Scores" -> 
+      "BestScore" -> 0.7067154007211198, "Scores" -> 
        <|"line" -> 0.23702172785947173, "difference" -> 0.44665064590676984, 
         "residue" -> 0.2230804119892788, "digits" -> 0.22156830391619758, 
         "phase" -> 0.2803207199209916, "recurrence" -> 0.6362808725908162, 
         "mod-circle" -> 0.24273622758429672, "mod-spiral" -> 
-         0.41578115603809984, "digitgraph" -> 0.5012971368971333, 
-        "coagulation-tile" -> 0.7067170254495974, "coagulation-blend" -> 
-         0.5435795998111517, "coagulation" -> 0.7067170254495974|>|>, 
+         0.41578115603809984, "digitgraph" -> 0.6029236828974773, 
+        "coagulation-tile" -> 0.7067154007211198, "coagulation-blend" -> 
+         0.541985960503458, "coagulation" -> 0.7067154007211198|>|>, 
     "AnimationFiles" -> <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1\
 crom/beautiful-integers/outputs/A000040-drama-circle.gif", 
       "drama-spiral-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-integ\
@@ -289,10 +364,49 @@ ers/outputs/A000040-drama-spiral.mp4"|>|>, <|"ID" -> "A000041",
        0.03908175497953278, "GrowthDrama" -> 0.06179651182788437, 
       "ResidueStructure" -> 0.01429035498386888, 
       "Novelty" -> 0.9958333333333333, "StructuralBeauty" -> 
-       0.33604566532204155, "CoagulationScore" -> 0.3029610314499725, 
-      "CoagulationMode" -> "tile", "CoagulationScores" -> 
-       <|"tile" -> 0.3029610314499725, "blend" -> 0.24358350341301507|>, 
-      "BeautyIndex" -> 0.3122247289341519|>, "ImageFiles" -> 
+       0.33604566532204155, "CompositionPower" -> 0.49168868945266037, 
+      "CompositionGuideMean" -> 0.5172736046968276, 
+      "CompositionAvoidPenalty" -> 0.6106509715240087, 
+      "CompositionGuides" -> <|"Steelyard" -> 0.44805555555555554, 
+        "BalancedScales" -> 0.989503535111038, "OCircular" -> 
+         0.2386360784588475, "SCompoundCurve" -> 0.4174013227243839, 
+        "PyramidTriangle" -> 0.3390155026990241, "Cross" -> 
+         0.6000000000000001, "RadiatingLines" -> 0.5949551158441665, 
+        "LRectangular" -> 0.4735, "SuspendedSteelyard" -> 
+         0.47115555555555555, "TreeSpots" -> 0.39426054939894273, 
+        "GroupMass" -> 0.3022345679012346, "DiagonalLine" -> 
+         0.9856724111433443, "Tunnel" -> 0.47016666666666673|>, 
+      "CompositionAvoid" -> <|"CanvasHalved" -> 0.6666666666666667, 
+        "EqualSpacingOfMasses" -> 1., "TooManyParallelLines" -> 1., 
+        "LinesTooNearEdge" -> 0.2916666666666667, "TreesOnALine" -> 
+         0.9738747632329887, "CenteredObjects" -> 0.18333333333333332, 
+        "CenteredHorizon" -> 0.3333333333333333, 
+        "ScatteredObjectsCenteredHorizon" -> 0.062088477366255126, 
+        "ThreeEqualDivisions" -> 1., "EqualMasses" -> 1., 
+        "CrowdedDesign" -> 0.2061974461648519|>, "CompositionGeometry" -> 
+       <|"LeftRightBalance" -> 1., "TopBottomBalance" -> 0.6666666666666667, 
+        "LeftRightImbalance" -> 0., "MinorSideFraction" -> 
+         0.4458333333333333, "CenterMassFraction" -> 0.18333333333333332, 
+        "CenterRowMassFraction" -> 0.3333333333333333, 
+        "CenterColumnMassFraction" -> 0.3333333333333333, 
+        "EdgeMassFraction" -> 0.2916666666666667, "LEdgeMassFraction" -> 
+         0.225, "TopMassFraction" -> 0.6125, "DominantCellFraction" -> 
+         0.1125, "OccupiedFraction" -> 0.20987654320987653, 
+        "RowEntropy" -> 0.96501178370346, "ColumnEntropy" -> 
+         0.9999285856321876, "VerticalEntropy" -> 0.96501178370346, 
+        "SlopeEntropy" -> 0., "InflectionCount" -> 25, 
+        "CurvatureVolatility" -> 0.001034424613030835, "PeakGapCV" -> 0., 
+        "PeakYSpread" -> 0.004702542618062024, "ThirdBalance" -> 1., 
+        "ApexX" -> 0.9999999999999999, "LeftRisingRatio" -> 1., 
+        "RightFallingRatio" -> 0., "DiagonalAlignment" -> 0.9856724111433443, 
+        "CrossMassFraction" -> 0.48333333333333334, "PhaseAngleEntropy" -> 
+         0.45007906907477857, "PhaseIsotropy" -> 3.5656202986244195*^-6, 
+        "PhaseRingTightness" -> 0.4203823555367282, "PhaseRadiusSpan" -> 1., 
+        "CenterAnchor" -> 0.40870718775807835|>, "CoagulationScore" -> 
+       0.3037533184927635, "CoagulationMode" -> "tile", 
+      "CoagulationScores" -> <|"tile" -> 0.3037533184927635, 
+        "blend" -> 0.24432338531631262|>, "BeautyIndex" -> 
+       0.3472693893143284|>, "ImageFiles" -> 
      <|"line" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
 /A000041-line.png", "difference" -> "/Users/eventhorizon/Code/un1crom/beautif\
 ul-integers/outputs/A000041-difference.png", "residue" -> "/Users/eventhorizo\
@@ -312,14 +426,14 @@ gers/outputs/A000041-coagulation-blend.png", "coagulation" -> "/Users/eventho\
 rizon/Code/un1crom/beautiful-integers/outputs/A000041-coagulation.png", 
       "atlas" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
 /A000041-atlas.png"|>, "Atlas" -> <|"BestView" -> "coagulation-tile", 
-      "BestScore" -> 0.6759220628999449, "Scores" -> 
+      "BestScore" -> 0.6775066369855269, "Scores" -> 
        <|"line" -> 0.24634271353580128, "difference" -> 0.20695089420295387, 
         "residue" -> 0.24942349435008543, "digits" -> 0.19000350529962606, 
         "phase" -> 0.30803828589185017, "recurrence" -> 0.5936606683320103, 
-        "mod-circle" -> 0.3205814300600472, "mod-spiral" -> 
-         0.5410160074225383, "digitgraph" -> 0.5012167892860389, 
-        "coagulation-tile" -> 0.6759220628999449, "coagulation-blend" -> 
-         0.5571670068260302, "coagulation" -> 0.6759220628999449|>|>, 
+        "mod-circle" -> 0.32054853140412276, "mod-spiral" -> 
+         0.5410160074225383, "digitgraph" -> 0.5010860288101169, 
+        "coagulation-tile" -> 0.6775066369855269, "coagulation-blend" -> 
+         0.5586467706326252, "coagulation" -> 0.6775066369855269|>|>, 
     "AnimationFiles" -> <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1\
 crom/beautiful-integers/outputs/A000041-drama-circle.gif", 
       "drama-spiral-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-integ\
@@ -350,10 +464,51 @@ values.", "Status" -> "OK", "OEISName" -> "", "OEISComment" -> "",
       "DeltaSignEntropy" -> 0.998976856739846, "GrowthDrama" -> 
        0.6151013563763307, "ResidueStructure" -> 0.0028474844734230897, 
       "Novelty" -> 0.8541666666666666, "StructuralBeauty" -> 
-       0.7750342780500044, "CoagulationScore" -> 0.32705651668788904, 
-      "CoagulationMode" -> "tile", "CoagulationScores" -> 
-       <|"tile" -> 0.32705651668788904, "blend" -> 0.2716193967814366|>, 
-      "BeautyIndex" -> 0.4524902898692813|>, "ImageFiles" -> 
+       0.7750342780500044, "CompositionPower" -> 0.5032454378688743, 
+      "CompositionGuideMean" -> 0.4927425694921487, 
+      "CompositionAvoidPenalty" -> 0.454743088624223, 
+      "CompositionGuides" -> <|"Steelyard" -> 0.4254861111111111, 
+        "BalancedScales" -> 0.9452953857375297, "OCircular" -> 
+         0.421209781093992, "SCompoundCurve" -> 0.08307666868157865, 
+        "PyramidTriangle" -> 0.5525269132644677, "Cross" -> 0.7375, 
+        "RadiatingLines" -> 0.6501945708239658, "LRectangular" -> 0.53125, 
+        "SuspendedSteelyard" -> 0.5212527777777778, "TreeSpots" -> 
+         0.12443136036503641, "GroupMass" -> 0.20446913580246917, 
+        "DiagonalLine" -> 0.6727940320733382, "Tunnel" -> 
+         0.5361666666666667|>, "CompositionAvoid" -> 
+       <|"CanvasHalved" -> 0.6666666666666667, "EqualSpacingOfMasses" -> 0., 
+        "TooManyParallelLines" -> 0.17093782251673129, "LinesTooNearEdge" -> 
+         0.3208333333333333, "TreesOnALine" -> 0.9513462753567653, 
+        "CenteredObjects" -> 0.04583333333333333, "CenteredHorizon" -> 
+         0.3333333333333333, "ScatteredObjectsCenteredHorizon" -> 
+         0.13175582990397805, "ThreeEqualDivisions" -> 1., 
+        "EqualMasses" -> 1., "CrowdedDesign" -> 0.38146738042231115|>, 
+      "CompositionGeometry" -> <|"LeftRightBalance" -> 1., 
+        "TopBottomBalance" -> 0.24583333333333335, "LeftRightImbalance" -> 
+         0., "MinorSideFraction" -> 0.4458333333333333, 
+        "CenterMassFraction" -> 0.04583333333333333, 
+        "CenterRowMassFraction" -> 0.3333333333333333, 
+        "CenterColumnMassFraction" -> 0.3333333333333333, 
+        "EdgeMassFraction" -> 0.3208333333333333, "LEdgeMassFraction" -> 
+         0.225, "TopMassFraction" -> 0.8333333333333334, 
+        "DominantCellFraction" -> 0.058333333333333334, 
+        "OccupiedFraction" -> 0.41975308641975306, "RowEntropy" -> 
+         0.8176512857917658, "ColumnEntropy" -> 0.9999285856321876, 
+        "VerticalEntropy" -> 0.8176512857917658, "SlopeEntropy" -> 
+         0.8290621774832687, "InflectionCount" -> 200, 
+        "CurvatureVolatility" -> 0.2700818017985928, "PeakGapCV" -> 
+         1.7160521685793675, "PeakYSpread" -> 0.008757670435782246, 
+        "ThirdBalance" -> 1., "ApexX" -> 0.7949790794979079, 
+        "LeftRisingRatio" -> 0.531578947368421, "RightFallingRatio" -> 
+         0.5306122448979592, "DiagonalAlignment" -> 0.6727940320733382, 
+        "CrossMassFraction" -> 0.6208333333333333, "PhaseAngleEntropy" -> 
+         0.6556571339206858, "PhaseIsotropy" -> 0.19365408015859348, 
+        "PhaseRingTightness" -> 0.5671705384748448, "PhaseRadiusSpan" -> 
+         0.8357278890478228, "CenterAnchor" -> 0.4016463405919658|>, 
+      "CoagulationScore" -> 0.3270695670308664, "CoagulationMode" -> "tile", 
+      "CoagulationScores" -> <|"tile" -> 0.3270695670308664, 
+        "blend" -> 0.2712809286137287|>, "BeautyIndex" -> 
+       0.49317063708744924|>, "ImageFiles" -> 
      <|"line" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
 /A005132-line.png", "difference" -> "/Users/eventhorizon/Code/un1crom/beautif\
 ul-integers/outputs/A005132-difference.png", "residue" -> "/Users/eventhorizo\
@@ -378,11 +533,11 @@ zon/Code/un1crom/beautiful-integers/outputs/A005132-coagulation.png",
        <|"line" -> 0.4114219382065783, "difference" -> 0.7287148415476148, 
         "residue" -> 0.250839430147281, "digits" -> 0.22920669703815957, 
         "phase" -> 0.2955685474541577, "recurrence" -> 0.6320908038933639, 
-        "mod-circle" -> 0.30521761528014846, "mod-spiral" -> 
-         0.5482148102988662, "digitgraph" -> 0.6150969393525669, 
+        "mod-circle" -> 0.3052117224132539, "mod-spiral" -> 
+         0.5482148102988662, "digitgraph" -> 0.616571721214785, 
         "arcs" -> 0.6593535704612257, "coagulation-tile" -> 
-         0.7241130333757781, "coagulation-blend" -> 0.6132387935628731, 
-        "coagulation" -> 0.7241130333757781|>|>, "AnimationFiles" -> 
+         0.7241391340617329, "coagulation-blend" -> 0.6125618572274574, 
+        "coagulation" -> 0.7241391340617329|>|>, "AnimationFiles" -> 
      <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-inte\
 gers/outputs/A005132-drama-circle.gif", "drama-spiral-gif" -> "/Users/eventho\
 rizon/Code/un1crom/beautiful-integers/outputs/A005132-drama-spiral.gif", 
@@ -406,11 +561,45 @@ density questions, as noted on OEIS.", "Status" -> "OK", "OEISName" -> "",
      <|"Compressibility" -> 0.9752747252747253, "DeltaSignEntropy" -> 
        0.9999840423532746, "GrowthDrama" -> 0.28208498788806824, 
       "ResidueStructure" -> 0., "Novelty" -> 0.008333333333333333, 
-      "StructuralBeauty" -> 0.6631975696055091, "CoagulationScore" -> 
-       0.286882434451844, "CoagulationMode" -> "tile", 
-      "CoagulationScores" -> <|"tile" -> 0.286882434451844, 
-        "blend" -> 0.2847493112664534|>, "BeautyIndex" -> 
-       0.39225067229487026|>, "ImageFiles" -> 
+      "StructuralBeauty" -> 0.6631975696055091, "CompositionPower" -> 
+       0.4816446445031578, "CompositionGuideMean" -> 0.48000385064232626, 
+      "CompositionAvoidPenalty" -> 0.511792180053516, 
+      "CompositionGuides" -> <|"Steelyard" -> 0.33, "BalancedScales" -> 
+         0.7946394630357185, "OCircular" -> 0.7663792078718666, 
+        "SCompoundCurve" -> 0.00008829195351930762, "PyramidTriangle" -> 
+         0.22993600479107426, "Cross" -> 0.5666666666666667, 
+        "RadiatingLines" -> 0.4799163104805751, "LRectangular" -> 0.77525, 
+        "SuspendedSteelyard" -> 0.3116, "TreeSpots" -> 0.7230298417183655, 
+        "GroupMass" -> 0.2597777777777778, "DiagonalLine" -> 
+         0.0027664940546765306, "Tunnel" -> 1.|>, "CompositionAvoid" -> 
+       <|"CanvasHalved" -> 1., "EqualSpacingOfMasses" -> 0.4835431937844046, 
+        "TooManyParallelLines" -> 0.000015957646725350827, 
+        "LinesTooNearEdge" -> 1., "TreesOnALine" -> 1., 
+        "CenteredObjects" -> 0., "CenteredHorizon" -> 0., 
+        "ScatteredObjectsCenteredHorizon" -> 0., "ThreeEqualDivisions" -> 1., 
+        "EqualMasses" -> 1., "CrowdedDesign" -> 0.14615482915754624|>, 
+      "CompositionGeometry" -> <|"LeftRightBalance" -> 1., 
+        "TopBottomBalance" -> 1., "LeftRightImbalance" -> 0., 
+        "MinorSideFraction" -> 0.4458333333333333, "CenterMassFraction" -> 
+         0., "CenterRowMassFraction" -> 0., "CenterColumnMassFraction" -> 
+         0.3333333333333333, "EdgeMassFraction" -> 1., "LEdgeMassFraction" -> 
+         0.6125, "TopMassFraction" -> 0.5, "DominantCellFraction" -> 
+         0.058333333333333334, "OccupiedFraction" -> 0.2222222222222222, 
+        "RowEntropy" -> 0.31546487678572865, "ColumnEntropy" -> 
+         0.9999285856321876, "VerticalEntropy" -> 0.31546487678572865, 
+        "SlopeEntropy" -> 0.9999840423532746, "InflectionCount" -> 157, 
+        "CurvatureVolatility" -> 1.4112268355705961, "PeakGapCV" -> 
+         0.4648111255940358, "PeakYSpread" -> 0., "ThirdBalance" -> 1., 
+        "ApexX" -> 0.9999999999999999, "LeftRisingRatio" -> 
+         0.6694560669456067, "RightFallingRatio" -> 0., 
+        "DiagonalAlignment" -> 0.0027664940546765306, "CrossMassFraction" -> 
+         0.3333333333333333, "PhaseAngleEntropy" -> 0.9598326209611501, 
+        "PhaseIsotropy" -> 0.5031578947368426, "PhaseRingTightness" -> 
+         0.9999999999999999, "PhaseRadiusSpan" -> 2.0185873175002846*^-16, 
+        "CenterAnchor" -> 0.|>, "CoagulationScore" -> 0.2868775488176663, 
+      "CoagulationMode" -> "tile", "CoagulationScores" -> 
+       <|"tile" -> 0.2868775488176663, "blend" -> 0.28474941165901435|>, 
+      "BeautyIndex" -> 0.4348316322774076|>, "ImageFiles" -> 
      <|"line" -> "/Users/eventhorizon/Code/un1crom/beautiful-integers/outputs\
 /A000002-line.png", "difference" -> "/Users/eventhorizon/Code/un1crom/beautif\
 ul-integers/outputs/A000002-difference.png", "residue" -> "/Users/eventhorizo\
@@ -435,11 +624,11 @@ zon/Code/un1crom/beautiful-integers/outputs/A000002-coagulation.png",
        <|"line" -> 0.63329395882442, "difference" -> 0.7963371237414059, 
         "residue" -> 0.20728337960640525, "digits" -> 0.23861605559500332, 
         "phase" -> 0.22628755863586156, "recurrence" -> 0.8184317782100932, 
-        "mod-circle" -> 0.2003574488750421, "mod-spiral" -> 
-         0.19004207680828572, "digitgraph" -> 0.5401813261933639, 
+        "mod-circle" -> 0.2003244087924955, "mod-spiral" -> 
+         0.19004207680828572, "digitgraph" -> 0.5401672766368424, 
         "runs" -> 0.5602941832576493, "coagulation-tile" -> 
-         0.6437648689036881, "coagulation-blend" -> 0.6394986225329069, 
-        "coagulation" -> 0.6437648689036881|>|>, "AnimationFiles" -> 
+         0.6437550976353326, "coagulation-blend" -> 0.6394988233180288, 
+        "coagulation" -> 0.6437550976353326|>|>, "AnimationFiles" -> 
      <|"drama-circle-gif" -> "/Users/eventhorizon/Code/un1crom/beautiful-inte\
 gers/outputs/A000002-drama-circle.gif", "drama-spiral-gif" -> "/Users/eventho\
 rizon/Code/un1crom/beautiful-integers/outputs/A000002-drama-spiral.gif", 

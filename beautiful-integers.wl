@@ -4,7 +4,9 @@ ClearAll[
   NormalizeText, OEISRecord, OEISBFileTerms, OEISInlineTerms, RecamanTerms,
   KolakoskiTerms, FallbackTerms, LoadTerms, Entropy01, Clamp01,
   CompressibilityScore, DeltaSignEntropyScore, GrowthDramaScore,
-  ResidueStructureScore, NoveltyScore, BeautyProfile, SequenceLinePlot,
+  ResidueStructureScore, NoveltyScore, SafeRescale01, MassEntropyScore,
+  SequenceCompositionGeometry, CompositionGuideScores, CompositionAvoidPenalties,
+  CompositionPowerProfile, BeautyProfile, SequenceLinePlot,
   SequenceDifferencePlot, ResidueArrayPlot, DigitTexturePlot,
   SignedLog, CircleLayoutCoords, SpiralLayoutCoords, EdgeWeightStyles,
   ModularTransitionGraphCircle, ModularTransitionGraphSpiral,
@@ -145,11 +147,12 @@ LoadTerms[id_String, n_Integer?Positive] := Module[
   Missing["NotAvailable"]
 ];
 
-Entropy01[counts_Association] := Module[{weights, probabilities, entropy, maxEntropy},
+Entropy01[counts_Association] := Module[{weights, probabilities, positiveProbabilities, entropy, maxEntropy},
   weights = Values[counts];
   If[Length[weights] == 0 || Total[weights] == 0, Return[0.0]];
   probabilities = N[weights/Total[weights]];
-  entropy = -Total[probabilities*Log[2, probabilities]];
+  positiveProbabilities = Select[probabilities, # > 0 &];
+  entropy = If[Length[positiveProbabilities] == 0, 0.0, -Total[positiveProbabilities*Log[2, positiveProbabilities]]];
   maxEntropy = Log[2, Length[probabilities]];
   If[maxEntropy == 0, 0.0, N[entropy/maxEntropy]]
 ];
@@ -187,16 +190,388 @@ ResidueStructureScore[data_List, modulus : (_Integer?Positive) : 12] := Module[
 
 NoveltyScore[data_List] := If[Length[data] == 0, 0.0, N[Length[DeleteDuplicates[data]]/Length[data]]];
 
+SafeRescale01[data_List] := Module[{min, max, span},
+  If[Length[data] == 0, Return[{}]];
+  min = N[Min[data]];
+  max = N[Max[data]];
+  span = max - min;
+  If[span <= 10^-12, ConstantArray[0.5, Length[data]], N[(data - min)/span]]
+];
+
+MassEntropyScore[weights_List] := Module[{positive},
+  positive = N[Clip[weights, {0.0, Infinity}]];
+  If[Length[positive] == 0 || Total[positive] <= 10^-12, Return[0.0]];
+  Entropy01[AssociationThread[Range[Length[positive]], positive]]
+];
+
+SequenceCompositionGeometry[data_List, grid : (_Integer?Positive) : 9] := Module[
+  {
+    n, x, y, gridN, xBin, yBin, cells, matrix, total, colMass, rowMass,
+    center, centerRows, centerCols, centerMassRaw, centerMass,
+    centerRowMass, centerColMass, leftMass, rightMass, topMass, bottomMass,
+    innerMass, edgeMass, edgeWidth, leftEdgeIdx, bottomEdgeIdx,
+    leftEdgeMass, bottomEdgeMass, cornerMass, lEdgeMass, occupiedFraction,
+    rowEntropy, columnEntropy, verticalEntropy, phase, phaseOffsets, phaseR,
+    phaseTheta, phaseAngleEntropy, phaseCov, phaseEigs, phaseIsotropy,
+    meanRadius, phaseRingTightness, phaseRadiusSpan, centerAnchor,
+    dy, ddy, slopeEntropy, inflections, curvatureVolatility, peakCount,
+    peakIdx, peakGaps, peakGapCV, peakYSpread, thirdBins, thirdFractions,
+    thirdBalance, apexIndex, apexX, leftPart, rightPart, leftRisingRatio,
+    rightFallingRatio, diag1, diag2, diagonalAlignment, crossMass,
+    leftRightBalance, topBottomBalance, leftRightImbalance, minorSideFraction,
+    safeReal
+  },
+  safeReal[value_, default_ : 0.0] := Module[{n},
+    n = Quiet @ Check[N[value], default];
+    Which[
+      !NumericQ[n], default,
+      MatchQ[n, Indeterminate | ComplexInfinity | DirectedInfinity[_] | Infinity | -Infinity], default,
+      Head[n] === Complex && !PossibleZeroQ[Im[n]], default,
+      True, N[Re[n]]
+    ]
+  ];
+  n = Length[data];
+  If[n == 0,
+    Return[
+      <|
+        "LeftRightBalance" -> 0.0,
+        "TopBottomBalance" -> 0.0,
+        "LeftRightImbalance" -> 0.0,
+        "MinorSideFraction" -> 0.0,
+        "CenterMassFraction" -> 0.0,
+        "CenterRowMassFraction" -> 0.0,
+        "CenterColumnMassFraction" -> 0.0,
+        "EdgeMassFraction" -> 0.0,
+        "LEdgeMassFraction" -> 0.0,
+        "TopMassFraction" -> 0.0,
+        "DominantCellFraction" -> 0.0,
+        "OccupiedFraction" -> 0.0,
+        "RowEntropy" -> 0.0,
+        "ColumnEntropy" -> 0.0,
+        "VerticalEntropy" -> 0.0,
+        "SlopeEntropy" -> 0.0,
+        "InflectionCount" -> 0,
+        "CurvatureVolatility" -> 0.0,
+        "PeakGapCV" -> 1.0,
+        "PeakYSpread" -> 0.0,
+        "ThirdBalance" -> 0.0,
+        "ApexX" -> 0.5,
+        "LeftRisingRatio" -> 0.0,
+        "RightFallingRatio" -> 0.0,
+        "DiagonalAlignment" -> 0.0,
+        "CrossMassFraction" -> 0.0,
+        "PhaseAngleEntropy" -> 0.0,
+        "PhaseIsotropy" -> 0.0,
+        "PhaseRingTightness" -> 0.0,
+        "PhaseRadiusSpan" -> 0.0,
+        "CenterAnchor" -> 0.0
+      |>
+    ]
+  ];
+
+  x = SafeRescale01[Range[n]];
+  y = SafeRescale01[SignedLog /@ data];
+  gridN = If[OddQ[grid], Max[5, grid], Max[5, grid + 1]];
+  xBin = Clip[1 + Floor[x*(gridN - 10^-8)], {1, gridN}];
+  yBin = Clip[1 + Floor[(1.0 - y)*(gridN - 10^-8)], {1, gridN}];
+  cells = Counts[Transpose[{yBin, xBin}]];
+  matrix = Normal @ SparseArray[KeyValueMap[#1 -> #2 &, cells], {gridN, gridN}, 0.0];
+  total = Max[1.0, N[Total[Flatten[matrix]]]];
+
+  colMass = N[Total[matrix]];
+  rowMass = N[Total /@ matrix];
+  center = Ceiling[gridN/2];
+  centerRows = Select[Range[center - 1, center + 1], 1 <= # <= gridN &];
+  centerCols = Select[Range[center - 1, center + 1], 1 <= # <= gridN &];
+  centerMassRaw = N[Total[Flatten[matrix[[centerRows, centerCols]]]]];
+  centerMass = centerMassRaw/total;
+  centerRowMass = N[Total[rowMass[[centerRows]]]]/total;
+  centerColMass = N[Total[colMass[[centerCols]]]]/total;
+
+  leftMass = N[Total[colMass[[1 ;; Floor[gridN/2]]]]];
+  rightMass = N[Total[colMass[[Ceiling[gridN/2] + 1 ;; gridN]]]];
+  topMass = N[Total[rowMass[[1 ;; Floor[gridN/2]]]]];
+  bottomMass = N[Total[rowMass[[Ceiling[gridN/2] + 1 ;; gridN]]]];
+
+  innerMass = If[
+    gridN > 2,
+    N[Total[Flatten[matrix[[2 ;; gridN - 1, 2 ;; gridN - 1]]]]],
+    0.0
+  ];
+  edgeMass = N[total - innerMass];
+  edgeWidth = Max[1, Round[gridN/5]];
+  leftEdgeIdx = Range[1, edgeWidth];
+  bottomEdgeIdx = Range[gridN - edgeWidth + 1, gridN];
+  leftEdgeMass = N[Total[colMass[[leftEdgeIdx]]]];
+  bottomEdgeMass = N[Total[rowMass[[bottomEdgeIdx]]]];
+  cornerMass = N[Total[Flatten[matrix[[bottomEdgeIdx, leftEdgeIdx]]]]];
+  lEdgeMass = (leftEdgeMass + bottomEdgeMass - cornerMass)/total;
+
+  occupiedFraction = N[Count[Flatten[matrix], _?(# > 0 &)]/(gridN*gridN)];
+  rowEntropy = MassEntropyScore[rowMass];
+  columnEntropy = MassEntropyScore[colMass];
+  verticalEntropy = rowEntropy;
+
+  phase = If[n >= 2, Transpose[{Most[y], Rest[y]}], {}];
+  phaseOffsets = N[(# - {0.5, 0.5}) & /@ phase];
+  phaseR = Norm /@ phaseOffsets;
+  phaseTheta = If[Length[phaseOffsets] == 0, {}, Map[ArcTan[#[[1]], #[[2]]] &, phaseOffsets]];
+  phaseAngleEntropy = If[
+    Length[phaseTheta] < 4,
+    0.0,
+    safeReal[Entropy01 @ Counts[Clip[1 + Floor[(phaseTheta + Pi)/(2 Pi/12)], {1, 12}]], 0.0]
+  ];
+  phaseCov = If[
+    Length[phaseOffsets] < 2,
+    {{0.0, 0.0}, {0.0, 0.0}},
+    Quiet @ Check[Covariance[phaseOffsets], {{0.0, 0.0}, {0.0, 0.0}}]
+  ];
+  phaseEigs = Sort[Chop[Quiet @ Check[Eigenvalues[phaseCov], {0.0, 0.0}], 10^-12]];
+  phaseIsotropy = If[
+    Length[phaseEigs] < 2 || safeReal[phaseEigs[[-1]], 0.0] <= 10^-12,
+    0.0,
+    Clamp01[safeReal[Max[0.0, phaseEigs[[1]]]/phaseEigs[[-1]], 0.0]]
+  ];
+  meanRadius = If[Length[phaseR] == 0, 0.0, safeReal[Mean[phaseR], 0.0]];
+  phaseRingTightness = If[
+    Length[phaseR] < 4 || meanRadius <= 10^-12,
+    0.0,
+    Clamp01[1.0 - safeReal[StandardDeviation[phaseR], 0.0]/(meanRadius + 10^-9)]
+  ];
+  phaseRadiusSpan = If[
+    Length[phaseR] < 4,
+    0.0,
+    Clamp01[safeReal[Quantile[phaseR, 0.90] - Quantile[phaseR, 0.10], 0.0]/0.55]
+  ];
+  centerAnchor = Clamp01[safeReal[1.0 - meanRadius/0.60, 0.0]];
+
+  dy = Differences[y];
+  ddy = Differences[dy];
+  slopeEntropy = If[Length[dy] < 2, 0.0, safeReal[Entropy01 @ Counts[Round[dy, 0.05]], 0.0]];
+  inflections = If[
+    Length[ddy] < 2,
+    0,
+    Count[Partition[Sign[ddy], 2, 1], {a_, b_} /; a*b == -1]
+  ];
+  curvatureVolatility = If[Length[ddy] < 2, 0.0, safeReal[StandardDeviation[ddy], 0.0]];
+
+  peakCount = Min[6, n];
+  peakIdx = Sort[Ordering[y, -peakCount]];
+  peakGaps = Differences[peakIdx];
+  peakGapCV = If[
+    Length[peakGaps] < 2 || Mean[peakGaps] <= 10^-12,
+    1.0,
+    safeReal[StandardDeviation[peakGaps], 0.0]/(safeReal[Mean[peakGaps], 0.0] + 10^-9)
+  ];
+  peakYSpread = If[Length[peakIdx] < 2, 0.0, safeReal[StandardDeviation[y[[peakIdx]]], 0.0]];
+
+  thirdBins = Clip[1 + Floor[3*x - 10^-9], {1, 3}];
+  thirdFractions = N[Lookup[Counts[thirdBins], Range[3], 0]]/n;
+  thirdBalance = If[
+    Mean[thirdFractions] <= 10^-12,
+    0.0,
+    Clamp01[
+      1.0 - safeReal[StandardDeviation[thirdFractions], 0.0]/(safeReal[Mean[thirdFractions], 0.0] + 10^-9)
+    ]
+  ];
+
+  apexIndex = First @ Ordering[y, -1];
+  apexX = safeReal[x[[apexIndex]], 0.5];
+  leftPart = If[apexIndex > 1, Differences[y[[1 ;; apexIndex]]], {}];
+  rightPart = If[apexIndex < n, Differences[y[[apexIndex ;; n]]], {}];
+  leftRisingRatio = If[
+    Length[leftPart] == 0,
+    0.0,
+    safeReal[Count[leftPart, _?(# >= 0 &)]/Length[leftPart], 0.0]
+  ];
+  rightFallingRatio = If[
+    Length[rightPart] == 0,
+    0.0,
+    safeReal[Count[rightPart, _?(# <= 0 &)]/Length[rightPart], 0.0]
+  ];
+
+  diag1 = safeReal[Abs @ Quiet @ Check[Correlation[x, y], 0.0], 0.0];
+  diag2 = safeReal[Abs @ Quiet @ Check[Correlation[x, 1.0 - y], 0.0], 0.0];
+  diagonalAlignment = Clamp01[Max[diag1, diag2]];
+
+  crossMass = safeReal[(Total[colMass[[centerCols]]] + Total[rowMass[[centerRows]]] - centerMassRaw)]/total;
+  leftRightBalance = Clamp01[safeReal[1.0 - Abs[leftMass - rightMass]/total, 0.0]];
+  topBottomBalance = Clamp01[safeReal[1.0 - Abs[topMass - bottomMass]/total, 0.0]];
+  leftRightImbalance = Clamp01[safeReal[Abs[leftMass - rightMass]/total, 0.0]];
+  minorSideFraction = safeReal[Min[leftMass, rightMass]/total, 0.0];
+
+  <|
+    "LeftRightBalance" -> leftRightBalance,
+    "TopBottomBalance" -> topBottomBalance,
+    "LeftRightImbalance" -> leftRightImbalance,
+    "MinorSideFraction" -> minorSideFraction,
+    "CenterMassFraction" -> centerMass,
+    "CenterRowMassFraction" -> centerRowMass,
+    "CenterColumnMassFraction" -> centerColMass,
+    "EdgeMassFraction" -> Clamp01[edgeMass/total],
+    "LEdgeMassFraction" -> Clamp01[lEdgeMass],
+    "TopMassFraction" -> Clamp01[topMass/total],
+    "DominantCellFraction" -> Clamp01[N[Max[Flatten[matrix]]]/total],
+    "OccupiedFraction" -> Clamp01[occupiedFraction],
+    "RowEntropy" -> rowEntropy,
+    "ColumnEntropy" -> columnEntropy,
+    "VerticalEntropy" -> verticalEntropy,
+    "SlopeEntropy" -> slopeEntropy,
+    "InflectionCount" -> inflections,
+    "CurvatureVolatility" -> curvatureVolatility,
+    "PeakGapCV" -> peakGapCV,
+    "PeakYSpread" -> peakYSpread,
+    "ThirdBalance" -> thirdBalance,
+    "ApexX" -> apexX,
+    "LeftRisingRatio" -> Clamp01[leftRisingRatio],
+    "RightFallingRatio" -> Clamp01[rightFallingRatio],
+    "DiagonalAlignment" -> diagonalAlignment,
+    "CrossMassFraction" -> Clamp01[crossMass],
+    "PhaseAngleEntropy" -> phaseAngleEntropy,
+    "PhaseIsotropy" -> phaseIsotropy,
+    "PhaseRingTightness" -> phaseRingTightness,
+    "PhaseRadiusSpan" -> phaseRadiusSpan,
+    "CenterAnchor" -> centerAnchor
+  |>
+];
+
+CompositionGuideScores[geometry_Association] := Module[
+  {g, near, steelyard, balancedScales, oCircular, sCurve, pyramid, cross, radiating, lRect,
+   suspendedSteelyard, treeSpots, groupMass, diagonal, tunnel},
+  g = geometry;
+  near[value_, target_, width_] := Clamp01[1.0 - Abs[N[value] - target]/Max[10^-9, width]];
+
+  steelyard = Clamp01[
+    0.42*near[g["LeftRightImbalance"], 0.35, 0.35] +
+    0.33*Clamp01[g["MinorSideFraction"]/0.35] +
+    0.25*near[g["CenterMassFraction"], 0.12, 0.12]
+  ];
+  balancedScales = Clamp01[0.70*g["LeftRightBalance"] + 0.30*g["VerticalEntropy"]];
+  oCircular = Clamp01[
+    0.45*g["PhaseIsotropy"] + 0.30*g["PhaseRingTightness"] + 0.25*g["PhaseAngleEntropy"]
+  ];
+  sCurve = Clamp01[
+    0.58*Exp[-((N[g["InflectionCount"]] - 3.0)^2)/6.0] +
+    0.42*Exp[-6.0*g["CurvatureVolatility"]]
+  ];
+  pyramid = Clamp01[
+    0.34*Max[
+      Exp[-((g["ApexX"] - 0.33)^2)/0.03],
+      Exp[-((g["ApexX"] - 0.67)^2)/0.03]
+    ] +
+    0.33*g["LeftRisingRatio"] +
+    0.33*g["RightFallingRatio"]
+  ];
+  cross = Clamp01[0.65*g["CrossMassFraction"] + 0.35*(1.0 - g["CenterMassFraction"])];
+  radiating = Clamp01[
+    0.50*g["PhaseAngleEntropy"] + 0.28*g["PhaseRadiusSpan"] + 0.22*g["CenterAnchor"]
+  ];
+  lRect = Clamp01[0.58*g["LEdgeMassFraction"] + 0.42*(1.0 - g["CenterMassFraction"])];
+  suspendedSteelyard = Clamp01[
+    0.52*steelyard + 0.28*g["TopMassFraction"] + 0.20*g["CenterRowMassFraction"]
+  ];
+  treeSpots = Clamp01[
+    0.62*Exp[-((g["PeakGapCV"] - 0.55)^2)/0.22] +
+    0.38*near[g["DominantCellFraction"], 0.18, 0.18]
+  ];
+  groupMass = Clamp01[0.72*g["DominantCellFraction"] + 0.28*(1.0 - g["OccupiedFraction"])];
+  diagonal = g["DiagonalAlignment"];
+  tunnel = Clamp01[0.66*g["EdgeMassFraction"] + 0.34*(1.0 - g["CenterMassFraction"])];
+
+  <|
+    "Steelyard" -> steelyard,
+    "BalancedScales" -> balancedScales,
+    "OCircular" -> oCircular,
+    "SCompoundCurve" -> sCurve,
+    "PyramidTriangle" -> pyramid,
+    "Cross" -> cross,
+    "RadiatingLines" -> radiating,
+    "LRectangular" -> lRect,
+    "SuspendedSteelyard" -> suspendedSteelyard,
+    "TreeSpots" -> treeSpots,
+    "GroupMass" -> groupMass,
+    "DiagonalLine" -> diagonal,
+    "Tunnel" -> tunnel
+  |>
+];
+
+CompositionGuideScores[data_List] := CompositionGuideScores[SequenceCompositionGeometry[data]];
+
+CompositionAvoidPenalties[geometry_Association] := Module[
+  {g, equalMasses, canvasHalved, equalSpacing, parallelLines, linesNearEdge,
+   treesOnLine, centeredObjects, centeredHorizon, scatteredCenteredHorizon,
+   threeEqualDivisions, crowdedDesign},
+  g = geometry;
+
+  equalMasses = Max[g["LeftRightBalance"], g["TopBottomBalance"]];
+  canvasHalved = Clamp01[
+    Max[
+      g["LeftRightBalance"]*(1.0 - g["CenterColumnMassFraction"]),
+      g["TopBottomBalance"]*(1.0 - g["CenterRowMassFraction"])
+    ]
+  ];
+  equalSpacing = Clamp01[1.0 - Clip[g["PeakGapCV"]/0.90, {0.0, 1.0}]];
+  parallelLines = Clamp01[1.0 - g["SlopeEntropy"]];
+  linesNearEdge = g["EdgeMassFraction"];
+  treesOnLine = Clamp01[1.0 - Clip[g["PeakYSpread"]/0.18, {0.0, 1.0}]];
+  centeredObjects = g["CenterMassFraction"];
+  centeredHorizon = g["CenterRowMassFraction"];
+  scatteredCenteredHorizon = Clamp01[
+    g["CenterRowMassFraction"]*(1.0 - g["DominantCellFraction"])*g["OccupiedFraction"]
+  ];
+  threeEqualDivisions = g["ThirdBalance"];
+  crowdedDesign = Clamp01[
+    g["OccupiedFraction"]*(0.5*g["RowEntropy"] + 0.5*g["ColumnEntropy"])
+  ];
+
+  <|
+    "CanvasHalved" -> canvasHalved,
+    "EqualSpacingOfMasses" -> equalSpacing,
+    "TooManyParallelLines" -> parallelLines,
+    "LinesTooNearEdge" -> linesNearEdge,
+    "TreesOnALine" -> treesOnLine,
+    "CenteredObjects" -> centeredObjects,
+    "CenteredHorizon" -> centeredHorizon,
+    "ScatteredObjectsCenteredHorizon" -> scatteredCenteredHorizon,
+    "ThreeEqualDivisions" -> threeEqualDivisions,
+    "EqualMasses" -> equalMasses,
+    "CrowdedDesign" -> crowdedDesign
+  |>
+];
+
+CompositionAvoidPenalties[data_List] := CompositionAvoidPenalties[SequenceCompositionGeometry[data]];
+
+CompositionPowerProfile[data_List] := Module[
+  {geometry, guides, penalties, guideMean, avoidMean, compositionPower},
+  geometry = SequenceCompositionGeometry[data];
+  guides = CompositionGuideScores[geometry];
+  penalties = CompositionAvoidPenalties[geometry];
+  guideMean = If[Length[guides] == 0, 0.0, Quiet @ Check[N[Mean[Values[guides]]], 0.0]];
+  avoidMean = If[Length[penalties] == 0, 0.0, Quiet @ Check[N[Mean[Values[penalties]]], 0.0]];
+  If[!NumericQ[guideMean] || guideMean === Indeterminate, guideMean = 0.0];
+  If[!NumericQ[avoidMean] || avoidMean === Indeterminate, avoidMean = 1.0];
+  compositionPower = Clamp01[0.80*guideMean + 0.20*(1.0 - avoidMean)];
+  <|
+    "Geometry" -> geometry,
+    "Guides" -> guides,
+    "AvoidPenalties" -> penalties,
+    "GuideMean" -> guideMean,
+    "AvoidMean" -> avoidMean,
+    "CompositionPower" -> compositionPower
+  |>
+];
+
 BeautyProfile[data_List, modulus : (_Integer?Positive) : 12] := Module[
   {
     compressibility, deltaEntropy, growthDrama, residueStructure, novelty,
-    structuralBeauty
+    structuralBeauty, composition
   },
   compressibility = CompressibilityScore[data];
   deltaEntropy = DeltaSignEntropyScore[data];
   growthDrama = GrowthDramaScore[data];
   residueStructure = ResidueStructureScore[data, modulus];
   novelty = NoveltyScore[data];
+  composition = CompositionPowerProfile[data];
   structuralBeauty = Clamp01[
     0.34*compressibility + 0.28*deltaEntropy + 0.18*growthDrama +
     0.10*residueStructure + 0.10*novelty
@@ -208,10 +583,18 @@ BeautyProfile[data_List, modulus : (_Integer?Positive) : 12] := Module[
     "ResidueStructure" -> residueStructure,
     "Novelty" -> novelty,
     "StructuralBeauty" -> structuralBeauty,
+    "CompositionPower" -> Lookup[composition, "CompositionPower", 0.0],
+    "CompositionGuideMean" -> Lookup[composition, "GuideMean", 0.0],
+    "CompositionAvoidPenalty" -> Lookup[composition, "AvoidMean", 0.0],
+    "CompositionGuides" -> Lookup[composition, "Guides", <||>],
+    "CompositionAvoid" -> Lookup[composition, "AvoidPenalties", <||>],
+    "CompositionGeometry" -> Lookup[composition, "Geometry", <||>],
     "CoagulationScore" -> 0.0,
     "CoagulationMode" -> "none",
     "CoagulationScores" -> <||>,
-    "BeautyIndex" -> structuralBeauty
+    "BeautyIndex" -> Clamp01[
+      0.82*structuralBeauty + 0.18*Lookup[composition, "CompositionPower", 0.0]
+    ]
   |>
 ];
 
@@ -547,9 +930,10 @@ IntegrateCoagulationIntoProfile[
   coagMode_String : "single",
   coagScores_Association : <||>
 ] := Module[
-  {structural, beauty},
+  {structural, composition, beauty},
   structural = Lookup[profile, "StructuralBeauty", 0.0];
-  beauty = Clamp01[0.72*coagScore + 0.28*structural];
+  composition = Lookup[profile, "CompositionPower", 0.0];
+  beauty = Clamp01[0.52*coagScore + 0.30*structural + 0.18*composition];
   Join[
     profile,
     <|
@@ -828,6 +1212,9 @@ CreateMarkdownReport[records_List, outputDir_String] := Module[
             " | CoagulationScore=" <> FormatMetric[record["Profile"]["CoagulationScore"]] <>
             " | CoagulationMode=" <> ToString[Lookup[record["Profile"], "CoagulationMode", "n/a"]] <>
             " | StructuralBeauty=" <> FormatMetric[record["Profile"]["StructuralBeauty"]] <>
+            " | CompositionPower=" <> FormatMetric[Lookup[record["Profile"], "CompositionPower", 0.0]] <>
+            " | CompositionGuideMean=" <> FormatMetric[Lookup[record["Profile"], "CompositionGuideMean", 0.0]] <>
+            " | CompositionAvoidPenalty=" <> FormatMetric[Lookup[record["Profile"], "CompositionAvoidPenalty", 0.0]] <>
             " | Compressibility=" <> FormatMetric[record["Profile"]["Compressibility"]] <>
             " | DeltaSignEntropy=" <> FormatMetric[record["Profile"]["DeltaSignEntropy"]] <>
             " | GrowthDrama=" <> FormatMetric[record["Profile"]["GrowthDrama"]] <>

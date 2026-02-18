@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Beauty Hyperobject Sequences</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- The cosmos: living flow field background -->
+<canvas id="cosmos"></canvas>
+
+<!-- Search portal: the entry point into the mathematical universe -->
+<div id="search-portal">
+  <div id="search-glow"></div>
+  <input type="text" id="search-input"
+         placeholder="A000045  or  fibonacci  or  prime"
+         autocomplete="off" spellcheck="false">
+  <div id="search-hint">enter an OEIS id or keyword</div>
+</div>
+
+<!-- Search results: floating fragments -->
+<div id="search-results"></div>
+
+<!-- Loaded sequence orbs at bottom -->
+<div id="sequence-dock"></div>
+
+<!-- Main visualization area -->
+<div id="focus-view" class="hidden">
+  <div id="focus-close" aria-label="close">&times;</div>
+
+  <div id="focus-header">
+    <div id="focus-id"></div>
+    <div id="focus-name"></div>
+    <div id="focus-keywords"></div>
+  </div>
+
+  <div id="focus-body">
+    <!-- Left: visualization canvas -->
+    <div id="viz-panel">
+      <canvas id="viz-canvas"></canvas>
+      <div id="viz-mode-strip"></div>
+    </div>
+
+    <!-- Right: beauty profile + metadata -->
+    <div id="beauty-panel">
+      <canvas id="beauty-radar"></canvas>
+      <div id="beauty-scores"></div>
+      <div id="composition-type"></div>
+      <div id="xref-network"></div>
+      <div id="sequence-comments"></div>
+    </div>
+  </div>
+
+  <!-- Audio controls -->
+  <div id="audio-controls">
+    <button id="btn-sonify" aria-label="sonify">&#9835;</button>
+    <button id="btn-stop-audio" aria-label="stop" class="hidden">&#9632;</button>
+    <canvas id="audio-waveform"></canvas>
+  </div>
+</div>
+
+<!-- Beauty embedding space (toggled) -->
+<div id="embedding-view" class="hidden">
+  <div id="embedding-close" aria-label="close">&times;</div>
+  <canvas id="embedding-canvas"></canvas>
+  <div id="embedding-label">beauty space</div>
+</div>
+
+<!-- Floating action buttons -->
+<div id="float-actions">
+  <button id="btn-embedding" aria-label="beauty space" title="beauty embedding space">&#10022;</button>
+  <button id="btn-random" aria-label="random sequence" title="random beautiful sequence">&#8734;</button>
+</div>
+
+<!-- Status whisper -->
+<div id="status-whisper"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
